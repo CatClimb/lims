@@ -7,8 +7,8 @@ export default new Vuex.Store({
   state: {
     RegisterIndialogVisible:false,
     isCollapse: false,
-    loading:false,
-    isLogin:false,
+    isLoading:false,
+    
   },
   mutations: {
     C_RegisterIndialogVisible(state){

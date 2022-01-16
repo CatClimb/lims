@@ -51,19 +51,22 @@ public class TokenUtil {
         String token=null;
         //1头部获取
         token = httpServletRequest.getHeader("Authorization");
-        //2url连接
-        if (token.isEmpty()){
+//        //2url连接
+        if (token==null){
             token = httpServletRequest.getParameter("token");
         }
         //3cookie获取
-        if(token.isEmpty()){
+        if(token==null){
             Cookie[] cookies = httpServletRequest.getCookies();
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("token")){
-                    token=cookie.getValue();
-                    break;
+            if(cookies!=null){
+                for (Cookie cookie : cookies) {
+                    if(cookie.getName().equals("token")){
+                        token=cookie.getValue();
+                        break;
+                    }
                 }
             }
+
         }
         return token;
     }

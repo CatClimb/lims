@@ -150,7 +150,6 @@ mixins: [login_huihe2],
     
     submitForm(formName){
       this.$refs[formName].validate((valid) => {
-          window.aa=valid;
         if (valid) {
             this.handlerRequest();
             
@@ -159,7 +158,7 @@ mixins: [login_huihe2],
           return false;
         }
       });
-      console.log(window.aa);
+     
     },
     
     resetForm(formName) {

@@ -88,9 +88,10 @@ export const login_huihe = {
                 center: true,
               });
               localStorage.setItem("token", response.data.data.token);
-              this.$store.state.isLogin=true;
-              this.$router.replace({
-                name: 'Home'
+              sessionStorage.setItem("isLogin",true);
+              this.$router.push({
+                name: 'Home',
+                
                 
               })
               
@@ -104,37 +105,15 @@ export const login_huihe = {
           },
           (error) => {
             this.$message({
-              message: "系统错误,请联系管理员",
+              message: error.response.data.msg,
               type: "error",
               center: true,
             });
-            console.log(error.message);
+            
           }
         );
       },
     }
   }
 
-  export const verifyToken={
-    mounted(){
-      
-      axios.get(this.urlVerify).then(
-        response=>{
-          if(response.data.code===2000){
-            setTimeout(()=>{
-              this.$store.state.isLogin=true
-              this.$router.push({
-                name:'Home'
-              });
-            }
-              ,600);
-          }else{
-           alert("验证失败，可能过期了")
-          }
-        },
-        error=>{
-          console.log(error.message)
-        }
-      )
-    }
-  }
+ 

@@ -61,7 +61,7 @@ export default {
     ...mapMutations(["C_RegisterIndialogVisible"]),
 
   },
-  mixins:[login_huihe,login_huihe2,verifyToken],
+  mixins:[login_huihe,login_huihe2],
   components:{
     Register
   }

@@ -45,6 +45,7 @@
 import {login_huihe,login_huihe2,verifyToken} from '../../mixin/index'
 import { mapMutations, mapState } from "vuex";
 import Register from '../../components/Register.vue'
+import jwtDecode from 'jwt-decode'
 export default {
   name: "Login",
   data() {
@@ -62,11 +63,13 @@ export default {
     ...mapMutations(["C_RegisterIndialogVisible"]),
 
   },
-  mixins:[login_huihe,login_huihe2,verifyToken],
+  mixins:[login_huihe,login_huihe2],
   components:{
     Register
   },
-  
+  mounted(){
+    
+  }
 };
 </script>
 <style lang="css" scoped>
