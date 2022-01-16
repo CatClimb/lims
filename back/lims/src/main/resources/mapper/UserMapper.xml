@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lims.modules.user.dao.UserDao">
+
+    <resultMap id="UserResultMap" type="com.example.lims.modules.user.entity.UserEntity" >
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="weChat" column="we_chat"/>
+        <result property="auth" column="auth"/>
+        <result property="role" column="auth"/>
+        <result property="auth" column="loginTime"/>
+    </resultMap>
+
+<select id="findByUserName" parameterType="java.lang.String" resultMap="UserResultMap">
+  SELECT * FROM user WHERE
+  user_name=#{userName}
+</select>
+
+    <insert id="insertUser" parameterType="com.example.lims.modules.user.entity.UserEntity">
+        INSERT user(user_name,password,name,sex,phone,email,we_chat)
+        VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat});
+    </insert>
+</mapper>

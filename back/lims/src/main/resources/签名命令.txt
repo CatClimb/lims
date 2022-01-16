@@ -1,0 +1,8 @@
+
+#生成密钥库（密钥对和签名）
+keytool -genkeypair -alias mykey  -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore D:\bs\lims\src\main\resources\keystore.p12 -validity 365 -storepass 123456
+#查看密钥库信息
+keytool -v -list  -keystore ./keystore.p12
+
+#生成被签名的证书
+keytool -keystore ./keystore.p12 -export -alias mykey -file ./server.car
