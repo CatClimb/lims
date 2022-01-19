@@ -3,16 +3,14 @@ package com.example.lims.modules.user.controller;
 import com.example.lims.common.enums.ResultEnum;
 import com.example.lims.common.result.Result;
 import com.example.lims.common.util.TokenUtil;
-import com.example.lims.dto.TokenVO;
+import com.example.lims.dto.TokenDTO;
 import com.example.lims.modules.user.entity.UserEntity;
 import com.example.lims.modules.user.service.UserService;
-import com.example.lims.vo.LoginVO;
+import com.example.lims.dto.LoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
@@ -23,14 +21,14 @@ public class AdminController {
         this.userService=userService;
     }
     @RequestMapping("/login")
-    public Result login(/*@Valid*/ @RequestBody LoginVO loginVO) {
+    public Result login(/*@Valid*/ @RequestBody LoginDTO loginDTO) {
         //获取loginVO用户名 并查找数据库
-        UserEntity userEntity = userService.findByUserName(loginVO.getUserName());
+        UserEntity userEntity = userService.findByUserName(loginDTO.getUserName());
         if (userEntity == null) {
             return Result.fail(ResultEnum.DATEBASE_CONDITION_ERROR.getCode(), "用户名或密码错误");
         }
 
-        if (!loginVO.getPassword().equals(userEntity.getPassword())) {
+        if (!loginDTO.getPassword().equals(userEntity.getPassword())) {
             return Result.fail(ResultEnum.DATEBASE_CONDITION_ERROR.getCode(), "用户名或密码错误");
         }
         //用户权限验证
@@ -38,10 +36,10 @@ public class AdminController {
             return Result.fail(ResultEnum.DATEBASE_CONDITION_ERROR.getCode(),"用户名或密码错误");
         }
         String token = TokenUtil.createJWTToken(userEntity);
-        return Result.success(ResultEnum.SUCCESS.getCode(), "登录成功", new TokenVO(token));
+        return Result.success(ResultEnum.SUCCESS.getCode(), "登录成功", new TokenDTO(token));
     }
     @RequestMapping("/logout")
-    public Result logout(/*@Valid*/ @RequestBody LoginVO loginVO){
+    public Result logout(/*@Valid*/ @RequestBody LoginDTO loginDTO){
         return new Result();
     }
     @RequestMapping("/verifyToken")

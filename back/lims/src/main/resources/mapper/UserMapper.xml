@@ -11,9 +11,9 @@
         <result property="phone" column="phone"/>
         <result property="email" column="email"/>
         <result property="weChat" column="we_chat"/>
+        <result property="role" column="role"/>
         <result property="auth" column="auth"/>
-        <result property="role" column="auth"/>
-        <result property="auth" column="loginTime"/>
+        <!--<result property="login_time" column="login_time"/>-->
     </resultMap>
 
 <select id="findByUserName" parameterType="java.lang.String" resultMap="UserResultMap">
@@ -25,4 +25,28 @@
         INSERT user(user_name,password,name,sex,phone,email,we_chat)
         VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat});
     </insert>
+
+
+    <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="UserResultMap">
+        SELECT * FROM user WHERE
+        user_name=#{userName}
+    </select>
+
+
+    <update id="updateUser" parameterType="com.example.lims.modules.user.entity.UserEntity" >
+        UPDATE user
+        SET
+        user_name=#{userName},
+        password=#{password},
+        name=#{name},
+        sex=#{sex},
+        phone=#{phone},
+        email=#{email},
+        we_chat=#{weChat},
+        role=#{role},
+        auth=#{auth}
+        WHERE
+        id=#{id}
+
+    </update>
 </mapper>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      default-active=""
+      :default-active="firstMenu"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -36,6 +36,7 @@
             </template> 
 
     </el-menu>
+    
   </div>
 </template>
 
@@ -47,25 +48,38 @@
 </style>
 
 <script>
+import jwtDecode  from 'jwt-decode'
 import { mapMutations, mapState } from "vuex";
 export default {
   name: "Menu",
   components: {},
-  props: ["menuData"],
+ 
 
   data() {
-    return {};
+    return {
+     
+    };
   },
+ props:["menuData","firstMenu"],
   computed: {
     ...mapState(["isCollapse"]),
+   
+    
   },
   methods: {
+    
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+  },
+  mounted() {
+    this.$router.replace({
+      name:'PersonInfo'
+    })
+   
   },
 };
 </script>

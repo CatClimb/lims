@@ -8,7 +8,8 @@ export default new Vuex.Store({
     RegisterIndialogVisible:false,
     isCollapse: false,
     isLoading:false,
-    
+    menuData:[],
+    firstMenu:''
   },
   mutations: {
     C_RegisterIndialogVisible(state){

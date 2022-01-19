@@ -1,5 +1,7 @@
 <template>
-  <div id="animation3"></div>
+  <div id="animation3" >
+    <el-button type="text" @click="$router.replace({name:'Login'})">登&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
+  </div>
 </template>
 <script>
 import animationData3 from "../anim/error404.json";
@@ -28,13 +30,25 @@ export default {
       });
     }
 
-    // setTimeout(() => {
-    //     // this.$router.replace({
-    //     //     name:'Login'
-    //     // })
-    // }, 2000);
+
   },
 };
 </script>
 <style scoped>
+#animation3{
+  text-align: center;
+  
+}
+.el-button{
+  margin: 0px;
+  padding: 0px;
+  z-index: 2;
+  position:absolute;
+  display: inline-block;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 20px;  
+  
+}
 </style>

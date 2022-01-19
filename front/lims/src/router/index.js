@@ -25,6 +25,11 @@ Vue.use(VueRouter)
 const routes = [
 
   {
+    path: '*',
+    redirect: '/error404',
+
+  },
+  {
     path: '/',
     redirect: '/login',
 
@@ -256,7 +261,7 @@ router.afterEach((to, from) => {
             center: true,
           });
          
-          // router.app.$options.store.isLoading = false;
+         
         }
       )
     }

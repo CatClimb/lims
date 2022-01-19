@@ -3,7 +3,7 @@ server:
 #详情 TomcatHttpConfig http重定向 https （this配置文件无法配置两个端口 ）
 #  http2:
 #    enabled: true
-  port: 444
+  port: 443
   servlet:
 #    uri根目录
     context-path: /

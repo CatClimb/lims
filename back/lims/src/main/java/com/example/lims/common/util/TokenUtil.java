@@ -84,6 +84,19 @@ public class TokenUtil {
         return Auth.asString();
 
     }
+    public static String getUserNameByToken(String token){
+        Algorithm algorithm=Algorithm.HMAC256(SECRET);
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer(ISSUER)
+                .withSubject(SUBJECT)
+                .withAudience(AUDIENCE)
+                .build();
+        DecodedJWT jwt = verifier.verify(token);
+        Claim loginName = jwt.getClaim("loginName");
+        Claim Auth=jwt.getClaim("Auth");
+        return loginName.asString();
+
+    }
     //是否过期
     public static boolean vertifyTokenByExp(String token){
         Algorithm algorithm=Algorithm.HMAC256(SECRET);
@@ -92,13 +105,17 @@ public class TokenUtil {
                 .withSubject(SUBJECT)
                 .withAudience(AUDIENCE)
                 .build();
-        DecodedJWT jwt = verifier.verify(token);
+        DecodedJWT jwt=null;
+        try {
+            jwt = verifier.verify(token);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         if(jwt.getExpiresAt().getTime() - System.currentTimeMillis()>0){
             return false;
         }else{
             return true;
         }
-
 
     }
 }

@@ -2,7 +2,7 @@ import animationData1 from '../anim/bj.json'
 import animationData2 from '../anim/person.json'
 import axios from 'axios';
 import lottie from 'lottie-web';
-import jwtDecode from 'jwt-decode'
+
 export const login_huihe = {
 
     data() {
@@ -40,19 +40,19 @@ export const login_huihe = {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
-                this.handlerRequest();
-                // let captcha = new TencentCaptcha("123123", (res) => {
-                //   if (res.ret === 0) {
-                //     this.handlerRequest();
-                //   } else {
-                //      this.$message({
-                //     message: "认证失败，请重新认证",
-                //     type: "error",
-                //     center: true,
-                //   });
-                //   }
-                // });
-                // captcha.show();
+                
+                let captcha = new TencentCaptcha("123123", (res) => {
+                  if (res.ret === 0) {
+                    this.handlerRequest();
+                  } else {
+                     this.$message({
+                    message: "认证失败，请重新认证",
+                    type: "error",
+                    center: true,
+                  });
+                  }
+                });
+                captcha.show();
               } else {
       
                 return false;
