@@ -4,6 +4,8 @@ import com.alibaba.druid.sql.visitor.functions.Now;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.lims.modules.user.entity.UserEntity;
@@ -97,25 +99,43 @@ public class TokenUtil {
         return loginName.asString();
 
     }
-    //是否过期
-    public static boolean vertifyTokenByExp(String token){
+    //是否有效 自己处理自己异常
+
+    /**
+     * 由于存在除了过期还有篡改token等异常，不方便解决，如下代码统一用 用户名或密码错误来解决
+     *
+     * @param token
+     * @return
+     */
+//    public static boolean vertifyTokenByExp(String token) {
+//        Algorithm algorithm=Algorithm.HMAC256(SECRET);
+//        JWTVerifier verifier = JWT.require(algorithm)
+//                .withIssuer(ISSUER)
+//                .withSubject(SUBJECT)
+//                .withAudience(AUDIENCE)
+//                .build();
+//        try {
+//            DecodedJWT jwt = verifier.verify(token);
+//            System.out.println(jwt.getExpiresAt());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return false;
+//        }
+//        return true;
+//    }
+
+
+//抛出异常让全局异常拦截器捕获
+    public static boolean vertifyTokenByExp(String token) {
         Algorithm algorithm=Algorithm.HMAC256(SECRET);
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer(ISSUER)
                 .withSubject(SUBJECT)
                 .withAudience(AUDIENCE)
                 .build();
-        DecodedJWT jwt=null;
-        try {
-            jwt = verifier.verify(token);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if(jwt.getExpiresAt().getTime() - System.currentTimeMillis()>0){
-            return false;
-        }else{
-            return true;
-        }
-
+        //无效时会抛出异常
+        DecodedJWT jwt = verifier.verify(token);
+        System.out.println(jwt.getExpiresAt());
+        return true;
     }
 }

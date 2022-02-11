@@ -1,5 +1,6 @@
 package com.example.lims.config;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.lims.common.enums.ResultEnum;
 import com.example.lims.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+//
 @RestControllerAdvice
 @Slf4j
 public class MyControllerAdvice {
@@ -21,6 +22,16 @@ public class MyControllerAdvice {
         log.info("URL:{},系统异常:",req.getRequestURL(),e);
         return fail;
     }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public Result ExceptionHandler(JWTVerificationException e, HttpServletRequest req){
+        Result fail = Result.fail(ResultEnum.SYSTEM_ERROR.getCode(), e.toString());
+        log.info("URL:{},系统异常1:",req.getRequestURI(),e);
+        log.info("URL:{},系统异常1:",req.getRequestURL(),e);
+        return fail;
+    }
+
+
 //    @ExceptionHandler(RuntimeException.class)
 //
 //    public Result RuntimeExceptionHandler(Exception e, HttpServletRequest req){

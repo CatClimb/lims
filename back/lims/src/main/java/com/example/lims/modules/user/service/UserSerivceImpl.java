@@ -1,7 +1,9 @@
 package com.example.lims.modules.user.service;
 
+import com.example.lims.common.result.Result;
 import com.example.lims.common.util.HttpContextUtil;
 import com.example.lims.common.util.TokenUtil;
+import com.example.lims.dto.UpdatePwdDTO;
 import com.example.lims.modules.user.dao.UserDao;
 import com.example.lims.modules.user.entity.UserEntity;
 import com.example.lims.dto.RegisterDTO;
@@ -17,22 +19,28 @@ public class UserSerivceImpl implements UserService {
         this.userDao = userDao;
     }
 
+    //返回user对象
     public UserEntity findByUserName(String userName){
         return userDao.findByUserName(userName);
     }
-
+    //插入user对象
     public int insertUser(RegisterDTO registerVO){
         return userDao.insertUser(registerVO);
     }
-    public UserEntity selectUserByUserName(){
-        String domain = HttpContextUtil.getDomain();
-        System.out.println(domain);
-        String authorization = HttpContextUtil.getHttpServletRequest().getHeader("Authorization");
-        String userName = TokenUtil.getUserNameByToken(authorization);
-        return userDao.selectUserByUserName(userName);
-    }
+    //
+
+
     public int updateUser(UserEntity userEntity){
         return userDao.updateUser(userEntity);
 
+    }
+
+
+    public UserEntity findById(int id) {
+       return userDao.findById(id);
+    }
+
+    public int updatePwdById(UpdatePwdDTO updatePwdDTO){
+       return userDao.updatePwdById(updatePwdDTO);
     }
 }

@@ -1,8 +1,6 @@
 package com.example.lims.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 @Data
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterDTO {
     private Integer id;
 //    @NotBlank(message = "用户名不能为空")

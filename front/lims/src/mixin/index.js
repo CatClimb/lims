@@ -41,7 +41,7 @@ export const login_huihe = {
             this.$refs[formName].validate((valid) => {
               if (valid) {
                 
-                let captcha = new TencentCaptcha("123123", (res) => {
+                let captcha = new TencentCaptcha(Math.floor(Math.random() * 10 + 1).toString(), (res) => {
                   if (res.ret === 0) {
                     this.handlerRequest();
                   } else {

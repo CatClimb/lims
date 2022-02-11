@@ -6,12 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan(basePackages ={ "com.example.lims.modules.*.dao"})
+@MapperScan(basePackages ={ "com.example.lims.modules.*.dao",})
 @EnableTransactionManagement
 public class LimsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LimsApplication.class, args);
 	}
-
+	ServletContextTemplateResolver
 }

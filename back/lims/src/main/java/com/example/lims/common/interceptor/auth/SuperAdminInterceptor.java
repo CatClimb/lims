@@ -19,7 +19,7 @@ public class SuperAdminInterceptor implements HandlerInterceptor{
             return false;
         }
         if(TokenUtil.vertifyTokenByExp(token)){
-            FailReturn.setReturn(response, ResultEnum.FILTER_CONDITION_ERROR.getCode(), "验证过期，请重新登录");
+            FailReturn.setReturn(response, ResultEnum.FILTER_CONDITION_ERROR.getCode(), "验证失效，请重新登录");
             return false;
         }
         String Auth = TokenUtil.getAuthByToken(token);

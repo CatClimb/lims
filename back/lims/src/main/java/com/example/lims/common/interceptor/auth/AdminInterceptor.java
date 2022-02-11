@@ -9,6 +9,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @Component
 public class AdminInterceptor implements HandlerInterceptor {
 
@@ -21,8 +23,9 @@ public class AdminInterceptor implements HandlerInterceptor {
             FailReturn.setReturn(response, ResultEnum.FILTER_CONDITION_ERROR.getCode(), "用户未登录，请先登录");
             return BOOLEAN;
         }
+
         if(TokenUtil.vertifyTokenByExp(token)){
-            FailReturn.setReturn(response, ResultEnum.FILTER_CONDITION_ERROR.getCode(), "验证过期，请重新登录");
+            FailReturn.setReturn(response, ResultEnum.FILTER_CONDITION_ERROR.getCode(), "验证失效，请重新登录");
             return false;
         }
         String Auth = TokenUtil.getAuthByToken(token);

@@ -26,13 +26,6 @@
         VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat});
     </insert>
 
-
-    <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="UserResultMap">
-        SELECT * FROM user WHERE
-        user_name=#{userName}
-    </select>
-
-
     <update id="updateUser" parameterType="com.example.lims.modules.user.entity.UserEntity" >
         UPDATE user
         SET
@@ -48,5 +41,16 @@
         WHERE
         id=#{id}
 
+    </update>
+    <select id="findById" parameterType="int" resultMap="UserResultMap">
+        SELECT * FROM user WHERE
+        id=#{id}
+    </select>
+    <update id="updatePwdById" parameterType="com.example.lims.dto.UpdatePwdDTO" >
+        UPDATE user
+        SET
+        password=#{passwordN}
+        WHERE
+        id=#{id}
     </update>
 </mapper>

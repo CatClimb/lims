@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/**
+ * 代替SpringMVC的配置文件
+ */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
@@ -18,9 +22,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(adminInterceptor)
                 .addPathPatterns(
-                        "/admin/*"
+                        "/admin/**"
                 )
                 .excludePathPatterns(
                         "/admin/login",
@@ -28,7 +33,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 );
         registry.addInterceptor(superAdminInterceptor)
                 .addPathPatterns(
-                        "/superAdmin/*"
+                        "/superAdmin/**"
                 )
                 .excludePathPatterns(
                         "/superAdmin/login",
@@ -37,7 +42,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(userInterceptor)
                 .addPathPatterns(
-                        "/user/*"
+                        "/user/**"
                 )
                 .excludePathPatterns(
                         "/user/login",
