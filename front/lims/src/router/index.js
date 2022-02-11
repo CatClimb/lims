@@ -77,8 +77,7 @@ const routes = [
     component:
       Home,
     meta: {noAuth: true},
-    beforeEnter:(function(to,from,next){
-      
+    beforeEnter:((to,from,next)=>{
       if(sessionStorage.getItem("isLogin")){
         next();
       }else{
@@ -219,7 +218,7 @@ router.beforeEach((to, from, next) => {
 });
 //对所有登录进行验证token，并跳转
 router.afterEach((to, from) => {
-  
+
   if (to.meta.LoginAuth) {
     // router.app.$options.store.isLoading = true;
     
@@ -235,7 +234,6 @@ router.afterEach((to, from) => {
       } else if (token.Auth === '超级管理员') {
         urlVerify = 'http://localhost:8080/back/superAdmin/verifyToken'
       }
-      
       axios.get(urlVerify).then(
         response => {
           if (response.data.code === 2000) {
@@ -247,7 +245,6 @@ router.afterEach((to, from) => {
             }
               , 600);
           } else {
-            
             // router.app.$options.store.isLoading = false;
             this.$message({
               message: response.data.msg,

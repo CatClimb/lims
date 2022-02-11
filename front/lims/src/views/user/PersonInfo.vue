@@ -167,8 +167,8 @@
           :rules="rulesUpdatePwd"
           label-width="100px"
           class="demo-ruleForm">
-        <el-form-item label="原密码" prop="password">
-          <el-input type="password" v-model="pwdForm.password"></el-input>
+        <el-form-item label="原密码" prop="passwordO">
+          <el-input type="password" v-model="pwdForm.passwordO"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="passwordN">
           <el-input type="password" v-model="pwdForm.passwordN"></el-input>
@@ -180,7 +180,7 @@
          <div slot="footer" class="dialog-footer">
           <el-button @click="dialogVisibleUpdatePwd = false">取 消</el-button>
 
-          <el-button type="primary" @click="handlerUpdatePwd('pwdNode')"
+          <el-button type="primary" @click="handlerUpdateInfo('pwdNode')"
             >添 加</el-button
           >
         </div>
@@ -193,17 +193,17 @@ import axios from "axios";
 export default {
   name: "PersonInfo",
   data() {
-    // var validateOrigin=(rule, value, callback) => {
+    var validateOrigin=(rule, value, callback) => {
         
-    //   if (value === "") {
+      if (value === "") {
           
-    //     callback(new Error("请输入密码"));
-    //   } else if (value !== this.info.password) {
-    //     callback(new Error("密码错误"));
-    //   }else{
-    //       callback();
-    //   }
-    // };
+        callback(new Error("请输入密码"));
+      } else if (value !== this.info.password) {
+        callback(new Error("密码错误"));
+      }else{
+          callback();
+      }
+    };
     var validateAgain = (rule, value, callback) => {
         
       if (value === "") {
@@ -218,9 +218,9 @@ export default {
     return {
       pwdForm:{
         id:'',
-        password:'',
+        passwordO:'',
         passwordN:'',
-        againPassword:''
+        
       },
       info: {
         id:'',
@@ -234,7 +234,7 @@ export default {
         auth: "",
         role: "",
         loginTime: '',
-        
+        againPassword:''
       },
       formLabelWidth: "120px",
       
@@ -303,14 +303,7 @@ export default {
         ],
       },
       rulesUpdatePwd:{
-        
-        password: [{ required: true, message: "请输入密码", trigger: "blur" },
-        {
-            min: 6,
-            max: 20,
-            message: "长度在 6 到 20 ",
-            trigger: "blur",
-          },],
+        passwordO: [{ validator: validateOrigin, trigger: "blur" },{ required: true, message: "请输入密码", trigger: "blur" },],
         
          passwordN: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -336,8 +329,6 @@ export default {
         (response) => {
           if (response.data.code === 2000) {
             this.info = response.data.data;
-            this.pwdForm.id=response.data.data.id
-           
           } else {
             this.$message({
               message: response.data.msg,
@@ -367,7 +358,6 @@ export default {
               type: "success",
               center: true,
             });
-            this.dialogVisibleUpdateInfo=false;
           } else {
             this.$message({
               message: response.data.msg,
@@ -390,41 +380,36 @@ export default {
         }
       });
     },
-    handlerUpdatePwd(formName){
-       this.$refs[formName].validate((valid) => {
-        if (valid) {
-           
-          axios.post("http://localhost:8080/back/user/updatePwd",this.pwdForm).then(
-        (response) => {
-          if (response.data.code === 2000) {
-            this.$message({
-              message: response.data.msg,
-              type: "success",
-              center: true,
-            });
-            this.dialogVisibleUpdatePwd=false;
-          } else {
-            this.$message({
-              message: response.data.msg,
-              type: "error",
-              center: true,
-            });
-          }
-        },
-        (error) => {
-          this.$message({
-            message: error.response.msg,
-            type: "error",
-            center: true,
-          });
-        }
-      );
-        } else {
+    // handlerUpdatePwd(formName){
+    //    this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //        this.info.password=this.pwdForm.passwordN;
+    //       axios.get("http://localhost:8080/back/user/byUserName",this.info).then(
+    //     (response) => {
+    //       if (response.data.code === 2000) {
+    //         this.info = response.data.data;
+    //       } else {
+    //         this.$message({
+    //           message: response.data.msg,
+    //           type: "error",
+    //           center: true,
+    //         });
+    //       }
+    //     },
+    //     (error) => {
+    //       this.$message({
+    //         message: error.response.msg,
+    //         type: "error",
+    //         center: true,
+    //       });
+    //     }
+    //   );
+    //     } else {
           
-          return false;
-        }
-      });
-    },
+    //       return false;
+    //     }
+    //   });
+    // },
     
     
   },
