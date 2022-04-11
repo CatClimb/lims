@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.LabDao">
+    <resultMap id="LabResultMap" type="labEntity">
+        <id property="id" column="id"/>
+        <result property="labId" column="lab_id"/>
+        <result property="labType" column="lab_type"/>
+    </resultMap>
+
+    <insert id="insertLab">
+        INSERT lab(lab_id,lab_type) VALUES(#{labId},#{labType})
+    </insert>
+
+    <update id="updateLab">
+        UPDATE lab SET lab_id=#{labId},lab_type=#{labType}
+        where id=#{id}
+    </update>
+
+    <select id="queryTable" resultMap="LabResultMap">
+        SELECT * FROM lab
+        WHERE
+            lab_id LIKE CONCAT('%',#{labId},'%')
+            OR lab_type LIKE CONCAT('%',#{labType},'%')
+        ORDER BY id ASC
+        LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteLabById">
+        DELETE FROM lab
+        WHERE id=#{id}
+    </delete>
+
+    <select id="queryTableCount" resultType="int">
+        SELECT COUNT(*) FROM(
+                              SELECT * FROM lab
+                                 WHERE
+                                     lab_id LIKE CONCAT('%',#{labId},'%')
+                                     OR lab_type LIKE CONCAT('%',#{labType},'%')
+                                 ORDER BY id ASC
+                                 LIMIT #{start},#{pageSize}
+                                ) temp
+    </select>
+</mapper>

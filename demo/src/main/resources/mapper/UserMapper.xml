@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.UserDao">
+
+    <resultMap id="UserResultMap" type="userEntity" >
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="weChat" column="we_chat"/>
+        <result property="role" column="role"/>
+        <result property="auth" column="auth"/>
+        <!--<result property="login_time" column="login_time"/>-->
+    </resultMap>
+
+    <insert id="insertUser">
+        <choose>
+            <when test="role!=null and auth!=null ">
+                INSERT user(user_name,password,name,sex,phone,email,we_chat,role,auth)
+                VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{role},#{auth})
+            </when>
+            <when test="role!=null">
+                INSERT user(user_name,password,name,sex,phone,email,we_chat,role)
+                VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{role})
+            </when>
+            <when test="auth!=null">
+                INSERT user(user_name,password,name,sex,phone,email,we_chat,auth)
+                VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{auth})
+            </when>
+            <otherwise>
+                INSERT user(user_name,password,name,sex,phone,email,we_chat)
+                VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat})
+            </otherwise>
+        </choose>
+    </insert>
+
+    <update id="updateUser">
+        UPDATE user SET
+            user_name=#{userName},
+            password=#{password},
+            name=#{name},
+            sex=#{sex},
+            phone=#{phone},
+            email=#{email},
+            we_chat=#{weChat},
+            role=#{role},
+            auth=#{auth}
+        WHERE
+            id=#{id}
+    </update>
+
+    <select id="queryTable" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+        WHERE
+
+             user_name LIKE CONCAT('%',#{userName},'%')
+            OR password LIKE CONCAT('%',#{password},'%')
+            OR name LIKE CONCAT('%',#{name},'%')
+            OR sex LIKE CONCAT('%',#{sex},'%')
+            OR phone LIKE CONCAT('%',#{phone},'%')
+            OR email LIKE CONCAT('%',#{email},'%')
+            OR we_chat LIKE CONCAT('%',#{weChat},'%')
+            OR role LIKE CONCAT('%',#{role},'%')
+            OR auth LIKE CONCAT('%',#{auth},'%')
+        ORDER BY id ASC
+        LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteUserById" >
+        DELETE FROM user
+        where id=#{_parameter}
+    </delete>
+
+
+    <select id="findUserByUserName" resultMap="UserResultMap">
+        SELECT * FROM user
+        WHERE user_name=#{_parameter}
+    </select>
+
+    <select id="queryTableCount" resultType="java.lang.Integer">
+         SELECT COUNT(*) FROM
+                              (
+                                  SELECT *
+                                  FROM user
+                                  WHERE
+
+                                      user_name LIKE CONCAT('%',#{userName},'%')
+                                     OR password LIKE CONCAT('%',#{password},'%')
+                                     OR name LIKE CONCAT('%',#{name},'%')
+                                     OR sex LIKE CONCAT('%',#{sex},'%')
+                                     OR phone LIKE CONCAT('%',#{phone},'%')
+                                     OR email LIKE CONCAT('%',#{email},'%')
+                                     OR we_chat LIKE CONCAT('%',#{weChat},'%')
+                                     OR role LIKE CONCAT('%',#{role},'%')
+                                     OR auth LIKE CONCAT('%',#{auth},'%')
+                                  ORDER BY id ASC
+                                      LIMIT #{start},#{pageSize}
+                                  )
+                                  temp
+    </select>
+</mapper>
