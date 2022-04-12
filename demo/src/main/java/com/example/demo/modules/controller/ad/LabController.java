@@ -43,8 +43,8 @@ public class LabController {
         return Result.success("查询成功",labEntity);
     }
 
-    @PostMapping("/deleteLab")
-    private Result<LabEntity> deleteLabById(@RequestBody Integer id){
+    @PostMapping("/deleteLab/{id}")
+    private Result<LabEntity> deleteLabById(@PathVariable("id") Integer id){
         boolean b = labService.deleteLabById(id);
         if (b){
             return Result.success("删除成功");

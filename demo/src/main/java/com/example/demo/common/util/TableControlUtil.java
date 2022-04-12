@@ -1,7 +1,7 @@
 package com.example.demo.common.util;
 
 import com.example.demo.common.Alias;
-import com.example.demo.modules.dao.Dao;
+import com.example.demo.modules.dao.TableDao;
 import com.example.demo.vo.TableVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class TableControlUtil<T> {
         }
         return strings;
     }
-    public void setTable(TableVO tableVO, Dao dao){
+    public void setTable(TableVO tableVO, TableDao dao){
         if(tableVO.getPage()<=0){
             tableVO.setPage(1);
         }

@@ -18,15 +18,15 @@
 
     <insert id="insertUser">
         <choose>
-            <when test="role!=null and auth!=null ">
+            <when test="role!=null and role!='' and auth!=null and auth!=''">
                 INSERT user(user_name,password,name,sex,phone,email,we_chat,role,auth)
                 VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{role},#{auth})
             </when>
-            <when test="role!=null">
+            <when test="role!=null and role!=''" >
                 INSERT user(user_name,password,name,sex,phone,email,we_chat,role)
                 VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{role})
             </when>
-            <when test="auth!=null">
+            <when test="auth!=null and auth!=''">
                 INSERT user(user_name,password,name,sex,phone,email,we_chat,auth)
                 VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{auth})
             </when>

@@ -4,7 +4,7 @@ import com.example.demo.modules.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDao extends Dao {
+public interface UserDao extends TableDao {
     //1.插入用户信息
     public boolean insertUser(UserEntity userEntity);
     //2.更新用户信息
@@ -14,7 +14,7 @@ public interface UserDao extends Dao {
     //4.删除用户信息
     public boolean deleteUserById(Integer id);
     //5.获取个人用户信息
-    public UserEntity findUserByUserName(String UserName);
+    public UserEntity findUserByUserName(String userName);
     //6.查询用户数量
 //    public Integer queryTableCount(TableVO tableVO);
 

@@ -7,5 +7,5 @@ public interface UserService {
     public boolean updateUser(UserEntity userEntity);
     public void queryUserTable(UserEntity userEntity);
     public boolean deleteUserById(Integer id);
-    public UserEntity findUserByUserName(String UserName);
+    public UserEntity findUserByUserName(String userName);
 }

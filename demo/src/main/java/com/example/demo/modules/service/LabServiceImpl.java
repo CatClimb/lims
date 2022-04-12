@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LabServiceImpl implements LabService {
     private final LabDao labDao;
-    private final TableControlUtil<UserEntity> tableHeadUtil;
+    private final TableControlUtil<LabEntity> tableControlUtil;
     @Autowired
-    public LabServiceImpl(LabDao labDao, TableControlUtil<UserEntity> tableHeadUtil) {
+    public LabServiceImpl(LabDao labDao, TableControlUtil<LabEntity> tableControlUtil) {
         this.labDao = labDao;
-        this.tableHeadUtil = tableHeadUtil;
+        this.tableControlUtil = tableControlUtil;
     }
 
     @Override
@@ -30,8 +30,8 @@ public class LabServiceImpl implements LabService {
 
     @Override
     public void queryTable(LabEntity labEntity) {
-        tableHeadUtil.setTable(labEntity,labDao);
-        labEntity.setTableHead(tableHeadUtil.getTableHead(LabEntity.class));
+        tableControlUtil.setTable(labEntity,labDao);
+        labEntity.setTableHead(tableControlUtil.getTableHead(LabEntity.class));
     }
 
     @Override

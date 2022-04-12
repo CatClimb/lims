@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.LabGdtDao">
+    <resultMap id="labGdtResultMap" type="labGdtEntity">
+        <id property="labId" column="lab_id"></id>
+        <id property="lgTiming" column="lg_timing"></id>
+        <result property="lgStatus" column="lg_status"></result>
+        <result property="lgSTime" column="lg_s_time"></result>
+        <result property="lgETime" column="lg_e_time"></result>
+        <result property="name" column="name"></result>
+        <result property="lgType" column="lg_type"></result>
+        <result property="objName" column="obj_name"></result>
+    </resultMap>
+
+    <insert id="insertLabGdt">
+        INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES(#{labId},#{lgTiming},#{lgStatus})
+    </insert>
+    <update id="updateLabGdt">
+        UPDATE lab_gdt SET
+       <choose>
+            <when test="objName!=null and objName!='' and objName!='无'">
+                lg_status=#{lgStatus},name=#{name},lg_type=#{lgType},obj_name=#{objName})
+            </when>
+            <otherwise>
+                lg_status=#{lgStatus},name=#{name},lg_type=#{lgType})
+            </otherwise>
+       </choose>
+        WHERE lab_id=#{labId},lg_timing=#{lgTiming}
+    </update>
+    <select id="queryTable" resultMap="labGdtResultMap">
+        SELECT *
+        FROM lab_gdt
+        WHERE
+            lab_id LIKE CONCAT('%',#{labId},'%')
+           OR lg_timing LIKE CONCAT('%',#{lgTiming})
+           OR lg_status LIKE CONCAT('%',#{lgStatus},'%')
+           OR lg_s_time LIKE CONCAT('%',#{lgSTime},'%')
+           OR lg_e_time LIKE CONCAT('%',#{lgETime},'%')
+           OR name LIKE CONCAT('%',#{name},'%')
+           OR lg_type LIKE CONCAT('%',#{lgType},'%')
+           OR obj_name LIKE CONCAT('%',#{objName},'%')
+        ORDER BY lab_id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+    <delete id="deleteLabGdtById">
+
+    </delete>
+    <select id="queryTableCount" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT *
+         FROM lab_gdt
+         WHERE
+             lab_id LIKE CONCAT('%',#{labId},'%')
+            OR lg_timing LIKE CONCAT('%',#{lgTiming})
+            OR lg_status LIKE CONCAT('%',#{lgStatus},'%')
+            OR lg_s_time LIKE CONCAT('%',#{lgSTime},'%')
+            OR lg_e_time LIKE CONCAT('%',#{lgETime},'%')
+            OR name LIKE CONCAT('%',#{name},'%')
+            OR lg_type LIKE CONCAT('%',#{lgType},'%')
+            OR obj_name LIKE CONCAT('%',#{objName},'%')
+         ORDER BY lab_id ASC
+             LIMIT #{start},#{pageSize}) tmp
+    </select>
+</mapper>

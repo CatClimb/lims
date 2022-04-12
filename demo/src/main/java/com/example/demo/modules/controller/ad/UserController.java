@@ -80,6 +80,8 @@ public class UserController {
     public Result<UserEntity> personInfo(){
         String token = ThreadTmp.getThreadLocalForToken( );
         String userName = TokenUtil.getUserNameByToken(token);
+        log.info("userName:"+userName);
+        log.info("userService.findUserByUserName(userName):"+userService.findUserByUserName(userName));
         return Result.success("获取个人信息成功",userService.findUserByUserName(userName));
     }
 }

@@ -1,11 +1,13 @@
 package com.example.demo.modules.dao;
 
-import com.example.demo.modules.entity.UserEntity;
 import com.example.demo.vo.TableVO;
 
 import java.util.List;
+/**
+ * 3.查看表
+ */
 
-public interface Dao {
+public interface TableDao {
     public List<TableVO> queryTable(TableVO tableVO);
     public Integer queryTableCount(TableVO tableVO);
 }
