@@ -1,18 +1,18 @@
 package com.example.demo.modules.controller.ad;
 
+import com.example.demo.common.result.Result;
 import com.example.demo.common.util.TableControlUtil;
 import com.example.demo.modules.entity.LabEntity;
+import com.example.demo.modules.entity.LabGdtEntity;
 import com.example.demo.modules.service.LabGdtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
+@RequestMapping("/ad")
 public class LabGdtController {
     private final LabGdtService labGdtService;
 
@@ -21,20 +21,37 @@ public class LabGdtController {
         this.labGdtService=labGdtService;
     }
     @PostMapping("/insertLabGdt")
-    public boolean insertLabGdt(LabEntity labEntity){
-
+    public Result<String> insertLabGdt(@RequestBody LabGdtEntity labGdtEntity){
+        log.info("labGdtEntity.toString():"+labGdtEntity.toString());
+        boolean b = labGdtService.insert(labGdtEntity);
+        if (b){
+            return Result.success("添加成功");
+        }else{
+            return Result.fail("添加失败");
+        }
     }
     @PostMapping("/updateLabGdt")
-    public boolean updateLabGdt(LabEntity labEntity){
-
+    public Result<String> updateLabGdt(@RequestBody LabGdtEntity labGdtEntity){
+        boolean b = labGdtService.update(labGdtEntity);
+        if (b){
+            return Result.success("更新成功");
+        }else{
+            return Result.fail("更新失败");
+        }
     }
-    @GetMapping("/queryLabGdtTable")
-    public boolean queryLabGdtTable(LabEntity labEntity){
-
+    @PostMapping("/queryLabGdtTable")
+    public Result<LabGdtEntity> queryLabGdtTable(@RequestBody LabGdtEntity labGdtEntity){
+        labGdtService.setTable(labGdtEntity);
+        return Result.success("查询成功",labGdtEntity);
     }
-    @PostMapping("/deleteLabGdt/{labId}")
-    public boolean deleteLabGdtById(@PathVariable("labId") Integer labId){
-
+    @PostMapping("/deleteLabGdt")
+    public Result<String> deleteLabGdtById(@RequestBody LabGdtEntity labGdtEntity){
+        boolean b = labGdtService.deleteLabGdt(labGdtEntity);
+        if (b){
+            return Result.success("删除成功");
+        }else{
+            return Result.fail("删除失败");
+        }
     }
 
 

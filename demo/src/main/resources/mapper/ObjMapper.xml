@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.ObjDao">
+<resultMap id="ObjResultMap" type="ObjEntity">
+    <id property="id" column="id"></id>
+    <result property="objName" column="obj_name"/>
+    <result property="objDescription" column="obj_description"/>
+    <result property="objStatus" column="obj_status"/>
+    <result property="name" column="name"/>
+    <result property="objSTime" column="obj_s_time"/>
+    <result property="objETime" column="obj_e_time"/>
+    <result property="objReason" column="obj_reason"/>
+</resultMap>
+
+    <insert id="insert">
+        INSERT INTO obj( obj_name,obj_description,obj_status,name,obj_s_time,obj_e_time,obj_reason)
+        VALUES(#{objName},#{objDescription},#{objStatus},#{name},#{objSTime},#{objETime},#{objReason})
+
+    </insert>
+    <update id="update">
+        UPDATE obj SET
+            obj_status=#{objStatus}
+        WHERE id=#{id}
+    </update>
+    <select id="conditionalQuery" resultMap="ObjResultMap">
+        SELECT * FROM obj
+        WHERE
+            obj_name LIKE CONCAT('%',#{objName},'%')
+           OR obj_description LIKE CONCAT('%',#{objDescription},'%')
+           OR obj_status LIKE CONCAT('%',#{objStatus},'%')
+           OR name LIKE CONCAT('%',#{name},'%')
+           OR obj_s_time LIKE CONCAT('%',#{objSTime},'%')
+           OR obj_e_time LIKE CONCAT('%',#{objETime},'%')
+           OR obj_reason LIKE CONCAT('%',#{objReason},'%')
+        ORDER BY id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM obj
+        WHERE id=#{id}
+    </delete>
+
+    <select id="conditionalQueryCount" resultType="int">
+        SELECT COUNT(*) FROM(
+                                SELECT * FROM obj
+                                WHERE
+                                    obj_name LIKE CONCAT('%',#{objName},'%')
+                                   OR obj_description LIKE CONCAT('%',#{objDescription},'%')
+                                   OR obj_status LIKE CONCAT('%',#{objStatus},'%')
+                                   OR name LIKE CONCAT('%',#{name},'%')
+                                   OR obj_s_time LIKE CONCAT('%',#{objSTime},'%')
+                                   OR obj_e_time LIKE CONCAT('%',#{objETime},'%')
+                                   OR obj_reason LIKE CONCAT('%',#{objReason},'%')
+                                ORDER BY id ASC
+                                    LIMIT #{start},#{pageSize}
+                            ) temp
+    </select>
+</mapper>

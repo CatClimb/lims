@@ -21,7 +21,7 @@ public class EnterController {
     /**
      * 功能1：所有用户登录
      */
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @GetMapping
     public Result<TokenDTO> userLogin(@RequestBody LoginDTO loginDTO){
         TokenDTO tokenDTO = enterService.loginGetToken(loginDTO);

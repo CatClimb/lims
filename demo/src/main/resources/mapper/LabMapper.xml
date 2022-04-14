@@ -7,16 +7,16 @@
         <result property="labType" column="lab_type"/>
     </resultMap>
 
-    <insert id="insertLab">
+    <insert id="insert">
         INSERT lab(lab_id,lab_type) VALUES(#{labId},#{labType})
     </insert>
 
-    <update id="updateLab">
+    <update id="update">
         UPDATE lab SET lab_id=#{labId},lab_type=#{labType}
         where id=#{id}
     </update>
 
-    <select id="queryTable" resultMap="LabResultMap">
+    <select id="conditionalQuery" resultMap="LabResultMap">
         SELECT * FROM lab
         WHERE
             lab_id LIKE CONCAT('%',#{labId},'%')
@@ -25,12 +25,12 @@
         LIMIT #{start},#{pageSize}
     </select>
 
-    <delete id="deleteLabById">
+    <delete id="deleteById">
         DELETE FROM lab
         WHERE id=#{id}
     </delete>
 
-    <select id="queryTableCount" resultType="int">
+    <select id="conditionalQueryCount" resultType="int">
         SELECT COUNT(*) FROM(
                               SELECT * FROM lab
                                  WHERE

@@ -7,8 +7,12 @@ import java.util.List;
  * 3.查看表
  */
 
-public interface TableDao {
-    public List<TableVO> queryTable(TableVO tableVO);
-    public Integer queryTableCount(TableVO tableVO);
+public interface Dao {
+    public boolean insert(TableVO tableVO);
+    public boolean update(TableVO tableVO);
+    public boolean deleteById(Integer id);
+    public List<TableVO> conditionalQuery(TableVO tableVO);
+    public Integer conditionalQueryCount(TableVO tableVO);
+
 
 }

@@ -38,7 +38,7 @@ public class EnterServiceImpl implements EnterService {
 
         String pwd = DigestUtils.md5DigestAsHex((userEntity.getPassword( ) + salt).getBytes());
         userEntity.setPassword(pwd);
-        boolean b = userDao.insertUser(userEntity);
+        boolean b = userDao.insert(userEntity);
 
         if(b){
 //            2.插入成功返回token

@@ -16,7 +16,7 @@
         <!--<result property="login_time" column="login_time"/>-->
     </resultMap>
 
-    <insert id="insertUser">
+    <insert id="insert">
         <choose>
             <when test="role!=null and role!='' and auth!=null and auth!=''">
                 INSERT user(user_name,password,name,sex,phone,email,we_chat,role,auth)
@@ -37,7 +37,7 @@
         </choose>
     </insert>
 
-    <update id="updateUser">
+    <update id="update">
         UPDATE user SET
             user_name=#{userName},
             password=#{password},
@@ -52,7 +52,7 @@
             id=#{id}
     </update>
 
-    <select id="queryTable" resultMap="UserResultMap">
+    <select id="conditionalQuery" resultMap="UserResultMap">
         SELECT *
         FROM user
         WHERE
@@ -70,7 +70,7 @@
         LIMIT #{start},#{pageSize}
     </select>
 
-    <delete id="deleteUserById" >
+    <delete id="deleteById" >
         DELETE FROM user
         where id=#{_parameter}
     </delete>
@@ -81,7 +81,7 @@
         WHERE user_name=#{_parameter}
     </select>
 
-    <select id="queryTableCount" resultType="java.lang.Integer">
+    <select id="conditionalQueryCount" resultType="java.lang.Integer">
          SELECT COUNT(*) FROM
                               (
                                   SELECT *

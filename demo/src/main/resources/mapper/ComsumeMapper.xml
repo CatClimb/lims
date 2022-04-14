@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.ComsumeDao">
+    <resultMap id="ComsumeResultMap" type="comsumeEntity">
+        <id property="id" column="id"></id>
+        <result property="smeName" column="sme_name"></result>
+        <result property="smeCount" column="sme_count"></result>
+
+    </resultMap>
+
+    <insert id="insert">
+        INSERT comsume(sme_name,sme_count) VALUES(#{smeName},#{smeCount})
+    </insert>
+
+    <update id="update">
+        UPDATE comsume
+        SET sme_name=#{smeName},sme_count=#{smeCount}
+        WHERE id=#{id}
+    </update>
+
+    <select id="conditionalQuery" resultMap="ComsumeResultMap">
+        SELECT *
+        FROM comsume
+        WHERE
+            sme_name LIKE CONCAT('%',#{smeName},'%')
+           OR sme_count LIKE CONCAT('%',#{smeCount})
+
+        ORDER BY id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM comsume
+        WHERE id=#{id}
+    </delete>
+
+    <select id="conditionalQueryCount" resultType="int">
+        SELECT COUNT(*) FROM
+            (SELECT *
+             FROM comsume
+             WHERE
+                 sme_name LIKE CONCAT('%',#{smeName},'%')
+                OR sme_count LIKE CONCAT('%',#{smeCount})
+
+             ORDER BY id ASC
+                 LIMIT #{start},#{pageSize})
+                tmp
+    </select>
+</mapper>

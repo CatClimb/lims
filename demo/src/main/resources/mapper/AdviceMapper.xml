@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.AdviceDao">
+    <resultMap id="AdviceResultMap" type="adviceEntity">
+        <id property="id" column="id"></id>
+        <result property="adType" column="ad_type"></result>
+        <result property="adContent" column="ad_content"></result>
+        <result property="userName" column="user_name"></result>
+    </resultMap>
+
+
+
+    <insert id="insert">
+        INSERT
+        advice(ad_type,ad_content,user_name) VALUES(#{adType},#{adContent},#{userName})
+    </insert>
+
+    <update id="update">
+        UPDATE advice
+
+        SET ad_type=#{adType},ad_content=#{adContent},user_name=#{userName}
+        WHERE id=#{id}
+    </update>
+
+    <select id="conditionalQuery" resultMap="AdviceResultMap">
+        SELECT *
+        FROM advice
+        WHERE
+            ad_type LIKE CONCAT('%',#{adType},'%')
+           OR ad_content LIKE CONCAT('%',#{adContent})
+           OR user_name LIKE CONCAT('%',#{userName},'%')
+        ORDER BY id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        advice
+
+        WHERE id=#{id}
+    </delete>
+
+    <select id="conditionalQueryCount" resultType="int">
+        SELECT COUNT(*) FROM
+            (SELECT *
+             FROM advice
+             WHERE
+                 ad_type LIKE CONCAT('%',#{adType},'%')
+                OR ad_content LIKE CONCAT('%',#{adContent})
+                OR user_name LIKE CONCAT('%',#{userName},'%')
+
+             ORDER BY id ASC
+                 LIMIT #{start},#{pageSize})
+                tmp
+    </select>
+</mapper>

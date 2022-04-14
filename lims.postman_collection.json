@@ -1,0 +1,1690 @@
+{
+	"info": {
+		"_postman_id": "61ffb852-c677-4d7e-9afe-ca6c617ec100",
+		"name": "lims",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ad",
+			"item": [
+				{
+					"name": "用户",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"userName\":\"用户名122\",\r\n    \"password\":\"123456\",\r\n    \"name\":\"等违法\",\r\n    \"sex\":\"男\",\r\n    \"phone\":\"1235456787\",\r\n    \"email\":\"11023393950@qq.com\",\r\n    \"weChat\":\"344655689\",\r\n    \"role\":\"僵尸\",\r\n    \"auth\":\"管理员\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":6,\r\n    \"userName\":\"用户名122\",\r\n    \"password\":\"123456\",\r\n    \"name\":\"等违\",\r\n    \"sex\":\"男\",\r\n    \"phone\":\"12354567878\",\r\n    \"email\":\"11023393950@qq.com\",\r\n    \"weChat\":\"344655689\",\r\n    \"role\":\"僵尸\",\r\n    \"auth\":\"管理员\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"userName\":\"122\",\r\n    \"password\":\"122\",\r\n    \"name\":\"122\",\r\n    \"sex\":\"122\",\r\n    \"phone\":\"122\",\r\n    \"email\":\"122\",\r\n    \"weChat\":\"122\",\r\n    \"role\":\"122\",\r\n    \"auth\":\"122\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryUserTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryUserTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteUser/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteUser",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查询个人信息",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/personInfo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"personInfo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "实验室",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"labId\":\"11100\",\r\n    \"labType\":\"数控\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertLab",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertLab"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"id\":\"9\",\r\n    \"labId\":\"11100\",\r\n    \"labType\":\"车床\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateLab",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateLab"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"labId\":\"\",\r\n    \"labType\":\"\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryLabTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryLabTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteLab/9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteLab",
+										"9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "实验室time",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"labId\": \"111\",\r\n                \"lgTiming\": \"2-4\",\r\n                \"lgStatus\": \"可预约\",\r\n                \"lgDate\": \"2022-04-1\"\r\n               \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertLabGdt",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertLabGdt"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"labId\":\"111\",\r\n    \"lgTiming\":\"2-4\",\r\n    \"lgDate\":\"2022-04-14\",\r\n    \"lgStatus\":\"被预约\",\r\n    \"lgType\":\"物理1\",\r\n    \"name\":\"王先生1\"\r\n}\r\n\r\n// {\r\n//     \"labId\":\"111\",\r\n//     \"lgTiming\":\"2-4\",\r\n//     \"lgStatus\":\"被预约\",\r\n//     \"lgType\":\"物理\",\r\n//     \"name\":\"王先生1\"\r\n// }\r\n// {}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateLabGdt",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateLabGdt"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"labId\":\"\",\r\n    \"lgTiming\":\"\",\r\n    \"lgStatus\":\"\",\r\n    \"lgDate\":\"2022-4-14\",\r\n    \"name\":\"\",\r\n    \"lgType\":\"\",\r\n    \"objName\": \"\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryLabGdtTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryLabGdtTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"labId\":\"111\",\r\n    \"lgTiming\":\"2-4\",\r\n    \"lgDate\":\"2022-4-14\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteLabGdt",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteLabGdt"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "项目",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n            \r\n                \"objName\": \"量子力学1\",\r\n                \"objDescription\": \"呼吁~呼吁~\",\r\n                \"objStatus\": \"已审批\",\r\n                \"name\": \"任女士2\",\r\n                \"objSTime\": \"2022-04-12\",\r\n                \"objETime\": \"2022-04-13\",\r\n                \"objReason\": \"可以起飞\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertObj",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertObj"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n            \r\n                \"id\":1,\r\n               \r\n                \"objStatus\": \"已审批\"\r\n               \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateObj",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateObj"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"objName\":\"\",\r\n    \"objDescription\":\"\",\r\n    \"objStatus\":\"\",\r\n    \"name\":\"\",\r\n    \"objSTime\":\"\",\r\n    \"objETime\":\"\",\r\n    \"objReason\":\"\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryObjTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryObjTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteObj/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteObj",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "设备",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n            \"devName\":\"设备88\",\r\n            \"devPrice\":14\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertDevice",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertDevice"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n   \"id\":4,         \r\n\"devName\":\"设备4\",\r\n\"devPrice\":22,\r\n\"devUStatus\":\"被借用\",\r\n\"devStatus\":\"良好\",\r\n\"name\":\"话女士1\",\r\n\"deviceSTime\":\"2022-04-14 17:55:05\",\r\n\"deviceETime\":\"2022-04-14 17:55:05\",\r\n\"devReason\":\"上课1\"  ,       \r\n\"objName\":\"无\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateDevice",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateDevice"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n     \r\n     \r\n\"devName\":\"设备4\",\r\n\"devPrice\":22,\r\n\"devUStatus\":\"被借用\",\r\n\"devStatus\":\"良好\",\r\n\"name\":\"话女士1\",\r\n\"deviceSTime\":\"2022-04-14 17:55:05\",\r\n\"deviceETime\":\"2022-04-14 17:55:05\",\r\n\"devReason\":\"上课1\"    \r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryDeviceTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryDeviceTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteDevice/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteDevice",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "通知",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"adType\":\"成功\",\r\n\"adContent\":\"您已成功借用设备1\",\r\n\"userName\":\"用户名3\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertAdvice",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertAdvice"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"id\":1,\r\n     \"adType\":\"成功\",\r\n\"adContent\":\"您已成功借用设备1\",\r\n\"userName\":\"用户名3\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateAdvice",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateAdvice"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n     \r\n     \r\n\r\n     \"id\":1,\r\n     \"adType\":\"成功\",\r\n\"adContent\":\"您已成功借用设备1\",\r\n\"userName\":\"用户名3\"\r\n\r\n\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryAdviceTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryAdviceTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteAdvice/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteAdvice",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "消耗品",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n            \"smeName\":\"易耗品3\",\r\n            \"smeCount\":14\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertComsume",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertComsume"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"id\":4,\r\n            \"smeName\":\"易耗品3\",\r\n            \"smeCount\":13\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateComsume",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateComsume"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n    \"smeName\":\"易耗品3\",\r\n    \"smeCount\":14\r\n\r\n\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryComsumeTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryComsumeTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteComsume/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteComsume",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "入库记录",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n\"smeName\":\"消耗品1\",\r\n\"inCount\":5,\r\n\r\n\"name\":\"话女士1\",\r\n\"inTime\":\"2022-4-13\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertInRecord",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertInRecord"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"id\":1,\r\n\"smeName\":\"消耗品1\",\r\n\"inCount\":5,\r\n\r\n\"name\":\"话女士1\",\r\n\"inTime\":\"2022-4-13\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateInRecord",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateInRecord"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n     \r\n     \r\n     \"id\":1,\r\n\"smeName\":\"消耗品1\",\r\n\"inCount\":5,\r\n\r\n\"name\":\"话女士1\",\r\n\"inTime\":\"2022-4-13\" \r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryInRecordTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryInRecordTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteInRecord/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteInRecord",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "出库记录",
+					"item": [
+						{
+							"name": "c",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n\"smeName\":\"易耗品2\",\r\n\"outCount\":2,\r\n\"name\":\"话女士1\",\r\n\"outStatus\":\"出库中\",\r\n\"outReason\":\"肝实验1\",\r\n\"outTime\":\"2022-4-22 00:00:00\",\r\n\"objName\":\"\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/insertOutRecord",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"insertOutRecord"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "u",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"id\":1,\r\n\"smeName\":\"易耗品2\",\r\n\"outCount\":2,\r\n\"name\":\"话女士1\",\r\n\"outStatus\":\"出库中\",\r\n\"outReason\":\"肝实验1\",\r\n\"outTime\":\"2022-4-22 00:00:00\",\r\n\"objName\":\"\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/updateOutRecord",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"updateOutRecord"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "r 表",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\":1,\r\n    \"pageSize\":10,\r\n     \r\n     \r\n\"devName\":\"设备4\",\r\n\"devPrice\":22,\r\n\"devUStatus\":\"被借用\",\r\n\"devStatus\":\"良好\",\r\n\"name\":\"话女士1\",\r\n\"deviceSTime\":\"2022-04-14 17:55:05\",\r\n\"deviceETime\":\"2022-04-14 17:55:05\",\r\n\"devReason\":\"上课1\"    \r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8888/ad/queryDeviceTable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"queryDeviceTable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "d",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "headerPrefix",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8888/ad/deleteOutRecord/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"ad",
+										"deleteOutRecord",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "noad",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "enter",
+			"item": [
+				{
+					"name": "登录",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\":\"用户名123\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/enter/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"enter",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"userName\":\"用户名123\",\r\n    \"password\":\"123456\",\r\n    \"name\":\"等违法\",\r\n    \"sex\":\"男\",\r\n    \"phone\":\"1235456787\",\r\n    \"email\":\"11023393950@qq.com\",\r\n    \"weChat\":\"344655689\",\r\n    \"role\":\"僵尸\",\r\n    \"auth\":\"管理员\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/enter/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"enter",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

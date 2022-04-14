@@ -23,6 +23,7 @@ INSERT user(user_name,password,name,sex,phone,email,we_chat) VALUES('用户名4'
 
 
 -- --实验室
+DROP TABLE IF EXISTS lab_gdt;
 DROP TABLE IF EXISTS lab;
 CREATE TABLE lab(
 id		int	PRIMARY KEY AUTO_INCREMENT,
@@ -42,73 +43,36 @@ INSERT lab(lab_id,lab_type) VALUES('124','物理');
 
 
 --  实验室时间管理
-DROP TABLE IF EXISTS lab_gdt;
+-- DROP TABLE IF EXISTS lab_gdt;
 CREATE TABLE lab_gdt(
 lab_id	 	 nvarchar(20)	  ,
 lg_timing 		 nvarchar(20)	 ,
- lg_status		nvarchar(20)	DEFAULT '可预约' CHECK (lg_status IN ('可预约','预约中','被预约')),
-lg_s_time	 	 TIMESTAMP	 NOT NULL DEFAULT CURRENT_TIMESTAMP,
-lg_e_time		TIMESTAMP	 NOT NULL DEFAULT CURRENT_TIMESTAMP,
+lg_date date,
+lg_status		nvarchar(20)	DEFAULT '可预约' CHECK (lg_status IN ('可预约','被预约')), 
+-- lg_s_time	 	 TIMESTAMP	 NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- lg_e_time		TIMESTAMP	 NOT NULL DEFAULT CURRENT_TIMESTAMP,
 name		nvarchar(20)	,
-lg_type		nvarchar(20)	 CHECK (lg_type IN ('课程','项目','其它')),
+lg_type		nvarchar(20)	 ,
+-- CHECK (lg_type IN ('课程','项目','其它')),
 obj_name		nvarchar(20)	 DEFAULT '无',
-PRIMARY KEY (lab_id,lg_timing),
+PRIMARY KEY (lab_id,lg_timing,lg_date),
 FOREIGN KEY (lab_id)
 REFERENCES lab(lab_id)
 );
 ALTER TABLE lab_gdt MODIFY lg_timing nvarchar(20)  CHECK (lo_timing IN ('1-2','2-4','4-6','6-8','8-10'));
 
-INSERT lab_gdt(lab_id,lg_timing,lg_status,name,lg_type) VALUES('111','1-2','被预约','话女士1','课程');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('111','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('111','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('111','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('111','8-10','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status,name,lg_type) VALUES('111','1-2',SYSDATE(),'被预约','话女士1','课程');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('111','2-4','2022/4/13','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('111','4-6','2022/4/13','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('111','6-8','2022/4/12','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('111','8-10','2022/4/12','可预约');
+-- 
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('112','1-2','2022/4/12','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('112','2-4','2022/4/12','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('112','4-6','2022/4/12','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('112','6-8','2022/4/12','可预约');
+-- INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES('112','8-10','2022/4/12','可预约');
 
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('112','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('112','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('112','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('112','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('112','8-10','可预约');
-
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('113','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('113','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('113','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('113','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('113','8-10','可预约');
-
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('114','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('114','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('114','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('114','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('114','8-10','可预约');
-
-
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('121','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('121','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('121','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('121','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('121','8-10','可预约');
-
-
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('122','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('122','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('122','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('122','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('122','8-10','可预约');
-
-
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('123','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('123','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('123','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('123','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('123','8-10','可预约');
-
-
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('124','1-2','预约中');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('124','2-4','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('124','4-6','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('124','6-8','可预约');
-INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES('124','8-10','可预约');
 
 
 
@@ -120,9 +84,9 @@ obj_name		nvarchar(20)	UNIQUE NOT NULL,
  obj_description		nvarchar(8000)	NOT NULL,
 obj_status		nvarchar(20)	 DEFAULT '审批中' CHECK (obj_status in ('审批中','已审批')),
 name		nvarchar(20)	,
-obj_s_time		TIMESTAMP	 NOT NULL,
+obj_s_time		date	 NOT NULL,
 							
-obj_e_time		TIMESTAMP	NOT NULL ,
+obj_e_time		date	NOT NULL ,
                
 obj_reason		nvarchar(8000)	 
 );
@@ -139,8 +103,8 @@ dev_price		float	NOT NULL,
 dev_u_status		nvarchar(20)	DEFAULT '可借用' CHECK(dev_u_status IN ('不可用','可借用','借用中','被借用')),
 dev_status		nvarchar(20)	 DEFAULT '良好' CHECK(dev_status IN ('良好','修理中','故障')),
 name		nvarchar(20)	,
-device_s_time		TIMESTAMP	NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-device_e_time		TIMESTAMP	NOT NULL DEFAULT CURRENT_TIMESTAMP,
+device_s_time		TIMESTAMP	  ,
+device_e_time		TIMESTAMP	 ,
 dev_reason		nvarchar(8000)	,
 obj_name		nvarchar(20)	 DEFAULT '无'
 );
@@ -186,6 +150,8 @@ id		bigint	PRIMARY KEY AUTO_INCREMENT,
 sme_name		nvarchar(20)	NOT NULL ,
 out_count		int	CHECK (out_count >'0'),
 name		nvarchar(20)	NOT NULL,
+out_status		nvarchar(20)	DEFAULT '出库中' CHECK (out_status IN ('未出库','出库中','已出库')),
+
 out_reason		nvarchar(8000)	,
 out_time		TIMESTAMP	NOT NULL DEFAULT CURRENT_TIMESTAMP	,
 obj_name		nvarchar(20)	 DEFAULT '无'
@@ -228,59 +194,85 @@ INSERT advice_log(ad_type,ad_content,user_name,name) VALUES('失败','设备已�
 
 
 
+#开启事件计划（调度器）
+SET GLOBAL event_scheduler = 1;
 
-#测试
-select * from user
-            WHERE
-						
-            id LIKE CONCAT('%','','%')
-            OR user_name LIKE CONCAT('%','','%')
-            OR password LIKE CONCAT('%','','%')
-            OR name LIKE CONCAT('%','','%')
-            OR sex LIKE CONCAT('%','','%')
-            OR phone LIKE CONCAT('%','','%')
-            OR email LIKE CONCAT('%','','%')
-            OR we_chat LIKE CONCAT('%','','%')
-            OR role LIKE CONCAT('%','','%')
-            OR auth LIKE CONCAT('%','','%')
-        ORDER BY id ASC
-            LIMIT 1,10
+#每天删除昨天数据
+DROP PROCEDURE IF EXISTS `lab_gdt_refresh`;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lab_gdt_refresh`()
+BEGIN
+	#Routine body goes here...
+	DELETE FROM lab_gdt	
+	WHERE 
+	#lg_status='被预约' and 
+	TO_DAYS(CURDATE())-TO_DAYS(lg_date)>=1;
+
+END;
 
 
-select count(*) from 
-(
-select * from user
-            WHERE
-						
-            id LIKE CONCAT('%','','%')
-            OR user_name LIKE CONCAT('%','','%')
-            OR password LIKE CONCAT('%','','%')
-            OR name LIKE CONCAT('%','','%')
-            OR sex LIKE CONCAT('%','','%')
-            OR phone LIKE CONCAT('%','','%')
-            OR email LIKE CONCAT('%','','%')
-            OR we_chat LIKE CONCAT('%','','%')
-            OR role LIKE CONCAT('%','','%')
-            OR auth LIKE CONCAT('%','','%')
-        ORDER BY id ASC
-            LIMIT 0,10
-) TEMP
+
+#每周添加下周数据
+DROP PROCEDURE IF EXISTS `lab_gdt_refresh2`;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lab_gdt_refresh2`(IN START_TIME INT,IN START_WEEK INT)
+BEGIN
+	#Routine body goes here...
+	DECLARE i INT ;
+	DECLARE j INT DEFAULT 0;
+	DECLARE l INT DEFAULT 0;
+	DECLARE c INT DEFAULT 0;
+	DECLARE tmp  TEXT DEFAULT '';
+	SET l=START_TIME;
+	SET c=START_WEEK;
+	SELECT COUNT(*) INTO i FROM lab;
+	WHILE l<c DO
+		WHILE j<i DO
+			SELECT lab_id INTO tmp FROM lab LIMIT j,1;
+			INSERT INTO lab_gdt(lab_id,lg_timing,lg_date,lg_status) 
+			VALUES(tmp,'1-2',ADDDATE(CURDATE(),interval l day),'可预约');
+			INSERT INTO lab_gdt(lab_id,lg_timing,lg_date,lg_status) 
+			VALUES(tmp,'2-4',ADDDATE(CURDATE(),interval l day),'可预约');
+					INSERT INTO lab_gdt(lab_id,lg_timing,lg_date,lg_status) 
+			VALUES(tmp,'4-6',ADDDATE(CURDATE(),interval l day),'可预约');
+					INSERT INTO lab_gdt(lab_id,lg_timing,lg_date,lg_status) 
+			VALUES(tmp,'6-8',ADDDATE(CURDATE(),interval l day),'可预约');
+					INSERT INTO lab_gdt(lab_id,lg_timing,lg_date,lg_status) 
+			VALUES(tmp,'8-10',ADDDATE(CURDATE(),interval l day),'可预约');
+			SET tmp='';
+			SET j=j+1;
+		END WHILE;
+		SET j=0;
+		SET l=l+1;
+	END WHILE;
+END;
+
+#准备当前周数据
+DROP PROCEDURE IF EXISTS `lab_gdt_ready`;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lab_gdt_ready`()
+BEGIN
+	DECLARE t INT;
+	#Routine body goes here...
+	select (7+1- (SELECT DATE_FORMAT(CURDATE(),'%w'))) INTO t;
+	CALL   lab_gdt_refresh2(0,t);
+
+END;
+#调用
+call lab_gdt_ready();
+
+#每天1
+DROP EVENT IF EXISTS `lims`.`lab_gdt_day`;
+CREATE EVENT `lims`.`lab_gdt_day`
+ON SCHEDULE
+EVERY '1' DAY STARTS '2018-07-25 00:00:00'
+DO CALL lab_gdt_refresh();
 
 
-        SELECT *
-        FROM user
-        WHERE
-            id LIKE CONCAT('%','','%')
-            OR user_name LIKE CONCAT('%','','%')
-            OR password LIKE CONCAT('%','','%')
-            OR name LIKE CONCAT('%','','%')
-            OR sex LIKE CONCAT('%','','%')
-            OR phone LIKE CONCAT('%','','%')
-            OR email LIKE CONCAT('%','','%')
-            OR we_chat LIKE CONCAT('%','','%')
-            OR role LIKE CONCAT('%','','%')
-            OR auth LIKE CONCAT('%','','%')
-        ORDER BY id ASC
-        LIMIT '',''
+
+#每周1
+DROP EVENT IF EXISTS `lims`.`lab_gdt_week`;
+CREATE EVENT `lims`.`lab_gdt_week`
+ON SCHEDULE
+EVERY '1' WEEK STARTS '2018-07-25 00:00:00'
+DO  CALL lab_gdt_refresh2(7,14);
+
 
 

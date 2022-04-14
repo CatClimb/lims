@@ -3,10 +3,13 @@ package com.example.demo.modules.service;
 import com.example.demo.common.util.TableControlUtil;
 import com.example.demo.modules.dao.LabDao;
 import com.example.demo.modules.entity.LabEntity;
-import com.example.demo.modules.entity.UserEntity;
+import com.example.demo.vo.TableVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Slf4j
 @Service
 public class LabServiceImpl implements LabService {
@@ -18,24 +21,39 @@ public class LabServiceImpl implements LabService {
         this.tableControlUtil = tableControlUtil;
     }
 
+
     @Override
-    public boolean insertUser(LabEntity labEntity) {
-        return labDao.insertLab(labEntity);
+    public boolean insert(TableVO tableVO) {
+        return labDao.insert(tableVO);
     }
 
     @Override
-    public boolean updateUser(LabEntity labEntity) {
-        return labDao.updateLab(labEntity);
+    public boolean update(TableVO tableVO) {
+        return labDao.update(tableVO);
     }
 
     @Override
-    public void queryTable(LabEntity labEntity) {
-        tableControlUtil.setTable(labEntity,labDao);
-        labEntity.setTableHead(tableControlUtil.getTableHead(LabEntity.class));
+    public boolean deleteById(Integer id) {
+        return labDao.deleteById(id);
     }
 
     @Override
-    public boolean deleteLabById(Integer id) {
-        return labDao.deleteLabById(id);
+    public List<TableVO> conditionalQuery(TableVO tableVO) {
+        return labDao.conditionalQuery(tableVO);
     }
+
+    @Override
+    public Integer conditionalQueryCount(TableVO tableVO) {
+        return labDao.conditionalQueryCount(tableVO);
+    }
+    @Override
+    public void setTable(TableVO tableVO) {
+
+        tableControlUtil.setTable(tableVO,labDao);
+        tableVO.setTableHead(tableControlUtil.getTableHead(LabDao.class));
+
+
+    }
+
+
 }

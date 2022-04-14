@@ -4,57 +4,55 @@
     <resultMap id="labGdtResultMap" type="labGdtEntity">
         <id property="labId" column="lab_id"></id>
         <id property="lgTiming" column="lg_timing"></id>
+        <id property="lgDate" column="lg_date"></id>
         <result property="lgStatus" column="lg_status"></result>
-        <result property="lgSTime" column="lg_s_time"></result>
-        <result property="lgETime" column="lg_e_time"></result>
         <result property="name" column="name"></result>
         <result property="lgType" column="lg_type"></result>
         <result property="objName" column="obj_name"></result>
     </resultMap>
 
-    <insert id="insertLabGdt">
-        INSERT lab_gdt(lab_id,lg_timing,lg_status) VALUES(#{labId},#{lgTiming},#{lgStatus})
+    <insert id="insert">
+        INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status) VALUES(#{labId},#{lgTiming},#{lgDate},#{lgStatus})
     </insert>
-    <update id="updateLabGdt">
+    <update id="update">
         UPDATE lab_gdt SET
        <choose>
             <when test="objName!=null and objName!='' and objName!='无'">
-                lg_status=#{lgStatus},name=#{name},lg_type=#{lgType},obj_name=#{objName})
+                lg_status=#{lgStatus},name=#{name},lg_type=#{lgType},obj_name=#{objName}
             </when>
             <otherwise>
-                lg_status=#{lgStatus},name=#{name},lg_type=#{lgType})
+                lg_status=#{lgStatus},name=#{name},lg_type=#{lgType}
             </otherwise>
        </choose>
-        WHERE lab_id=#{labId},lg_timing=#{lgTiming}
+        WHERE lab_id=#{labId} and lg_timing=#{lgTiming} and lg_date=#{lgDate}
     </update>
-    <select id="queryTable" resultMap="labGdtResultMap">
+    <select id="conditionalQuery" resultMap="labGdtResultMap">
         SELECT *
         FROM lab_gdt
         WHERE
             lab_id LIKE CONCAT('%',#{labId},'%')
            OR lg_timing LIKE CONCAT('%',#{lgTiming})
+           OR lg_date LIKE CONCAT('%',#{lgDate},'%')
            OR lg_status LIKE CONCAT('%',#{lgStatus},'%')
-           OR lg_s_time LIKE CONCAT('%',#{lgSTime},'%')
-           OR lg_e_time LIKE CONCAT('%',#{lgETime},'%')
            OR name LIKE CONCAT('%',#{name},'%')
            OR lg_type LIKE CONCAT('%',#{lgType},'%')
            OR obj_name LIKE CONCAT('%',#{objName},'%')
         ORDER BY lab_id ASC
             LIMIT #{start},#{pageSize}
     </select>
-    <delete id="deleteLabGdtById">
-
+    <delete id="deleteLabGdt">
+        DELETE FROM lab_gdt
+        WHERE lab_id=#{labId} AND lg_timing=#{lgTiming} AND lg_date=#{lgDate}
     </delete>
-    <select id="queryTableCount" resultType="int">
+    <select id="conditionalQueryCount" resultType="int">
         SELECT COUNT(*)
         FROM (SELECT *
          FROM lab_gdt
          WHERE
-             lab_id LIKE CONCAT('%',#{labId},'%')
+                  lab_id LIKE CONCAT('%',#{labId},'%')
             OR lg_timing LIKE CONCAT('%',#{lgTiming})
+            OR lg_date LIKE CONCAT('%',#{lgDate},'%')
             OR lg_status LIKE CONCAT('%',#{lgStatus},'%')
-            OR lg_s_time LIKE CONCAT('%',#{lgSTime},'%')
-            OR lg_e_time LIKE CONCAT('%',#{lgETime},'%')
             OR name LIKE CONCAT('%',#{name},'%')
             OR lg_type LIKE CONCAT('%',#{lgType},'%')
             OR obj_name LIKE CONCAT('%',#{objName},'%')

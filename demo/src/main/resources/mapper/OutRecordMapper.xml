@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.OutRecordDao">
+    <resultMap id="OutRecordResultMap" type="outRecordEntity">
+        <id property="id" column="id"></id>
+        <result property="smeName" column="sme_name"></result>
+        <result property="outCount" column="out_count"></result>
+        <result property="name" column="name"></result>
+        <result property="outStatus" column="out_status"></result>
+        <result property="outReason" column="out_reason"></result>
+        <result property="outTime" column="out_time"></result>
+        <result property="objName" column="obj_name"></result>
+
+    </resultMap>
+
+    <insert id="insert">
+        INSERT out_record(sme_name,out_count,name,out_status,out_reason,out_time,obj_name) VALUES(#{smeName},#{outCount},#{name},#{outStatus},#{outReason},#{outTime},#{objName})
+    </insert>
+
+    <update id="update">
+        UPDATE out_record
+        SET sme_name=#{smeName},out_count=#{outCount},name=#{name},out_status=#{outStatus},out_reason=#{outReason},out_time=#{outTime},obj_name=#{objName}
+        WHERE id=#{id}
+    </update>
+
+    <select id="conditionalQuery" resultMap="OutRecordResultMap">
+        SELECT *
+        FROM out_record
+        WHERE
+            sme_name LIKE CONCAT('%',#{smeName},'%')
+           OR out_count LIKE CONCAT('%',#{outCount})
+           OR name LIKE CONCAT('%',#{name},'%')
+           OR out_status LIKE CONCAT('%',#{outStatus},'%')
+           OR out_reason LIKE CONCAT('%',#{outReason},'%')
+           OR out_time LIKE CONCAT('%',#{outTime},'%')
+           OR obj_name LIKE CONCAT('%',#{objName},'%')
+
+        ORDER BY id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM out_record
+        WHERE id=#{id}
+    </delete>
+
+    <select id="conditionalQueryCount" resultType="int">
+        SELECT COUNT(*) FROM
+            (SELECT *
+             FROM out_record
+             WHERE
+                 sme_name LIKE CONCAT('%',#{smeName},'%')
+                OR out_count LIKE CONCAT('%',#{outCount})
+                OR name LIKE CONCAT('%',#{name},'%')
+                OR out_status LIKE CONCAT('%',#{outStatus},'%')
+                OR out_reason LIKE CONCAT('%',#{outReason},'%')
+                OR out_time LIKE CONCAT('%',#{outTime},'%')
+                OR obj_name LIKE CONCAT('%',#{objName},'%')
+
+             ORDER BY id ASC
+                 LIMIT #{start},#{pageSize})
+                tmp
+    </select>
+</mapper>

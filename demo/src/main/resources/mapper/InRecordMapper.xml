@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.dao.InRecordDao">
+    <resultMap id="InRecordResultMap" type="inRecordEntity">
+        <id property="id" column="id"></id>
+        <result property="smeName" column="sme_name"></result>
+        <result property="inCount" column="in_count"></result>
+        <result property="name" column="name"></result>
+        <result property="inTime" column="in_time"></result>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT in_record(sme_name,in_count,name,in_time) VALUES(#{smeName},#{inCount},#{name},#{inTime})
+    </insert>
+
+    <update id="update">
+        UPDATE in_record
+        SET sme_name=#{smeName},in_count=#{inCount},name=#{name},in_time=#{inTime}
+        WHERE id=#{id}
+    </update>
+
+    <select id="conditionalQuery" resultMap="InRecordResultMap">
+        SELECT *
+        FROM in_record
+        WHERE
+            sme_name LIKE CONCAT('%',#{smeName},'%')
+           OR in_count LIKE CONCAT('%',#{inCount})
+           OR name LIKE CONCAT('%',#{name},'%')
+           OR in_time LIKE CONCAT('%',#{inTime},'%')
+        ORDER BY id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM in_record
+        WHERE id=#{id}
+    </delete>
+
+    <select id="conditionalQueryCount" resultType="int">
+        SELECT COUNT(*) FROM
+            (SELECT *
+             FROM in_record
+             WHERE
+                 sme_name LIKE CONCAT('%',#{smeName},'%')
+                OR in_count LIKE CONCAT('%',#{inCount})
+                OR name LIKE CONCAT('%',#{name},'%')
+                OR in_time LIKE CONCAT('%',#{inTime},'%')
+             ORDER BY id ASC
+                 LIMIT #{start},#{pageSize})
+                tmp
+    </select>
+</mapper>

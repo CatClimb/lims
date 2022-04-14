@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/insertUser")
     public Result<String> insertUser(@RequestBody UserEntity userEntity){
         log.info(userEntity.toString());
-        boolean b = userService.insertUser(userEntity);
+        boolean b = userService.insert(userEntity);
         if(b){
           return  Result.success("添加成功");
         }
@@ -43,7 +43,7 @@ public class UserController {
      */
     @PostMapping("/updateUser")
     public Result<String> updateUser(@RequestBody UserEntity userEntity){
-        boolean b = userService.updateUser(userEntity);
+        boolean b = userService.update(userEntity);
         if(b){
             return Result.success("更新成功");
         }
@@ -56,9 +56,10 @@ public class UserController {
      * @return
      */
 
-    @RequestMapping(value = "/queryUserTable",method=RequestMethod.GET)
+    @RequestMapping(value = "/queryUserTable",method=RequestMethod.POST)
     public Result<UserEntity> queryUserTable(@RequestBody UserEntity userEntity){
-        userService.queryUserTable(userEntity);
+        userService.setTable(userEntity);
+        log.info("userEntity:"+userEntity.toString());
         return Result.success("查询成功",userEntity);
     }
 
@@ -66,7 +67,7 @@ public class UserController {
     @PostMapping("/deleteUser/{id}")
 
     public Result<UserEntity> deleteUser( @PathVariable("id") Integer id){
-        boolean b = userService.deleteUserById(id);
+        boolean b = userService.deleteById(id);
         if(b){
             return Result.success("删除成功");
         }
