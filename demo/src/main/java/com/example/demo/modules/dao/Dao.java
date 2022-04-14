@@ -10,4 +10,5 @@ import java.util.List;
 public interface TableDao {
     public List<TableVO> queryTable(TableVO tableVO);
     public Integer queryTableCount(TableVO tableVO);
+
 }
