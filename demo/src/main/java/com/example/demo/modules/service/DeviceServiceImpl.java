@@ -46,6 +46,6 @@ public class DeviceServiceImpl implements DeviceService{
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,deviceDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(DeviceDao.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(DeviceEntity.class));
     }
 }

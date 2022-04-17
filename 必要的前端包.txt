@@ -1,0 +1,2 @@
+cnpm install babel-plugin-component -D
+cnpm i  axios element-ui jwt-decode lottie-web vue-router vuex

@@ -46,6 +46,6 @@ public class AdviceServiceImpl implements AdviceService {
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,adviceDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(AdviceDao.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(AdviceEntity.class));
     }
 }

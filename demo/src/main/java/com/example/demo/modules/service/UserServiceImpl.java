@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,userDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(UserDao.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(UserEntity.class));
 
     }
 }

@@ -50,7 +50,7 @@ public class LabGdtServiceImpl implements LabGdtService {
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,labGdtDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(LabGdtDao.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(LabGdtEntity.class));
 
 
     }

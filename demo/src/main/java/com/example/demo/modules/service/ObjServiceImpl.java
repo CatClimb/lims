@@ -48,7 +48,7 @@ public class ObjServiceImpl implements ObjService {
     public void setTable(TableVO tableVO) {
 
         tableControlUtil.setTable(tableVO,objDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(ObjDao.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(ObjEntity.class));
 
 
     }

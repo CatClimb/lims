@@ -50,7 +50,7 @@ public class LabServiceImpl implements LabService {
     public void setTable(TableVO tableVO) {
 
         tableControlUtil.setTable(tableVO,labDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(LabDao.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(LabEntity.class));
 
 
     }
