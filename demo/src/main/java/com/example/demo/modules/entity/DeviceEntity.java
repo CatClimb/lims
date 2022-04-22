@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @Data
 @ToString
@@ -20,22 +22,10 @@ public class DeviceEntity extends TableVO {
     @Alias("设备名")
     private String devName;
     @Alias("设备价格")
-    private String devPrice;
-    @Alias("借用状态")
-    private String devUStatus;
+    private Float devPrice;
     @Alias("设备状态")
     private String devStatus;
-    @Alias("借用人")
-    private String name;
-    @Alias("开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date deviceSTime;
-    @Alias("结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date deviceETime;
-    @Alias("借用原因")
-    private String devReason;
-    @Alias("所属项目")
-    private String objName;
+
+
 
 }

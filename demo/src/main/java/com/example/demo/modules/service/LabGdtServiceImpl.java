@@ -34,6 +34,11 @@ public class LabGdtServiceImpl implements LabGdtService {
     }
 
     @Override
+    public boolean deleteById(Integer id) {
+        return labGdtDao.deleteById(id);
+    }
+
+    @Override
     public List<TableVO> conditionalQuery(TableVO tableVO) {
         return labGdtDao.conditionalQuery(tableVO);
     }
@@ -42,15 +47,12 @@ public class LabGdtServiceImpl implements LabGdtService {
     public Integer conditionalQueryCount(TableVO tableVO) {
         return labGdtDao.conditionalQueryCount(tableVO);
     }
-    @Override
-    public boolean deleteLabGdt(LabGdtEntity labGdtEntity) {
-        return labGdtDao.deleteLabGdt(labGdtEntity );
-    }
+
 
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,labGdtDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(LabGdtEntity.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(LabGdtEntity.class,1));
 
 
     }

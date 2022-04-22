@@ -20,6 +20,7 @@ html,body,
   background-image: url("../public/img/bg.png");
   background-size: cover;
   background-attachment: fixed;
-  
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-size: 20px;
 }
 </style>

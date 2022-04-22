@@ -4,6 +4,7 @@
     placeholder="请输入搜索内容"
     prefix-icon="el-icon-search"
     v-model="queryContent">
+    
   </el-input>
   <el-button
             size="medium  "
@@ -29,11 +30,11 @@
         type="selection"
         width="55">
       </el-table-column> -->
-      <el-table-column label="序号" min-width=30>
+      <!-- <el-table-column label="序号" min-width=30>
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column min-width=100 show-overflow-tooltip
         v-for="(item, index) of info.tableHead"
         :key="index"
@@ -56,6 +57,9 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="position: fixed; right: 40px; top: 80px;color:white">
+      <label>设备总价值：{{DevicepriceSum}}</label>
+      </div>
     <div style="position: fixed; right: 10px; bottom: 10px">
       <!-- <span class="demonstration">完整功能</span> -->
       <el-pagination
@@ -71,10 +75,7 @@
       >
       </el-pagination>
   </div>
-  <!-- @close="closeDialog('form')" -->
-  <!-- :before-close="closeDialog('form')" -->
-  :show-close="dialog.closeShowStatus"
-    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()" >
+    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()">
       <el-form
         :model="dialog.data"
         :rules="dialog.rules"
@@ -82,12 +83,25 @@
         label-width="100px"
         class="demo-formData"
       >
-        <el-form-item label="实验室编号" prop="labId">
-          <el-input v-model.number="dialog.data.labId"></el-input>
+        
+        
+        <el-form-item label="设备名" prop="devName">
+          <el-input v-model.number="dialog.data.devName"></el-input>
         </el-form-item>
-        <el-form-item label="实验室类别" prop="labType">
-          <el-input  v-model="dialog.data.labType"></el-input>
+        <el-form-item label="设备价格" prop="devPrice">
+          <el-input v-model.number="dialog.data.devPrice"></el-input>
         </el-form-item>
+  
+        <el-form-item label="设备状态" prop="devStatus">
+          <el-select v-model.number="dialog.data.devStatus" placeholder="请选择">
+            <el-option label="良好" value="良好"></el-option>
+            <el-option label="修理中" value="修理中"></el-option>
+            <el-option label="故障" value="故障"></el-option>
+          </el-select>
+        </el-form-item>
+
+        
+        
        
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,13 +118,12 @@
 import axios from 'axios'
 
 export default {
-  name: "ad-lab",
+  name: "ad-Device",
   components:{
     
   },
-  
   data() {
-    
+      
     return {
       info: {
         tableHead: [],
@@ -120,31 +133,46 @@ export default {
         tableData: [],
        
       },
+      DevicepriceSum:0,
       formLabelWidth: "120px",
       queryContent: "",
       dialog:{
         data:{
-          id:0,
-          labId:"",
-          labType:""
+              id:0,
+              devName:"",
+              devPrice:"",
+              devStatus:"",
+             
+            
+           
         },
-        
         rules: {
-           labId: [
-             { required: true, message: '请输入编号',  },
-            
-            
-            { type: 'number', message: '请输入数字',  },
+          devName:[
+            {required:true,message:"设备名"}
           ],
-           labType: [
-            { type: 'string', required: true, message: '请输入类别',  }
+          devPrice:[
+            {required:true,message:"请输入设备价格"},{ type: 'number', message: '请输入数字',  },
           ],
+
+          devStatus:[
+            {required:true,message:"请选择内容"}
+          ],
+          
+         
+            // name
+            //   {required:true,message:"请输入使用者姓名"}
+            // ],
+            // lgType:[
+            //   {required:true,message:"请输入使用类别"}
+            // ],
+            // objName:[
+              
+            // ],
         },
         visible:false,
         dialogTitle:"",
         submitTitle:"",
-        repealSubmitTitle:"",
-        // closeShowStatus:false,
+        repealSubmitTitle:""
       },
       
       
@@ -155,8 +183,11 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        labId:this.queryContent,
-        labType:this.queryContent
+        devName:this.queryContent,
+        devPrice:this.queryContent,
+        devStatus:this.queryContent,
+   
+        
       };
     },
   },
@@ -166,13 +197,13 @@ export default {
       this.handlerQuery();
     },
     handleCurrentChange(val) {
-      this.selectform.page = val;
+      this.info.page = val;
       this.handlerQuery();
     },
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/queryLabTable", this.selectform)
+      .post("http://localhost:8080/back/ad/queryDeviceTable", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
@@ -205,32 +236,28 @@ export default {
     },
     handleEdit(index,row){
       console.log(index,row);
-      this.dialog.visible=true;
-      
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
-      // this.dialog.closeShowStatus=false;
-      this.dialog.data.labId=Number(this.dialog.data.labId);
-      
-      this.dialog.dialogTitle="修改实验室";
+      this.dialog.data.devPrice=Number(this.dialog.data.devPrice);
+      // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
+      this.dialog.visible=true;
+      this.dialog.dialogTitle="修改设备仪器信息";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateLab"
+      this.dialog.url="http://localhost:8080/back/ad/updateDevice"
 
     },
     handleAdd(){
       this.dialog.visible=true;
-      this.dialog.closeShowStatus=true;
-      
-      this.dialog.dialogTitle="添加实验室";
+      this.dialog.dialogTitle="添加设备仪器信息";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertLab"
+      this.dialog.url="http://localhost:8080/back/ad/insertDevice"
     },
     handleDelete(index,row){
       console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteLab/${row.id}`,).then(
+            axios.post(`http://localhost:8080/back/ad/deleteDevice/${row.id}`,).then(
         (response)=>{
           if (response.data.code === 2000) {
             this.$message({
@@ -239,6 +266,8 @@ export default {
                   center: true,
                 });
             this.handlerQuery();    
+                        this.priceStatistics();
+
           }else{
             this.$message({
               message:response.data.msg,
@@ -274,6 +303,8 @@ export default {
             // })
             this.dialog.visible=false;
             this.handlerQuery();
+            this.priceStatistics();
+
           } else {
             this.$message({
               message: response.data.msg,
@@ -321,7 +352,6 @@ export default {
       
     },
     closeDialog(){
-      console.log("3");
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
@@ -329,18 +359,52 @@ export default {
               this.$refs['form'].clearValidate();
             });
             
-    }
-    
-  },
+    },
+    priceStatistics(){
+    axios.get("http://localhost:8080/back/ad/devicePriceSum")
+      .then(
+        (response) => {
+          if (response.data.code === 2000) {
+            this.DevicepriceSum=response.data.data;
+            // this.$message({
+            //   message: response.data.msg,
+            //   type: "success",
+            //   center: true,
+            // });
+            console.log(response.data.data)
+          } else {
+            this.$message({
+              message: response.data.msg,
+              type: "error",
+              center: true,
+            });
+          }
+        },
+        (error) => {
+          this.$message({
+            message: error.response.data.msg,
+            type: "error",
+            center: true,
+          });
+        }
+      );
   
+  }
+  },
   watch:{
     queryContent(){
-                  this.handlerQuery();
-                }
+      this.handlerQuery();
+    },
+    queryDate(){
+      this.handlerQuery();
+    }
+
   },
   mounted() {
     this.handlerQuery();
+    this.priceStatistics();
   },
+  
 
 };
 </script>

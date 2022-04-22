@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class UserEntity extends TableVO {
-    @Alias("用户id")
+//    @Alias("用户id")
     private Integer id;
     @Alias("用户名")
     private String userName;

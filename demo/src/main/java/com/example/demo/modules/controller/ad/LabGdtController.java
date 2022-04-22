@@ -42,11 +42,12 @@ public class LabGdtController {
     @PostMapping("/queryLabGdtTable")
     public Result<LabGdtEntity> queryLabGdtTable(@RequestBody LabGdtEntity labGdtEntity){
         labGdtService.setTable(labGdtEntity);
+        log.info("labGdtEntity.getLgDate();:"+labGdtEntity.getLgDate());
         return Result.success("查询成功",labGdtEntity);
     }
-    @PostMapping("/deleteLabGdt")
-    public Result<String> deleteLabGdtById(@RequestBody LabGdtEntity labGdtEntity){
-        boolean b = labGdtService.deleteLabGdt(labGdtEntity);
+    @PostMapping("/deleteLabGdt/{id}")
+    public Result<String> deleteLabGdtById(@PathVariable Integer id){
+        boolean b = labGdtService.deleteById(id);
         if (b){
             return Result.success("删除成功");
         }else{

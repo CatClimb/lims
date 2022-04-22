@@ -46,6 +46,6 @@ public class ComsumeServiceImpl implements ComsumeService{
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,comsumeDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(ComsumeEntity.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(ComsumeEntity.class,1));
     }
 }

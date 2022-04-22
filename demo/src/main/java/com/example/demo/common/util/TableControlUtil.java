@@ -12,14 +12,20 @@ import java.util.List;
 @Component
 @Slf4j
 public class TableControlUtil<T> {
-    public  <t> List<String[]> getTableHead(Class<t> classTmp){
+    public  <t> List<String[]> getTableHead(Class<t> classTmp,int tmp){
         List<String[]> strings = new ArrayList<>();
         Field[] declaredFields = classTmp.getDeclaredFields();
         int length = declaredFields.length;
-        for (int i = 0; i < length; i++) {
+        for (int i = tmp; i < length; i++) {
             String[] str = new String[2];
-            str[0] = declaredFields[i].getName();
-            str[1] = declaredFields[i].getAnnotation(Alias.class).value();
+
+            Alias annotation = declaredFields[i].getAnnotation(Alias.class);
+            if(annotation!=null){
+                str[0] = declaredFields[i].getName();
+                str[1] = annotation.value();
+
+            }
+
             strings.add(str);
         }
         return strings;
@@ -31,11 +37,16 @@ public class TableControlUtil<T> {
         if (tableVO.getPageSize()<=0){
             tableVO.setPage(10);
         }
-        tableVO.setStart((tableVO.getPage()-1)* tableVO.getPageSize());
+        int start=(tableVO.getPage()-1)* tableVO.getPageSize();
+        int count=dao.conditionalQueryCount(tableVO);
+        if(start>=count){
+            tableVO.setPage(1);
+            start=(tableVO.getPage()-1)* tableVO.getPageSize();
+        }
+        tableVO.setStart(start);
+        tableVO.setCount(count);
         tableVO.setTableData(dao.conditionalQuery(tableVO));
-        log.info(dao.conditionalQuery(tableVO).toString());
-        tableVO.setCount(dao.conditionalQueryCount(tableVO));
-        log.info(dao.conditionalQueryCount(tableVO).toString());
+
     }
 
 }

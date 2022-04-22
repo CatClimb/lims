@@ -5,13 +5,8 @@ import com.example.demo.vo.TableVO;
 
 import java.util.List;
 
-public interface LabGdtService{
-    public boolean insert(TableVO tableVO);
-    public boolean update(TableVO tableVO);
-    public List<TableVO> conditionalQuery(TableVO tableVO);
-    public Integer conditionalQueryCount(TableVO tableVO);
-    public boolean deleteLabGdt(LabGdtEntity labGdtEntity);
-    public void  setTable(TableVO tableVO);
+public interface LabGdtService extends Service{
+
 
 
 

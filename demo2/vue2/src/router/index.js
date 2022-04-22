@@ -4,6 +4,14 @@ import Home from '../Home.vue'
 import Login from '../Login.vue'
 import Person from '../view/ad/Person.vue'
 import Lab from '../view/ad/Lab.vue'
+import User from '../view/ad/User.vue'
+import LabGdt from '../view/ad/LabGdt.vue'
+import Obj from '../view/ad/Obj.vue'
+import Device from '../view/ad/Device.vue'
+import TotalObj from '../view/ad/TotalObj.vue'
+import DevLend from '../view/ad/DevLend.vue'
+
+
 const routes = [
       // {
       //   path: '*',
@@ -31,9 +39,39 @@ const routes = [
             component:Person
           },
           {
+            path:'user',
+            name:'ad-user',
+            component:User
+          },
+          {
             path:'lab',
             name:'ad-lab',
             component:Lab
+          },
+          {
+            path:'labgdt',
+            name:'ad-labgdt',
+            component:LabGdt
+          },
+          {
+            path:'obj',
+            name:'ad-obj',
+            component:Obj
+          },
+          {
+            path:'totalObj',
+            name:'ad-totalObj',
+            component:TotalObj
+          },
+          {
+            path:'device',
+            name:'ad-device',
+            component:Device
+          },
+          {
+            path:'devLend',
+            name:'ad-devLend',
+            component:DevLend
           }
         ]
       }

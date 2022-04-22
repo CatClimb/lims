@@ -46,6 +46,11 @@ public class DeviceServiceImpl implements DeviceService{
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,deviceDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(DeviceEntity.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(DeviceEntity.class,0));
+    }
+
+    @Override
+    public float devicePriceSum() {
+        return deviceDao.devicePriceSum();
     }
 }

@@ -37,7 +37,7 @@
                                      lab_id LIKE CONCAT('%',#{labId},'%')
                                      OR lab_type LIKE CONCAT('%',#{labType},'%')
                                  ORDER BY id ASC
-                                 LIMIT #{start},#{pageSize}
+
                                 ) temp
     </select>
 </mapper>

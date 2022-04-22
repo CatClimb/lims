@@ -50,7 +50,7 @@
                 OR user_name LIKE CONCAT('%',#{userName},'%')
 
              ORDER BY id ASC
-                 LIMIT #{start},#{pageSize})
+                )
                 tmp
     </select>
 </mapper>

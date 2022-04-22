@@ -47,7 +47,7 @@ public class OutRecordServiceImpl implements  OutRecordService {
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,outRecordDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(OutRecordEntity.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(OutRecordEntity.class,1));
     }
 
 }

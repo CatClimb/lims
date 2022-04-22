@@ -13,7 +13,10 @@
       router
     >
       
+  
+
         <template v-for="item in menuData" >
+          
           <el-menu-item-group>
               <el-menu-item :index="item.path" v-if="item.children == undefined">
                 <template slot="title">
@@ -22,18 +25,27 @@
                 </template>
               </el-menu-item>
           </el-menu-item-group>
+              <el-badge :value="12" class="item" v-show="item.title=='项目管理'">
+                  </el-badge>
               <el-submenu :index="item.path" v-if="item.children != undefined" >
+                
                 <template slot="title">
                     <i :class="item.icon"></i>
                     <span slot="title">{{item.title}}</span>
                 </template>
                 <template v-for="childItem in item.children">
                 <el-menu-item-group>
+                  <el-badge :value="12" class="item" v-show="childItem.title=='登记处理'">
+                    </el-badge>
                   <el-menu-item :index="childItem.path" v-if="childItem.children == undefined">{{childItem.title}}</el-menu-item>
+                  
                 </el-menu-item-group>
                 </template>
+                
               </el-submenu>
+              
         </template> 
+
    </el-menu>
     
   </div>

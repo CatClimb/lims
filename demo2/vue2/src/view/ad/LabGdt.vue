@@ -4,7 +4,14 @@
     placeholder="请输入搜索内容"
     prefix-icon="el-icon-search"
     v-model="queryContent">
+    
   </el-input>
+  <el-date-picker
+      v-model="queryDate"
+      type="date"
+      value-format="yyyy-MM-dd"
+      placeholder="选择日期">
+    </el-date-picker>
   <el-button
             size="medium  "
             type="primary"
@@ -71,10 +78,7 @@
       >
       </el-pagination>
   </div>
-  <!-- @close="closeDialog('form')" -->
-  <!-- :before-close="closeDialog('form')" -->
-  :show-close="dialog.closeShowStatus"
-    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()" >
+    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()">
       <el-form
         :model="dialog.data"
         :rules="dialog.rules"
@@ -82,12 +86,52 @@
         label-width="100px"
         class="demo-formData"
       >
+        
+        
         <el-form-item label="实验室编号" prop="labId">
           <el-input v-model.number="dialog.data.labId"></el-input>
         </el-form-item>
-        <el-form-item label="实验室类别" prop="labType">
-          <el-input  v-model="dialog.data.labType"></el-input>
+        <el-form-item label="课程时间段" prop="lgTiming">
+          <el-select v-model="dialog.data.lgTiming" placeholder="请选择时间段">
+            <el-option label="0-2" value="0-2"></el-option>
+            <el-option label="2-4" value="2-4"></el-option>
+            <el-option label="4-6" value="4-6"></el-option>
+            <el-option label="6-8" value="6-8"></el-option>
+            <el-option label="8-10" value="8-10"></el-option>
+          </el-select>
         </el-form-item>
+        
+        <el-form-item label="日期" prop="lgDate">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="选择日期" v-model="dialog.data.lgDate" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
+          </el-col>
+          <!-- <el-col class="line" :span="2">-</el-col>
+          <el-col :span="11">
+            <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+          </el-col> -->
+        </el-form-item>
+
+        <!-- <el-form-item label="日期" prop="lgDate">
+          <el-input v-model="dialog.data.lgDate"></el-input>
+        </el-form-item> -->
+<el-form-item label="预约状态" prop="lgStatus">
+         
+          <el-select v-model="dialog.data.lgStatus" placeholder="请选择">
+           
+            <el-option label="可预约" value="可预约"></el-option>
+            <el-option label="被预约" value="被预约"></el-option>
+            
+          </el-select>
+        </el-form-item>
+        <el-form-item label="使用者" >
+          <el-input v-model="dialog.data.name"></el-input>
+        </el-form-item>
+        <el-form-item label="使用类别">
+          <el-input v-model="dialog.data.lgType"></el-input>
+        </el-form-item>
+       
+        
+        
        
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,13 +148,12 @@
 import axios from 'axios'
 
 export default {
-  name: "ad-lab",
+  name: "ad-labgdt",
   components:{
     
   },
-  
   data() {
-    
+      
     return {
       info: {
         tableHead: [],
@@ -122,29 +165,52 @@ export default {
       },
       formLabelWidth: "120px",
       queryContent: "",
+      queryDate:"",
       dialog:{
         data:{
-          id:0,
-          labId:"",
-          labType:""
+            id:6,
+            labId:"",
+            lgTiming:"",
+            lgDate:"",
+            lgStatus:"",
+            name:"",
+            
+            lgType:"",
+           
         },
-        
         rules: {
-           labId: [
-             { required: true, message: '请输入编号',  },
+            labId:[
+              
             
-            
+           
+              {required:true,message:"请输入实验室编号"},
+               
             { type: 'number', message: '请输入数字',  },
-          ],
-           labType: [
-            { type: 'string', required: true, message: '请输入类别',  }
-          ],
+            ],
+            lgTiming:[
+              {required:true,message:"请输入课程时间段"}
+            ],
+            lgDate:[
+              {  required: true, message: '请选择日期' },
+              
+            ],
+            lgStatus:[
+              {required:true,message:"请输入预约状态"}
+            ],
+            // name:[
+            //   {required:true,message:"请输入使用者姓名"}
+            // ],
+            // lgType:[
+            //   {required:true,message:"请输入使用类别"}
+            // ],
+            // objName:[
+              
+            // ],
         },
         visible:false,
         dialogTitle:"",
         submitTitle:"",
-        repealSubmitTitle:"",
-        // closeShowStatus:false,
+        repealSubmitTitle:""
       },
       
       
@@ -156,7 +222,12 @@ export default {
         page: this.info.page,
         pageSize: this.info.pageSize,
         labId:this.queryContent,
-        labType:this.queryContent
+        lgTiming:this.queryContent,
+        lgDate:this.queryDate,
+        lgStatus:this.queryContent,
+        name:this.queryContent,
+        lgType:this.queryContent,
+        
       };
     },
   },
@@ -166,13 +237,13 @@ export default {
       this.handlerQuery();
     },
     handleCurrentChange(val) {
-      this.selectform.page = val;
+      this.info.page = val;
       this.handlerQuery();
     },
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/queryLabTable", this.selectform)
+      .post("http://localhost:8080/back/ad/queryLabGdtTable", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
@@ -205,32 +276,28 @@ export default {
     },
     handleEdit(index,row){
       console.log(index,row);
-      this.dialog.visible=true;
-      
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
-      // this.dialog.closeShowStatus=false;
       this.dialog.data.labId=Number(this.dialog.data.labId);
-      
-      this.dialog.dialogTitle="修改实验室";
+      // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
+      this.dialog.visible=true;
+      this.dialog.dialogTitle="修改预约信息";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateLab"
+      this.dialog.url="http://localhost:8080/back/ad/updateLabGdt"
 
     },
     handleAdd(){
       this.dialog.visible=true;
-      this.dialog.closeShowStatus=true;
-      
-      this.dialog.dialogTitle="添加实验室";
+      this.dialog.dialogTitle="添加预约信息";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertLab"
+      this.dialog.url="http://localhost:8080/back/ad/insertLabGdt"
     },
     handleDelete(index,row){
       console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteLab/${row.id}`,).then(
+            axios.post(`http://localhost:8080/back/ad/deleteLabGdt/${row.id}`,).then(
         (response)=>{
           if (response.data.code === 2000) {
             this.$message({
@@ -321,7 +388,6 @@ export default {
       
     },
     closeDialog(){
-      console.log("3");
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
@@ -330,13 +396,15 @@ export default {
             });
             
     }
-    
   },
-  
   watch:{
     queryContent(){
-                  this.handlerQuery();
-                }
+      this.handlerQuery();
+    },
+    queryDate(){
+      this.handlerQuery();
+    }
+
   },
   mounted() {
     this.handlerQuery();

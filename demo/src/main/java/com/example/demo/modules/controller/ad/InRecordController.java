@@ -19,7 +19,7 @@ public class InRecordController {
     }
     @PostMapping("/insertInRecord")
     private Result<String> insertInRecord(@RequestBody InRecordEntity inRecordEntity){
-
+        log.info("xxxxxxxxxxxxxxxxxxxxxx"+inRecordEntity.toString());
         boolean b = inRecordService.insert(inRecordEntity);
         if (b){
             return Result.success("添加成功");

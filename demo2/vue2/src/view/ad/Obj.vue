@@ -4,7 +4,10 @@
     placeholder="请输入搜索内容"
     prefix-icon="el-icon-search"
     v-model="queryContent">
+    
   </el-input>
+    
+
   <el-button
             size="medium  "
             type="primary"
@@ -71,10 +74,7 @@
       >
       </el-pagination>
   </div>
-  <!-- @close="closeDialog('form')" -->
-  <!-- :before-close="closeDialog('form')" -->
-  :show-close="dialog.closeShowStatus"
-    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()" >
+    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()">
       <el-form
         :model="dialog.data"
         :rules="dialog.rules"
@@ -82,12 +82,47 @@
         label-width="100px"
         class="demo-formData"
       >
-        <el-form-item label="实验室编号" prop="labId">
-          <el-input v-model.number="dialog.data.labId"></el-input>
+        
+        
+        <el-form-item label="项目名" prop="objName">
+          <el-input v-model.number="dialog.data.objName"></el-input>
         </el-form-item>
-        <el-form-item label="实验室类别" prop="labType">
-          <el-input  v-model="dialog.data.labType"></el-input>
+        <el-form-item label="项目描述" prop="objDescription">
+          <el-input v-model.number="dialog.data.objDescription" type="textarea" maxlength="8000" show-word-limit></el-input>
         </el-form-item>
+        <el-form-item label="项目状态" prop="objStatus">
+          <el-select v-model="dialog.data.objStatus" placeholder="请选择">
+            <el-option label="审批中" value="审批中"></el-option>
+            <el-option label="已审批" value="已审批"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="负责人" prop="name">
+          <el-input v-model.number="dialog.data.name"></el-input>
+        </el-form-item>
+        
+        <el-form-item label="项目始" prop="objSTime">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="选择日期" v-model="dialog.data.objSTime" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
+          </el-col>
+         
+        </el-form-item>
+        <el-form-item label="项目终" prop="objETime">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="选择日期" v-model="dialog.data.objETime" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
+          </el-col>
+         
+        </el-form-item>
+        <el-form-item label="登记日期" prop="recordTime">
+          <el-col :span="11">
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.recordTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="申请原因" prop="objReason">
+          <el-input v-model.number="dialog.data.objReason" type="textarea" maxlength="8000" show-word-limit></el-input>
+        </el-form-item>
+
+        
+        
        
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,13 +139,12 @@
 import axios from 'axios'
 
 export default {
-  name: "ad-lab",
+  name: "ad-obj",
   components:{
     
   },
-  
   data() {
-    
+      
     return {
       info: {
         tableHead: [],
@@ -120,31 +154,65 @@ export default {
         tableData: [],
        
       },
+      
       formLabelWidth: "120px",
-      queryContent: "",
+      queryContent:"",
       dialog:{
         data:{
-          id:0,
-          labId:"",
-          labType:""
+              id:0,
+              objName:"",
+              objDescription:"",
+              objStatus:"",
+              name:"",
+              objSTime:"",
+              objETime:"",
+              objReason:"",
+              recordTime:"",
+           
         },
-        
         rules: {
-           labId: [
-             { required: true, message: '请输入编号',  },
-            
-            
-            { type: 'number', message: '请输入数字',  },
-          ],
-           labType: [
-            { type: 'string', required: true, message: '请输入类别',  }
-          ],
+          
+          objName:[{
+            required:true, message:"请输入项目名"
+          }],
+          objDescription:[{
+                        required:true, message:"请输入内容"
+
+          }],
+          objStatus:[{
+            required:true, message:"请选择项目状态"
+          }],
+          name:[{
+                        required:true, message:"请输入负责人"
+
+          }],
+
+           objReason:[{
+                        required:true, message:"请输入内容"
+
+          }],
+           objSTime:[{
+                        required:true, message:"请选择开始日期"
+
+          }],
+           objETime:[{
+                        required:true, message:"请选择结束日期"
+
+          }],
+            // name
+            //   {required:true,message:"请输入使用者姓名"}
+            // ],
+            // lgType:[
+            //   {required:true,message:"请输入使用类别"}
+            // ],
+            // objName:[
+              
+            // ],
         },
         visible:false,
         dialogTitle:"",
         submitTitle:"",
-        repealSubmitTitle:"",
-        // closeShowStatus:false,
+        repealSubmitTitle:""
       },
       
       
@@ -155,24 +223,35 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        labId:this.queryContent,
-        labType:this.queryContent
+        objName:this.queryContent,
+        objDescription:this.queryContent,
+        objStatus:this.queryContent,
+        name:this.queryContent,
+        objReason:this.queryContent,
+       
+        
       };
     },
   },
   methods: {
     handleSizeChange(val) {
       this.info.pageSize = val;
-      this.handlerQuery();
+      
+        this.handlerQuery();
+  
+      
+      // 
     },
     handleCurrentChange(val) {
-      this.selectform.page = val;
-      this.handlerQuery();
+      this.info.page = val;
+     
+        this.handlerQuery();
+
     },
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/queryLabTable", this.selectform)
+      .post("http://localhost:8080/back/ad/queryObjTable", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
@@ -205,32 +284,26 @@ export default {
     },
     handleEdit(index,row){
       console.log(index,row);
-      this.dialog.visible=true;
-      
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
-      // this.dialog.closeShowStatus=false;
-      this.dialog.data.labId=Number(this.dialog.data.labId);
-      
-      this.dialog.dialogTitle="修改实验室";
+      this.dialog.visible=true;
+      this.dialog.dialogTitle="修改项目信息";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateLab"
+      this.dialog.url="http://localhost:8080/back/ad/updateObj"
 
     },
     handleAdd(){
       this.dialog.visible=true;
-      this.dialog.closeShowStatus=true;
-      
-      this.dialog.dialogTitle="添加实验室";
+      this.dialog.dialogTitle="添加项目信息";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertLab"
+      this.dialog.url="http://localhost:8080/back/ad/insertObj"
     },
     handleDelete(index,row){
       console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteLab/${row.id}`,).then(
+            axios.post(`http://localhost:8080/back/ad/deleteObj/${row.id}`,).then(
         (response)=>{
           if (response.data.code === 2000) {
             this.$message({
@@ -321,7 +394,6 @@ export default {
       
     },
     closeDialog(){
-      console.log("3");
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
@@ -329,14 +401,14 @@ export default {
               this.$refs['form'].clearValidate();
             });
             
-    }
-    
+    },
+
   },
-  
   watch:{
     queryContent(){
-                  this.handlerQuery();
-                }
+      this.handlerQuery();
+    },
+  
   },
   mounted() {
     this.handlerQuery();
@@ -345,13 +417,14 @@ export default {
 };
 </script>
 <style scoped>
-.el-input {
+.el-input{
       height: 10%;
       width: 40%;
       margin: 0 10px 10px 0;
       /* padding: 10px;
       margin: 10px; */
-
-
+      
+     
     }
+  
 </style>

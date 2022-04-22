@@ -98,7 +98,7 @@
                                      OR role LIKE CONCAT('%',#{role},'%')
                                      OR auth LIKE CONCAT('%',#{auth},'%')
                                   ORDER BY id ASC
-                                      LIMIT #{start},#{pageSize}
+
                                   )
                                   temp
     </select>

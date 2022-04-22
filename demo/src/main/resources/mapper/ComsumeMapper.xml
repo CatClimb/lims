@@ -7,7 +7,26 @@
         <result property="smeCount" column="sme_count"></result>
 
     </resultMap>
+    <resultMap id="SmeAndIncord" type="comsumeEntity">
+        <id property="id" column="id"></id>
+        <result property="smeName" column="sme_name"></result>
+        <result property="smeCount" column="sme_count"></result>
+        <collection property="inRecordEntities" ofType="com.example.demo.modules.entity.InRecordEntity">
+            <id property="id" column="in_id"  ></id>
+            <result property="inCount" column="in_count"></result>
+            <result property="name" column="name"  ></result>
+            <result property="inTime" column="in_time"  ></result>
+        </collection>
 
+
+    </resultMap>
+    <select id="a123" resultMap="SmeAndIncord">
+        SELECT c.*,i.id in_id,i.in_count,i.name,i.in_time FROM comsume c, in_record i
+    </select>
+
+    <select id="querySmeAndIncordDTO" resultType="com.example.demo.dto.sme_inc.SmeAndIncordDTO">
+        SELECT c.sme_name,i.id,i.in_count,i.name,i.in_time FROM comsume c, in_record i
+    </select>
     <insert id="insert">
         INSERT comsume(sme_name,sme_count) VALUES(#{smeName},#{smeCount})
     </insert>
@@ -43,7 +62,7 @@
                 OR sme_count LIKE CONCAT('%',#{smeCount})
 
              ORDER BY id ASC
-                 LIMIT #{start},#{pageSize})
+                 )
                 tmp
     </select>
 </mapper>

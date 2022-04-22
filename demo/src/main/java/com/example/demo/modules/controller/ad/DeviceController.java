@@ -57,5 +57,8 @@ public class DeviceController {
             return Result.fail("删除失败");
         }
     }
-
+    @GetMapping("/devicePriceSum")
+    private Result<Float> devicePriceSum(){
+        return Result.success("统计成功",deviceService.devicePriceSum());
+    }
 }

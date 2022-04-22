@@ -56,7 +56,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div style="position: fixed; right: 10px; bottom: 10px">
+    <div style="position: fixed; right: 10px; bottom: 10px;">
       <!-- <span class="demonstration">完整功能</span> -->
       <el-pagination
         background
@@ -71,10 +71,7 @@
       >
       </el-pagination>
   </div>
-  <!-- @close="closeDialog('form')" -->
-  <!-- :before-close="closeDialog('form')" -->
-  :show-close="dialog.closeShowStatus"
-    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()" >
+    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()">
       <el-form
         :model="dialog.data"
         :rules="dialog.rules"
@@ -82,12 +79,42 @@
         label-width="100px"
         class="demo-formData"
       >
-        <el-form-item label="实验室编号" prop="labId">
-          <el-input v-model.number="dialog.data.labId"></el-input>
+        
+        
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="dialog.data.userName"></el-input>
         </el-form-item>
-        <el-form-item label="实验室类别" prop="labType">
-          <el-input  v-model="dialog.data.labType"></el-input>
+<el-form-item label="密码" prop="password">
+          <el-input  v-model="dialog.data.password"></el-input>
         </el-form-item>
+<el-form-item label="姓名" prop="name">
+          <el-input v-model="dialog.data.name"></el-input>
+        </el-form-item>
+<el-form-item label="性别" prop="sex">
+          <el-select v-model="dialog.data.sex" placeholder="请选择性别">
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model.number="dialog.data.phone"></el-input>
+        </el-form-item>
+<el-form-item label="邮箱" prop="email">
+          <el-input v-model="dialog.data.email"></el-input>
+        </el-form-item>
+        <el-form-item label="微信" prop="weChat">
+          <el-input v-model="dialog.data.weChat"></el-input>
+        </el-form-item>
+        <el-form-item label="角色" prop="role">
+          <el-input v-model="dialog.data.role"></el-input>
+        </el-form-item>
+        <el-form-item label="权限" prop="auth">
+          <el-select v-model="dialog.data.auth" placeholder="请选择权限">
+            <el-option label="普通用户" value="普通用户"></el-option>
+            <el-option label="管理员" value="管理员"></el-option>
+          </el-select>
+        </el-form-item>
+        
        
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,13 +131,21 @@
 import axios from 'axios'
 
 export default {
-  name: "ad-lab",
+  name: "ad-user",
   components:{
     
   },
-  
   data() {
-    
+      var validatePhoneLength = (rule, value, callback) => {
+        console.log(value)
+        let l=value.toString().length;
+        console.log(l)
+      if (l>=6&&l<=20) {
+          callback();
+      }else{
+          callback(new Error("长度在 6 到 20!"));
+      }
+    };
     return {
       info: {
         tableHead: [],
@@ -124,27 +159,80 @@ export default {
       queryContent: "",
       dialog:{
         data:{
-          id:0,
-          labId:"",
-          labType:""
+            id:6,
+            userName:"",
+            password:"",
+            name:"",
+            sex:"",
+            phone:"",
+            email:"",
+            weChat:"",
+            role:"",
+            auth:""
         },
-        
         rules: {
-           labId: [
-             { required: true, message: '请输入编号',  },
+            userName: [
+            { required: true, message: "请输入用户名",  },
+            //{ validator: handlerValidate, trigger: 'blur' },
+            {
+                min: 1,
+                max: 20,
+                message: "长度在 1 到 20 个字符",
+                
+            },
+            ],
+            password: [
+            { required: true, message: "请输入密码",  },
+
+           
+            ],
+
+            
+            name: [
+            { required: true, message: "请输入姓名",  },
+            {
+                min: 2,
+                max: 20,
+                message: "长度在 2 到 20 个字符",
+            
+            },
+            ],
+            sex:[
+              { required: true, message: "请输入性别",  }
+            ],
+
+            phone: [
+            { required: true, message: "请输入手机号", },
+            {validator:validatePhoneLength},
+            { type: 'number', message: '请输入数字' },
             
             
-            { type: 'number', message: '请输入数字',  },
-          ],
-           labType: [
-            { type: 'string', required: true, message: '请输入类别',  }
-          ],
+            ],
+            email: [
+            { required: true, message: "请输入邮箱",  },
+
+            { type: "email", message: "请输入正确的邮箱地址",  },
+            ],
+            weChat: [
+            { required: true, message: "请输入微信",  },
+            {
+                min: 6,
+                max: 20,
+                message: "长度在 6 到 20 个字符 ",
+            
+            },
+            ],
+            role:[
+                { required: true, message: "请输入角色"  }
+            ],
+            auth:[
+              { required: true, message: "请输入权限"  }
+            ]
         },
         visible:false,
         dialogTitle:"",
         submitTitle:"",
-        repealSubmitTitle:"",
-        // closeShowStatus:false,
+        repealSubmitTitle:""
       },
       
       
@@ -155,8 +243,16 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        labId:this.queryContent,
-        labType:this.queryContent
+        userName:this.queryContent,
+        password:this.queryContent,
+        name:this.queryContent,
+        sex:this.queryContent,
+        phone:this.queryContent,
+        email:this.queryContent,
+        weChat:this.queryContent,
+        role:this.queryContent,
+        auth:this.queryContent,
+        
       };
     },
   },
@@ -166,13 +262,13 @@ export default {
       this.handlerQuery();
     },
     handleCurrentChange(val) {
-      this.selectform.page = val;
+      this.info.page = val;
       this.handlerQuery();
     },
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/queryLabTable", this.selectform)
+      .post("http://localhost:8080/back/ad/queryUserTable", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
@@ -204,33 +300,29 @@ export default {
       );
     },
     handleEdit(index,row){
-      console.log(index,row);
-      this.dialog.visible=true;
-      
+      //防止地址覆盖 this.dialog.data=row;该句不可用
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
-      // this.dialog.closeShowStatus=false;
-      this.dialog.data.labId=Number(this.dialog.data.labId);
-      
-      this.dialog.dialogTitle="修改实验室";
+      this.dialog.data.phone=Number(this.dialog.data.phone);
+      this.dialog.visible=true;
+      this.dialog.dialogTitle="修改用户";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateLab"
+      this.dialog.url="http://localhost:8080/back/ad/updateUser"
 
     },
     handleAdd(){
-      this.dialog.visible=true;
-      this.dialog.closeShowStatus=true;
       
-      this.dialog.dialogTitle="添加实验室";
+      this.dialog.visible=true;
+      this.dialog.dialogTitle="添加用户";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertLab"
+      this.dialog.url="http://localhost:8080/back/ad/insertUser"
     },
     handleDelete(index,row){
       console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteLab/${row.id}`,).then(
+            axios.post(`http://localhost:8080/back/ad/deleteUser/${row.id}`,).then(
         (response)=>{
           if (response.data.code === 2000) {
             this.$message({
@@ -321,7 +413,6 @@ export default {
       
     },
     closeDialog(){
-      console.log("3");
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
@@ -330,13 +421,12 @@ export default {
             });
             
     }
-    
   },
-  
   watch:{
     queryContent(){
+                  
                   this.handlerQuery();
-                }
+                },
   },
   mounted() {
     this.handlerQuery();

@@ -5,6 +5,8 @@ import com.example.demo.vo.TableVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @ToString
 @EqualsAndHashCode(callSuper = false)
@@ -32,9 +34,8 @@ public class OutRecordEntity extends TableVO {
     @Alias("出库原因")
     private String outReason;
     @Alias("出库时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String outTime;
-    @Alias("所属项目")
-    private String objName;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+    private LocalDateTime outTime;
+
 
 }

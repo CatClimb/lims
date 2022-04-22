@@ -3,6 +3,7 @@ package com.example.demo.modules.service;
 import com.example.demo.common.util.TableControlUtil;
 import com.example.demo.modules.dao.ObjDao;
 import com.example.demo.modules.entity.ObjEntity;
+import com.example.demo.vo.ObjSEVO;
 import com.example.demo.vo.TableVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,10 +49,35 @@ public class ObjServiceImpl implements ObjService {
     public void setTable(TableVO tableVO) {
 
         tableControlUtil.setTable(tableVO,objDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(ObjEntity.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(ObjEntity.class,1));
 
 
     }
 
 
+    @Override
+    public void RecordObjByRecordTimeBetween(ObjSEVO objSDVO) {
+        if(objSDVO.getPage()<=0){
+            objSDVO.setPage(1);
+        }
+        if (objSDVO.getPageSize()<=0){
+            objSDVO.setPage(10);
+        }
+        int start=(objSDVO.getPage()-1)* objSDVO.getPageSize();
+        int count=objDao.RecordObjByRecordTimeBetweenCount(objSDVO);
+        if(start>=count){
+            objSDVO.setPage(1);
+            start=(objSDVO.getPage()-1)* objSDVO.getPageSize();
+        }
+        objSDVO.setStart(start);
+        objSDVO.setCount(count);
+        objSDVO.setTableData(objDao.RecordObjByRecordTimeBetween(objSDVO));
+        objSDVO.setTableHead(tableControlUtil.getTableHead(ObjEntity.class,1));
+
+    }
+
+    @Override
+    public Integer RecordObjByRecordTimeBetweenCount(ObjSEVO objSDVO) {
+        return objDao.RecordObjByRecordTimeBetweenCount(objSDVO);
+    }
 }

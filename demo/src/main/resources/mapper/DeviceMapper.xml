@@ -5,13 +5,10 @@
 <id property="id" column="id"></id>
 <result property="devName" column="dev_name"></result>
 <result property="devPrice" column="dev_price"></result>
-<result property="devUStatus" column="dev_u_status"></result>
+
 <result property="devStatus" column="dev_status"></result>
-<result property="name" column="name"></result>
-<result property="deviceSTime" column="device_s_time"></result>
-<result property="deviceETime" column="device_e_time"></result>
-<result property="devReason" column="dev_reason"></result>
-<result property="objName" column="obj_name"></result>
+
+
     </resultMap>
 
     <insert id="insert">
@@ -20,7 +17,7 @@
 
     <update id="update">
         UPDATE device
-    SET dev_name=#{devName},dev_price=#{devPrice},dev_u_status=#{devUStatus},dev_status=#{devStatus},name=#{name},device_s_time=#{deviceSTime},device_e_time=#{deviceETime},dev_reason=#{devReason},obj_name=#{objName}
+    SET dev_name=#{devName},dev_price=#{devPrice},dev_status=#{devStatus}
     WHERE id=#{id}
     </update>
 
@@ -30,13 +27,9 @@
         WHERE
             dev_name LIKE CONCAT('%',#{devName},'%')
            OR dev_price LIKE CONCAT('%',#{devPrice})
-           OR dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
            OR dev_status LIKE CONCAT('%',#{devStatus},'%')
-           OR name LIKE CONCAT('%',#{name},'%')
-           OR device_s_time LIKE CONCAT('%',#{deviceSTime},'%')
-           OR device_e_time LIKE CONCAT('%',#{deviceETime},'%')
-           OR dev_reason LIKE CONCAT('%',#{devReason},'%')
-           OR obj_name LIKE CONCAT('%',#{objName},'%')
+
+
         ORDER BY id ASC
             LIMIT #{start},#{pageSize}
     </select>
@@ -47,21 +40,17 @@
     </delete>
 
     <select id="conditionalQueryCount" resultType="int">
-            SELECT COUNT(*) FROM
-            (SELECT *
-             FROM device
-             WHERE
-                 dev_name LIKE CONCAT('%',#{devName},'%')
-                OR dev_price LIKE CONCAT('%',#{devPrice})
-                OR dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
-                OR dev_status LIKE CONCAT('%',#{devStatus},'%')
-                OR name LIKE CONCAT('%',#{name},'%')
-                OR device_s_time LIKE CONCAT('%',#{deviceSTime},'%')
-                OR device_e_time LIKE CONCAT('%',#{deviceETime},'%')
-                OR dev_reason LIKE CONCAT('%',#{devReason},'%')
-                OR obj_name LIKE CONCAT('%',#{objName},'%')
-             ORDER BY id ASC
-                 LIMIT #{start},#{pageSize})
-                tmp
+        SELECT COUNT(*)
+        FROM (SELECT *
+              FROM device
+              WHERE dev_name LIKE CONCAT('%', #{devName}, '%')
+                 OR dev_price LIKE CONCAT('%', #{devPrice})
+                 OR dev_status LIKE CONCAT('%', #{devStatus}, '%')
+
+              ORDER BY id ASC
+             ) tmp
+    </select>
+    <select id="devicePriceSum" resultType="float">
+        SELECT SUM(dev_price) FROM  device;
     </select>
 </mapper>

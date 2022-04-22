@@ -4,6 +4,8 @@ import com.example.demo.common.Alias;
 import com.example.demo.vo.TableVO;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -17,4 +19,6 @@ public class ComsumeEntity extends TableVO {
     private String smeName;
     @Alias("易耗品数量")
     private String smeCount;
+    private List<InRecordEntity> inRecordEntities;
+    private List<OutRecordEntity> outRecordEntities;
 }

@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class LabEntity extends TableVO {
-    @Alias("实验室id")
+//    @Alias("实验室id")
     private Integer id;
     @Alias("实验室编号")
     private String labId;

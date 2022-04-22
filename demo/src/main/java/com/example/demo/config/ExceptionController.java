@@ -31,9 +31,22 @@ public class ExceptionController {
         if(req.getRequestURI().toString().startsWith("/ad/insertUser")){
             return Result.fail("插入失败，存在同名用户");
         }
+
         else if(req.getRequestURI().startsWith("/enter/register")){
 
             return Result.fail("注册失败，存在同名用户");
+        }
+        else if(req.getRequestURI().startsWith("/ad/updateUser")){
+
+            return Result.fail("修改失败，存在同名用户");
+        }
+        else if(req.getRequestURI().startsWith("/ad/insertUser")){
+            return Result.fail("插入失败，存在同名用户");
+
+        }
+        else if(req.getRequestURI().startsWith("/ad/updateLabGdt")||req.getRequestURI().startsWith("/ad/insertLabGdt")){
+
+            return Result.fail("存在相同数据，请重新操作");
         }
 
         //暂时交给前端去解决
@@ -46,7 +59,11 @@ public class ExceptionController {
         log.info("URL:{},完整性异常:",req.getRequestURI(),e);
 
         if(req.getRequestURI().toString().startsWith("/ad/deleteLab")){
-            return Result.fail("关联labgdt数据未删除");
+            return Result.fail("关联的预约信息未删除");
+        }
+        else if(req.getRequestURI().startsWith("/ad/insertLabGdt")){
+
+            return Result.fail("请关联实验室编号");
         }
         else if(req.getRequestURI().startsWith("/ad/updateLab")){
 

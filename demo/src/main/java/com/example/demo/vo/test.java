@@ -1,18 +1,48 @@
 package com.example.demo.vo;
 
+import com.example.demo.modules.entity.ComsumeEntity;
 import com.example.demo.modules.entity.LabEntity;
+import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-
+import java.util.List;
+@Slf4j
 public class test {
-    public static void main(String[] args) {
-        TableVO tableVO=new LabEntity();
-        ArrayList<LabEntity> labEntities = new ArrayList<>( );
-        labEntities.add(new LabEntity());
-        tableVO.setTableData(labEntities);
-        System.out.println(tableVO.getTableData().toString() );
+    public static void main(String[] args) throws ClassNotFoundException {
+//        TableVO tableVO=new LabEntity();
+//        ArrayList<LabEntity> labEntities = new ArrayList<>( );
+//        labEntities.add(new LabEntity());
+//        tableVO.setTableData(labEntities);
+//        System.out.println(tableVO.getTableData().toString() );
 //        TableVO tableVO=labEntity;aaP[[;
 //        System.out.println(tableVO.toString() );
+        Field[] declaredFields = ComsumeEntity.class.getDeclaredFields();
+        for (Field field:declaredFields
+        ) {
+                log.info("xxxxxx"+field);
+            if(field.getType()== List.class){
+                log.info("xxxxxxxxxxxxxxxx"+field.getType());
+                Type genericType = field.getGenericType( );
+                log.info("xxxxxxxxxxxxxxxx"+genericType);
+                ParameterizedType parameterizedType=(ParameterizedType) genericType;
+                log.info("xxxxxxxxxdddddddxxxxxxx"+parameterizedType);
+                Type actualTypeArgument = parameterizedType.getActualTypeArguments( )[0];
+                log.info("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+actualTypeArgument);
+                String typeName = actualTypeArgument.getTypeName( );
+                Class<?> aClass = Class.forName(typeName);
+                log.info(""+aClass);
+                Field[] declaredFields1 = aClass.getDeclaredFields( );
+                for (Field field1:declaredFields1
+                     ) {
+                    log.info("wwwwssssssssssssssssssss"+field1);
+                }
+
+
+            }
+        }
     }
 }
 

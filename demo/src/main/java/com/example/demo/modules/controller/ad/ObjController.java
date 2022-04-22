@@ -2,12 +2,12 @@ package com.example.demo.modules.controller.ad;
 
 import com.example.demo.common.result.Result;
 import com.example.demo.modules.entity.ObjEntity;
-import com.example.demo.modules.entity.ObjEntity;
 import com.example.demo.modules.service.ObjService;
-import com.example.demo.modules.service.ObjService;
+import com.example.demo.vo.ObjSEVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 @Slf4j
 @RestController
 @RequestMapping("/ad")
@@ -56,5 +56,12 @@ public class ObjController {
         else{
             return Result.fail("删除失败");
         }
+    }
+
+    @PostMapping("/recordObj")
+    private Result<ObjSEVO> RecordObjByRecordTimeBetween(@RequestBody ObjSEVO objSDVO){
+        log.info("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+objSDVO);
+        objService.RecordObjByRecordTimeBetween(objSDVO);
+        return Result.success("期间登记项目数量为"+objSDVO.getCount(),objSDVO);
     }
 }

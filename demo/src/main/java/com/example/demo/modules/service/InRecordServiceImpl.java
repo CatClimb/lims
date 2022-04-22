@@ -47,7 +47,7 @@ public class InRecordServiceImpl implements InRecordService {
     @Override
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,inRecordDao);
-        tableVO.setTableHead(tableControlUtil.getTableHead(InRecordEntity.class));
+        tableVO.setTableHead(tableControlUtil.getTableHead(InRecordEntity.class,1));
     }
 
 

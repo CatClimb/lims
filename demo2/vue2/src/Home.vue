@@ -63,20 +63,113 @@ export default {
                 {
                   path: "/home/person",
                   title: "个人信息",
-                  index: 2 - 1,
+                  index: 1 - 1,
                 },
                 {
-                  path: "/home/lab",
+                  path: "/home/user",
                   title: "用户信息",
-                  index: 2 - 2,
+                  index: 1 - 2,
                 },
               ],
             },
+            {
+              path: "2",
+              icon: "el-icon-menu",
+              title: "实验室管理",
+              index: 2,
+              children:[
+                {
+                  path: "/home/lab",
+                  title: "实验室信息",
+                  index: 2 - 1,
+                },
+                {
+                  path: "/home/labgdt",
+                  title: "预约信息",
+                  index: 2 - 2,
+                }
+              ]
+            },
+            {
+              path:"3",
+              icon: "el-icon-menu",
+              title:"项目管理",
+               children:[
+                 {
+                  path: "/home/obj",
+                  title: "项目信息",
+                  index: 3 - 1,
+                },
+                {
+                  path: "/home/totalObj",
+                  title: "项目登记统计",
+                  index: 3 - 2,
+                },
+                {
+                  path: "",
+                  title: "登记处理",
+                  index: 3 - 3,
+                },
+               ],
+               
+            },
+            {
+              path:"4",
+              icon: "el-icon-menu",
+              title:"仪器管理",
+              children:[
+                {
+                  path:"/home/device",
+                  title:"设备仪器信息",
+                  index:4 - 1,
+                },
+                {
+                  path:"/home/devLend",
+                  title:"借用信息",
+                  index:4 - 2,
+                },
+                {
+                  path:"",
+                  title:"借用处理",
+                  index:4 - 3,
+                }
+              ]
+            },
+            {
+              path:"5",
+              icon: "el-icon-menu",
+              title:"易耗品管理",
+              children:[
+                {
+                  path:"/home/device",
+                  title:"库存信息",
+                  index:5 - 1,
+                },
+                {
+                  path:"/home/device",
+                  title:"入库记录",
+                  index:5 - 2,
+                },
+                {
+                  path:"/home/device",
+                  title:"出库记录",
+                  index:5 - 3,
+                }
+              ],
+              
+            },
+            {
+              path:"",
+              icon: "el-icon-menu",
+              title:"处理日志",
+              index:6,
+            }
+             
           ];
         } 
         this.menuData=menuData
         
-        this.firstMenu=menuData[0].path
+        this.firstMenu=menuData[0].children[0].path
         console.log(this)
       }
     }
