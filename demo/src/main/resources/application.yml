@@ -27,4 +27,6 @@ mybatis:
   configuration:
     ##    #无自定义映射的是否开启自动驼峰命名规则（camel case）映射，db字段名：last_name javabean属性名:lastName
     map-underscore-to-camel-case: true
+    #开启延迟加载
+    lazy-loading-enabled: true
 debug: true

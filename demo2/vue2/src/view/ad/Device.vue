@@ -14,7 +14,7 @@
           >
     <el-table
       :data="info.tableData"
-      
+      ref="multipleTable"
       class="container"
       height="750"
     >
@@ -116,6 +116,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { mapMutations } from 'vuex';
 
 export default {
   name: "ad-Device",
@@ -184,7 +185,7 @@ export default {
         page: this.info.page,
         pageSize: this.info.pageSize,
         devName:this.queryContent,
-        devPrice:this.queryContent,
+        
         devStatus:this.queryContent,
    
         
@@ -232,7 +233,11 @@ export default {
             center: true,
           });
         }
-      );
+      ).finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
     },
     handleEdit(index,row){
       console.log(index,row);
@@ -389,7 +394,8 @@ export default {
         }
       );
   
-  }
+  },
+  ...mapMutations(['SET_CHECK_MENU'])
   },
   watch:{
     queryContent(){
@@ -400,9 +406,12 @@ export default {
     }
 
   },
+
   mounted() {
+    this.SET_CHECK_MENU("/home/device");
     this.handlerQuery();
     this.priceStatistics();
+    
   },
   
 

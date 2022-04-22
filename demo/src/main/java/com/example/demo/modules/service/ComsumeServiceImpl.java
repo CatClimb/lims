@@ -1,12 +1,14 @@
 package com.example.demo.modules.service;
 
 import com.example.demo.common.util.TableControlUtil;
+import com.example.demo.dto.sme_inc.QueryConditionalForSI;
 import com.example.demo.modules.dao.ComsumeDao;
 import com.example.demo.modules.entity.ComsumeEntity;
 import com.example.demo.vo.TableVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,5 +49,32 @@ public class ComsumeServiceImpl implements ComsumeService{
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,comsumeDao);
         tableVO.setTableHead(tableControlUtil.getTableHead(ComsumeEntity.class,1));
+    }
+
+    @Override
+    public void mulTablequeryInRecord(QueryConditionalForSI queryConditionalForSI) {
+        if(queryConditionalForSI.getPage()<=0){
+            queryConditionalForSI.setPage(1);
+        }
+        if (queryConditionalForSI.getPageSize()<=0){
+            queryConditionalForSI.setPage(10);
+        }
+        int start=(queryConditionalForSI.getPage()-1)* queryConditionalForSI.getPageSize();
+        int count=comsumeDao.mulTablequeryInRecordCount(queryConditionalForSI);
+        if(start>=count){
+            queryConditionalForSI.setPage(1);
+            start=(queryConditionalForSI.getPage()-1)* queryConditionalForSI.getPageSize();
+        }
+        queryConditionalForSI.setStart(start);
+        queryConditionalForSI.setCount(count);
+        queryConditionalForSI.setTableData(comsumeDao.mulTablequeryInRecord(queryConditionalForSI));
+
+
+        //设置表头
+        List<String[]> strings = new ArrayList<>( );
+        String[] str=new String[2];
+        
+
+
     }
 }

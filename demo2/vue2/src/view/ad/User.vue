@@ -13,9 +13,10 @@
           >
     <el-table
       :data="info.tableData"
-      
+      style="width: 100%"
       class="container"
       height="750"
+      ref="multipleTable"
     >
       <!-- <el-table-column
       label="日期"
@@ -55,6 +56,7 @@
           >
         </template>
       </el-table-column>
+      
     </el-table>
     <div style="position: fixed; right: 10px; bottom: 10px;">
       <!-- <span class="demonstration">完整功能</span> -->
@@ -129,7 +131,7 @@
 </template>
 <script>
 import axios from 'axios'
-
+import {mapMutations} from 'vuex'
 export default {
   name: "ad-user",
   components:{
@@ -297,7 +299,12 @@ export default {
             center: true,
           });
         }
-      );
+      )
+      .finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
     },
     handleEdit(index,row){
       //防止地址覆盖 this.dialog.data=row;该句不可用
@@ -420,7 +427,9 @@ export default {
               this.$refs['form'].clearValidate();
             });
             
-    }
+    },
+        ...mapMutations(['SET_CHECK_MENU'])
+
   },
   watch:{
     queryContent(){
@@ -429,6 +438,7 @@ export default {
                 },
   },
   mounted() {
+    this.SET_CHECK_MENU("/home/user");
     this.handlerQuery();
   },
 

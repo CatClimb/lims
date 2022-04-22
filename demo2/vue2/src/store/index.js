@@ -9,7 +9,9 @@ export default new Vuex.Store({
     isCollapse: false,
     isLoading:false,
     menuData:[],
-    firstMenu:''
+    checkMenu:''
+  },
+  actions: {
   },
   mutations: {
     C_RegisterIndialogVisible(state){
@@ -23,10 +25,12 @@ export default new Vuex.Store({
     },
     SET_LOADING_FALSE(state){
       state.loading=false;
+    },
+    SET_CHECK_MENU(state,value){
+      state.checkMenu=value;
     }
   },
-  actions: {
-  },
+
   modules: {
   }
 })

@@ -11,22 +11,32 @@
         <id property="id" column="id"></id>
         <result property="smeName" column="sme_name"></result>
         <result property="smeCount" column="sme_count"></result>
-        <collection property="inRecordEntities" ofType="com.example.demo.modules.entity.InRecordEntity">
+        <collection property="inRecordEntities" ofType="com.example.demo.modules.entity.InRecordEntity" fetchType="lazy">
             <id property="id" column="in_id"  ></id>
             <result property="inCount" column="in_count"></result>
             <result property="name" column="name"  ></result>
             <result property="inTime" column="in_time"  ></result>
+            <result property="smeId" column="sme_id"  ></result>
         </collection>
-
-
     </resultMap>
-    <select id="a123" resultMap="SmeAndIncord">
-        SELECT c.*,i.id in_id,i.in_count,i.name,i.in_time FROM comsume c, in_record i
+    <select id="mulTablequeryInRecord" resultMap="SmeAndIncord">
+        SELECT i.id in_id,i.in_count,i.name,i.in_time, i.sme_id,c.sme_name,c.sme_count FROM in_record i inner join comsume c on i.sme_id=c.id
+            WHERE
+                  i.name like concat('%',#{name},'%')
+                OR c.sme_name like concat('%',#{smeName},'%')
+            ORDER BY in_id
+                LIMIT #{start},#{pageSize}
+    </select>
+    <select id="mulTablequeryInRecordCount" resultMap="int">
+        SELECT COUNT(*) FROM in_record i inner join comsume c on i.sme_id=c.id
+        WHERE
+            i.name like concat('%',#{name},'%')
+           OR c.sme_name like concat('%',#{smeName},'%')
     </select>
 
-    <select id="querySmeAndIncordDTO" resultType="com.example.demo.dto.sme_inc.SmeAndIncordDTO">
-        SELECT c.sme_name,i.id,i.in_count,i.name,i.in_time FROM comsume c, in_record i
-    </select>
+<!--    <select id="querySmeAndIncordDTO" resultType="com.example.demo.dto.sme_inc.SmeAndIncordDTO">-->
+<!--        SELECT c.sme_name,i.id,i.in_count,i.name,i.in_time FROM comsume c, in_record i-->
+<!--    </select>-->
     <insert id="insert">
         INSERT comsume(sme_name,sme_count) VALUES(#{smeName},#{smeCount})
     </insert>

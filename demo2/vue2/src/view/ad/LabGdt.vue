@@ -20,7 +20,7 @@
           >
     <el-table
       :data="info.tableData"
-      
+      ref="multipleTable"
       class="container"
       height="750"
     >
@@ -146,6 +146,7 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapMutations} from 'vuex';
 
 export default {
   name: "ad-labgdt",
@@ -272,7 +273,11 @@ export default {
             center: true,
           });
         }
-      );
+      ).finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
     },
     handleEdit(index,row){
       console.log(index,row);
@@ -395,7 +400,8 @@ export default {
               this.$refs['form'].clearValidate();
             });
             
-    }
+    },
+        ...mapMutations(['SET_CHECK_MENU'])
   },
   watch:{
     queryContent(){
@@ -407,6 +413,8 @@ export default {
 
   },
   mounted() {
+
+    this.SET_CHECK_MENU("/home/labGdt");
     this.handlerQuery();
   },
 

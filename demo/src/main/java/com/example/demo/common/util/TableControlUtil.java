@@ -18,14 +18,11 @@ public class TableControlUtil<T> {
         int length = declaredFields.length;
         for (int i = tmp; i < length; i++) {
             String[] str = new String[2];
-
             Alias annotation = declaredFields[i].getAnnotation(Alias.class);
             if(annotation!=null){
                 str[0] = declaredFields[i].getName();
                 str[1] = annotation.value();
-
             }
-
             strings.add(str);
         }
         return strings;

@@ -190,6 +190,8 @@
 </template>
 <script>
 import axios from "axios";
+import {mapMutations} from 'vuex';
+
 export default {
   name: "PersonInfo",
   data() {
@@ -380,6 +382,7 @@ export default {
         }
       });
     },
+    ...mapMutations(['SET_CHECK_MENU'])
     // handlerUpdatePwd(formName){
     //    this.$refs[formName].validate((valid) => {
     //     if (valid) {
@@ -414,6 +417,7 @@ export default {
     
   },
   mounted(){
+    this.SET_CHECK_MENU("/home/person");
     this.handlerShowInfo();
    
   }

@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside class="side" width="auto">
-      <Menu :menuData="menuData" :firstMenu="firstMenu"></Menu>
+      <Menu :menuData="menuData" ></Menu>
     </el-aside>
     <el-container>
       <el-header>
@@ -25,8 +25,8 @@ export default {
   name: "home-view",
   data() {
     return {
-      menuData:[],
-      firstMenu:''
+      menuData:[]
+      
     };
   },
 
@@ -84,7 +84,7 @@ export default {
                   index: 2 - 1,
                 },
                 {
-                  path: "/home/labgdt",
+                  path: "/home/labGdt",
                   title: "预约信息",
                   index: 2 - 2,
                 }
@@ -141,35 +141,35 @@ export default {
               title:"易耗品管理",
               children:[
                 {
-                  path:"/home/device",
+                  path:"/home/com",
                   title:"库存信息",
                   index:5 - 1,
                 },
                 {
-                  path:"/home/device",
+                  path:"/home/device1",
                   title:"入库记录",
                   index:5 - 2,
                 },
                 {
-                  path:"/home/device",
+                  path:"/home/device1",
                   title:"出库记录",
                   index:5 - 3,
                 }
               ],
               
             },
-            {
-              path:"",
-              icon: "el-icon-menu",
-              title:"处理日志",
-              index:6,
-            }
+            // {
+            //   path:"",
+            //   icon: "el-icon-menu",
+            //   title:"处理日志",
+            //   index:6,
+            // }
              
           ];
         } 
         this.menuData=menuData
         
-        this.firstMenu=menuData[0].children[0].path
+        // this.firstMenu=menuData[0].children[0].path
         console.log(this)
       }
     }
@@ -199,6 +199,10 @@ export default {
 }
 .el-main {
   /* background-color: blueviolet; */
+  margin: 0 30px 0 30px;
+ 
+  /* overflow: hidden; */
+  /* width: 1600px; */
 }
 .side {
   /* box-shadow: 2px 8px 5px #888888; */

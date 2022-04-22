@@ -19,7 +19,7 @@
  
     <el-table
       :data="info.tableData"
-      
+      ref="multipleTable"
       class="container"
       height="750"
     >
@@ -82,6 +82,7 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapMutations} from 'vuex';
 
 export default {
   name: "ad-totalObj",
@@ -163,9 +164,15 @@ export default {
           });
         }
 
-      )
+      ).finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
         
-    }
+    },
+        ...mapMutations(['SET_CHECK_MENU'])
+
   },
   watch:{
    
@@ -175,6 +182,7 @@ export default {
 
   },
   mounted() {
+    this.SET_CHECK_MENU("/home/totalObj");
       this.handlerQuery();
   }
 };

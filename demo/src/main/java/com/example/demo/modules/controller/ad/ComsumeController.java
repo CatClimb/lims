@@ -1,11 +1,8 @@
 package com.example.demo.modules.controller.ad;
 
 import com.example.demo.common.result.Result;
-import com.example.demo.common.util.TableControlUtil;
-import com.example.demo.modules.dao.ComsumeDao;
+import com.example.demo.dto.sme_inc.QueryConditionalForSI;
 import com.example.demo.modules.entity.ComsumeEntity;
-import com.example.demo.modules.entity.ComsumeEntity;
-import com.example.demo.modules.service.ComsumeService;
 import com.example.demo.modules.service.ComsumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/ad")
 public class ComsumeController {
     public final ComsumeService comsumeService;
-    @Autowired
-    public  ComsumeDao comsumeDao;
+
     @Autowired
     public ComsumeController(ComsumeService comsumeService) {
         this.comsumeService = comsumeService;
@@ -61,12 +57,8 @@ public class ComsumeController {
             return Result.fail("删除失败");
         }
     }
-    @PostMapping("/123")
-    private Result a123(){
-        ComsumeEntity comsumeEntity = new ComsumeEntity( );
-        comsumeEntity.setTableData(comsumeDao.a123());
-        comsumeEntity.setTableHead(new TableControlUtil().getTableHead(ComsumeEntity.class,0));
-        log.info("comsumeDao.a123():xxxxxxxxxxxx"+comsumeDao.a123().toString());
+    @PostMapping("/mtqueryi")
+    private Result mulTablequeryInRecord(@RequestBody QueryConditionalForSI queryConditionalForSI){
 
         return Result.success("",comsumeEntity);
     }

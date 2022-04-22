@@ -10,6 +10,9 @@ import Obj from '../view/ad/Obj.vue'
 import Device from '../view/ad/Device.vue'
 import TotalObj from '../view/ad/TotalObj.vue'
 import DevLend from '../view/ad/DevLend.vue'
+import Com from '../view/ad/Com.vue'
+import InRecord from '../view/ad/InRecord.vue'
+import OutRecord from '../view/ad/OutRecord.vue'
 
 
 const routes = [
@@ -49,8 +52,8 @@ const routes = [
             component:Lab
           },
           {
-            path:'labgdt',
-            name:'ad-labgdt',
+            path:'labGdt',
+            name:'ad-labGdt',
             component:LabGdt
           },
           {
@@ -72,7 +75,22 @@ const routes = [
             path:'devLend',
             name:'ad-devLend',
             component:DevLend
-          }
+          },
+          {
+            path:'com',
+            name:'com',
+            component:Com
+          },
+          {
+            path:'inRecord',
+            name:'inRecord',
+            component:InRecord
+          },
+          {
+            path:'outRecord',
+            name:'outRecord',
+            component:OutRecord
+          },
         ]
       }
     

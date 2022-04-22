@@ -16,7 +16,7 @@
           >
     <el-table
       :data="info.tableData"
-      
+      ref="multipleTable"
       class="container"
       height="750"
     >
@@ -137,6 +137,7 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapMutations} from 'vuex';
 
 export default {
   name: "ad-obj",
@@ -280,7 +281,11 @@ export default {
             center: true,
           });
         }
-      );
+      ).finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
     },
     handleEdit(index,row){
       console.log(index,row);
@@ -401,7 +406,7 @@ export default {
               this.$refs['form'].clearValidate();
             });
             
-    },
+    },...mapMutations(['SET_CHECK_MENU'])
 
   },
   watch:{
@@ -411,6 +416,8 @@ export default {
   
   },
   mounted() {
+    
+    this.SET_CHECK_MENU("/home/obj");
     this.handlerQuery();
   },
 

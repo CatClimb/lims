@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      :default-active="firstMenu"
+      :default-active="checkMenu"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -71,11 +71,10 @@ export default {
      
     };
   },
- props:["menuData","firstMenu"],
+ props:["menuData"],
   computed: {
-    ...mapState(["isCollapse"]),
+    ...mapState(["isCollapse","checkMenu"]),
    
-    
   },
   methods: {
     

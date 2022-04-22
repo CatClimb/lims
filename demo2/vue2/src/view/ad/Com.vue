@@ -16,7 +16,7 @@
           >
     <el-table
       :data="info.tableData"
-      
+      ref="multipleTable"
       class="container"
       height="750"
     >
@@ -37,7 +37,7 @@
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column min-width=100 show-overflow-tooltip
+      <el-table-column min-width=50 show-overflow-tooltip
         v-for="(item, index) of info.tableHead"
         :key="index"
         :label="item[1]"
@@ -83,46 +83,15 @@
         class="demo-formData"
       >
         
-        
-        <el-form-item label="项目名" prop="ComsumeName">
-          <el-input v-model.number="dialog.data.objName"></el-input>
-        </el-form-item>
-        <el-form-item label="项目描述" prop="objDescription">
-          <el-input v-model.number="dialog.data.objDescription" type="textarea" maxlength="8000" show-word-limit></el-input>
-        </el-form-item>
-        <el-form-item label="项目状态" prop="objStatus">
-          <el-select v-model="dialog.data.objStatus" placeholder="请选择">
-            <el-option label="审批中" value="审批中"></el-option>
-            <el-option label="已审批" value="已审批"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="负责人" prop="name">
-          <el-input v-model.number="dialog.data.name"></el-input>
-        </el-form-item>
-        
-        <el-form-item label="项目始" prop="objSTime">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="选择日期" v-model="dialog.data.objSTime" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
-          </el-col>
-         
-        </el-form-item>
-        <el-form-item label="项目终" prop="objETime">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="选择日期" v-model="dialog.data.objETime" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
-          </el-col>
-         
-        </el-form-item>
-        <el-form-item label="登记日期" prop="recordTime">
-          <el-col :span="11">
-            <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.recordTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="申请原因" prop="objReason">
-          <el-input v-model.number="dialog.data.objReason" type="textarea" maxlength="8000" show-word-limit></el-input>
-        </el-form-item>
 
-        
-        
+        <el-form-item label="易耗品名字" prop="smeName">
+          <el-input v-model.number="dialog.data.smeName"></el-input>
+        </el-form-item>
+        <el-form-item label="易耗品数量" prop="smeCount">
+          <el-input v-model.number="dialog.data.smeCount" ></el-input>
+        </el-form-item>
+      
+   
        
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -137,6 +106,7 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapMutations} from 'vuex';
 
 export default {
   name: "ad-obj",
@@ -160,45 +130,22 @@ export default {
       dialog:{
         data:{
               id:0,
-              objName:"",
-              objDescription:"",
-              objStatus:"",
-              name:"",
-              objSTime:"",
-              objETime:"",
-              objReason:"",
-              recordTime:"",
+              smeName:"",
+              smeCount:"",
+              
            
         },
         rules: {
           
-          objName:[{
-            required:true, message:"请输入项目名"
+          smeName:[{
+            required:true, message:"请输入易耗品名"
           }],
-          objDescription:[{
+          smeCount:[{
                         required:true, message:"请输入内容"
 
-          }],
-          objStatus:[{
-            required:true, message:"请选择项目状态"
-          }],
-          name:[{
-                        required:true, message:"请输入负责人"
-
-          }],
-
-           objReason:[{
-                        required:true, message:"请输入内容"
-
-          }],
-           objSTime:[{
-                        required:true, message:"请选择开始日期"
-
-          }],
-           objETime:[{
-                        required:true, message:"请选择结束日期"
-
-          }],
+          },{ type: 'number', message: '请输入数字',  },
+          ],
+         
             // name
             //   {required:true,message:"请输入使用者姓名"}
             // ],
@@ -223,11 +170,8 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        objName:this.queryContent,
-        objDescription:this.queryContent,
-        objStatus:this.queryContent,
-        name:this.queryContent,
-        objReason:this.queryContent,
+        smeName:this.queryContent,
+        
        
         
       };
@@ -280,15 +224,20 @@ export default {
             center: true,
           });
         }
-      );
+      ).finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
     },
     handleEdit(index,row){
       console.log(index,row);
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
+      this.dialog.data.smeCount=Number(this.dialog.data.smeCount);
       this.dialog.visible=true;
-      this.dialog.dialogTitle="修改项目信息";
+      this.dialog.dialogTitle="修改易耗品信息";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
       this.dialog.url="http://localhost:8080/back/ad/updateComsume"
@@ -296,7 +245,7 @@ export default {
     },
     handleAdd(){
       this.dialog.visible=true;
-      this.dialog.dialogTitle="添加项目信息";
+      this.dialog.dialogTitle="添加易耗品信息";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
       this.dialog.url="http://localhost:8080/back/ad/insertComsume"
@@ -402,6 +351,7 @@ export default {
             });
             
     },
+    ...mapMutations(["SET_CHECK_MENU"])
 
   },
   watch:{
@@ -411,6 +361,7 @@ export default {
   
   },
   mounted() {
+    this.SET_CHECK_MENU("/home/com");
     this.handlerQuery();
   },
 

@@ -25,7 +25,7 @@
         FROM dev_lend
         WHERE
 
-          dev_u_status LIKE CONCAT('%',#{devUStatus})
+            dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
            OR name LIKE CONCAT('%',#{name},'%')
            OR dev_reason LIKE CONCAT('%',#{devReason},'%')
 
@@ -44,7 +44,7 @@
               FROM dev_lend
               WHERE
                  
-                  dev_u_status LIKE CONCAT('%',#{devUStatus})
+                  dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
                  OR name LIKE CONCAT('%',#{name},'%')
                  OR dev_reason LIKE CONCAT('%',#{devReason},'%')
 

@@ -14,7 +14,7 @@
           >
     <el-table
       :data="info.tableData"
-      
+      ref="multipleTable"
       class="container"
       height="750"
     >
@@ -130,6 +130,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { mapMutations } from 'vuex';
 
 export default {
   name: "ad-DevLend",
@@ -210,6 +211,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(['SET_CHECK_MENU']),
     handleSizeChange(val) {
       this.info.pageSize = val;
       this.handlerQuery();
@@ -250,7 +252,11 @@ export default {
             center: true,
           });
         }
-      );
+      ).finally(() => {
+   this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
+  });
     },
     handleEdit(index,row){
       console.log(index,row);
@@ -387,6 +393,7 @@ export default {
 
   },
   mounted() {
+    this.SET_CHECK_MENU("/home/devLend");
     this.handlerQuery();
   },
 
