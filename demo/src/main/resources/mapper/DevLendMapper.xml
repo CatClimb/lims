@@ -4,19 +4,19 @@
     <resultMap id="DevLendResultMap" type="devLendEntity">
 <id property="id" column="id"></id>
 <result property="devUStatus" column="dev_u_status"></result>
-<result property="name" column="name"></result>
+<result property="userName" column="user_name"></result>
 <result property="deviceSTime" column="device_s_time"></result>
 <result property="deviceETime" column="device_e_time"></result>
 <result property="devReason" column="dev_reason"></result>
     </resultMap>
 
     <insert id="insert">
-        INSERT dev_lend(id,dev_u_status,name, device_s_time,device_e_time,dev_reason) VALUES(#{id},#{devUStatus},#{name},#{deviceSTime},#{deviceETime},#{devReason})
+        INSERT dev_lend(id,dev_u_status,user_name, device_s_time,device_e_time,dev_reason) VALUES(#{id},#{devUStatus},#{userName},#{deviceSTime},#{deviceETime},#{devReason})
     </insert>
 
     <update id="update">
         UPDATE dev_lend
-    SET dev_u_status=#{devUStatus},name=#{name},device_s_time=#{deviceSTime},device_e_time=#{deviceETime},dev_reason=#{devReason}
+    SET dev_u_status=#{devUStatus},user_name=#{userName},device_s_time=#{deviceSTime},device_e_time=#{deviceETime},dev_reason=#{devReason}
     WHERE id=#{id}
     </update>
 
@@ -26,7 +26,7 @@
         WHERE
 
             dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
-           OR name LIKE CONCAT('%',#{name},'%')
+           OR user_name LIKE CONCAT('%',#{userName},'%')
            OR dev_reason LIKE CONCAT('%',#{devReason},'%')
 
         ORDER BY id ASC
@@ -45,7 +45,7 @@
               WHERE
                  
                   dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
-                 OR name LIKE CONCAT('%',#{name},'%')
+                 OR user_name LIKE CONCAT('%',#{userName},'%')
                  OR dev_reason LIKE CONCAT('%',#{devReason},'%')
 
               ORDER BY id ASC

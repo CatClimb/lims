@@ -9,7 +9,8 @@ export default new Vuex.Store({
     isCollapse: false,
     isLoading:false,
     menuData:[],
-    checkMenu:''
+    checkMenu:'',
+    userName:''
   },
   actions: {
   },
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     SET_CHECK_MENU(state,value){
       state.checkMenu=value;
+    },
+    SET_USER_NAME(state,value){
+      state.userName=value
     }
   },
 

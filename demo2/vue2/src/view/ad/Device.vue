@@ -119,7 +119,7 @@ import axios from 'axios'
 import { mapMutations } from 'vuex';
 
 export default {
-  name: "ad-Device",
+  name: "ad-device",
   components:{
     
   },

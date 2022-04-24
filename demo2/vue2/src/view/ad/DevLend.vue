@@ -94,8 +94,8 @@
         </el-form-item>
       
         </el-form-item>
-        <el-form-item label="借用人" prop="name">
-          <el-input v-model.number="dialog.data.name"></el-input> 
+        <el-form-item label="借用人" prop="userName">
+          <el-input v-model.number="dialog.data.userName"></el-input> 
         </el-form-item>
       <el-form-item label="开始时间" prop="deviceSTime">
           <el-col :span="11">
@@ -155,7 +155,7 @@ export default {
         data:{
               id:"",
               devUStatus:"",
-              name:"",
+              userName:"",
               deviceSTime:"",
               deviceETime:"",
               devReason  :"",
@@ -204,7 +204,7 @@ export default {
         page: this.info.page,
         pageSize: this.info.pageSize,
         devUStatus:this.queryContent,
-        name:this.queryContent,
+        userName:this.queryContent,
         devReason:this.queryContent,
         
       };

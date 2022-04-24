@@ -49,6 +49,7 @@ import animationData2 from './anim/person.json'
 
 import axios from 'axios';
 import lottie from 'lottie-web';
+import jwtDecode from 'jwt-Decode';
 export default {
   name: "login-element",
   components:{
@@ -133,13 +134,19 @@ export default {
                 center: true,
               });
               localStorage.setItem("token", response.data.data.token);
-              sessionStorage.setItem("isLogin",true);
-              this.$router.push({
-                name: 'ad-person',
-                
-                
-              })
+              let token =jwtDecode(response.data.data.token);
               
+              if(token.Auth=='普通用户'){
+                this.$router.push({
+                  name:'noad-person'
+                })
+              }
+              else if(token.Auth=='管理员'){
+                this.$router.push({
+                  name:'ad-person'
+                })
+              }     
+                       
             } else {
               this.$message({
                 message: response.data.msg,

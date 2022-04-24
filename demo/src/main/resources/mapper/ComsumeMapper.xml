@@ -7,36 +7,85 @@
         <result property="smeCount" column="sme_count"></result>
 
     </resultMap>
-    <resultMap id="SmeAndIncord" type="comsumeEntity">
+    <resultMap id="SmeAndInRecord" type="comsumeEntity">
         <id property="id" column="id"></id>
         <result property="smeName" column="sme_name"></result>
         <result property="smeCount" column="sme_count"></result>
-        <collection property="inRecordEntities" ofType="com.example.demo.modules.entity.InRecordEntity" fetchType="lazy">
+        <collection property="inRecordEntities" ofType="inRecordEntity" fetchType="eager">
             <id property="id" column="in_id"  ></id>
             <result property="inCount" column="in_count"></result>
-            <result property="name" column="name"  ></result>
+            <result property="userName" column="user_name"  ></result>
             <result property="inTime" column="in_time"  ></result>
             <result property="smeId" column="sme_id"  ></result>
         </collection>
     </resultMap>
-    <select id="mulTablequeryInRecord" resultMap="SmeAndIncord">
-        SELECT i.id in_id,i.in_count,i.name,i.in_time, i.sme_id,c.sme_name,c.sme_count FROM in_record i inner join comsume c on i.sme_id=c.id
+
+    <resultMap id="SMeAndOutRecord" type="comsumeEntity">
+        <id property="id" column="id"></id>
+        <result property="smeName" column="sme_name"></result>
+        <result property="smeCount" column="sme_count"></result>
+        <collection property="outRecordEntities" ofType="outRecordEntity" fetchType="eager">
+            <id property="id" column="out_id"  ></id>
+            <result property="outCount" column="out_count"></result>
+            <result property="userName" column="user_name"  ></result>
+            <result property="outStatus" column="out_status"  ></result>
+            <result property="outReason" column="out_reason"  ></result>
+            <result property="outTime" column="out_time"  ></result>
+            <result property="smeId" column="sme_id"  ></result>
+        </collection>
+    </resultMap>
+    <select id="mulTablequeryInRecord" resultMap="SmeAndInRecord">
+        SELECT  i.id in_id,i.in_count,i.user_name,i.in_time, i.sme_id ,
+               c.id, c.sme_name,c.sme_count
+        FROM in_record i inner join comsume c on i.sme_id=c.id
             WHERE
-                  i.name like concat('%',#{name},'%')
-                OR c.sme_name like concat('%',#{smeName},'%')
-            ORDER BY in_id
-                LIMIT #{start},#{pageSize}
+            i.user_name like concat('%',#{userName},'%')
+            OR i.in_count like concat('%',#{inCount},'%')
+            OR i.sme_id like concat('%',#{smeId},'%')
+            OR c.sme_name like concat('%',#{smeName},'%')
+            OR c.sme_count like concat('%',#{smeCount},'%')
+            ORDER BY in_id ASC
+            LIMIT #{start},#{pageSize}
     </select>
-    <select id="mulTablequeryInRecordCount" resultMap="int">
+    <select id="mulTablequeryInRecordCount"  resultType="int">
         SELECT COUNT(*) FROM in_record i inner join comsume c on i.sme_id=c.id
         WHERE
-            i.name like concat('%',#{name},'%')
+            i.user_name like concat('%',#{userName},'%')
+           OR i.in_count like concat('%',#{inCount},'%')
+           OR i.sme_id like concat('%',#{smeId},'%')
            OR c.sme_name like concat('%',#{smeName},'%')
-    </select>
+           OR c.sme_count like concat('%',#{smeCount},'%')
 
-<!--    <select id="querySmeAndIncordDTO" resultType="com.example.demo.dto.sme_inc.SmeAndIncordDTO">-->
-<!--        SELECT c.sme_name,i.id,i.in_count,i.name,i.in_time FROM comsume c, in_record i-->
-<!--    </select>-->
+    </select>
+    <select id="mulTablequeryOutRecord" resultMap="SMeAndOutRecord">
+        SELECT o.id out_id,o.out_count,o.user_name,o.out_status,o.out_reason,o.out_time,o.sme_id,
+               c.sme_name,c.sme_count
+               FROM out_record  o LEFT JOIN comsume c ON o.sme_id=c.id
+        WHERE
+            o.out_count LIKE CONCAT('%',#{outCount},'%')
+            OR o.user_name LIKE CONCAT('%',#{userName},'%')
+            OR o.out_status LIKE CONCAT('%',#{outStatus},'%')
+            OR o.out_reason LIKE CONCAT('%',#{outReason},'%')
+            OR o.sme_id LIKE CONCAT('%',#{smeId},'%')
+            OR c.sme_name LIKE CONCAT('%',#{smeName},'%')
+            OR c.sme_count LIKE CONCAT('%',#{smeCount})
+        ORDER BY out_id ASC
+            LIMIT #{start},#{pageSize}
+
+    </select>
+    <select id="mulTablequeryOutRecordCount" resultType="int">
+        SELECT  COUNT(*)
+        FROM out_record  o LEFT JOIN comsume c ON o.sme_id=c.id
+        WHERE
+            o.out_count LIKE CONCAT('%',#{outCount},'%')
+           OR o.user_name LIKE CONCAT('%',#{userName},'%')
+           OR o.out_status LIKE CONCAT('%',#{outStatus},'%')
+           OR o.out_reason LIKE CONCAT('%',#{outReason},'%')
+           OR o.sme_id LIKE CONCAT('%',#{smeId},'%')
+           OR c.sme_name LIKE CONCAT('%',#{smeName},'%')
+           OR c.sme_count LIKE CONCAT('%',#{smeCount})
+
+    </select>
     <insert id="insert">
         INSERT comsume(sme_name,sme_count) VALUES(#{smeName},#{smeCount})
     </insert>
@@ -52,7 +101,7 @@
         FROM comsume
         WHERE
             sme_name LIKE CONCAT('%',#{smeName},'%')
-           OR sme_count LIKE CONCAT('%',#{smeCount})
+           OR sme_count LIKE CONCAT('%',#{smeCount},'%')
 
         ORDER BY id ASC
             LIMIT #{start},#{pageSize}
@@ -69,7 +118,7 @@
              FROM comsume
              WHERE
                  sme_name LIKE CONCAT('%',#{smeName},'%')
-                OR sme_count LIKE CONCAT('%',#{smeCount})
+                OR sme_count LIKE CONCAT('%',#{smeCount},'%')
 
              ORDER BY id ASC
                  )

@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InRecordEntity extends TableVO {
-    @Alias("id")
+//    @Alias("id")
     private Integer id;
-    @Alias("入库数量")
+//    @Alias("入库数量")
     private String inCount;
-    @Alias("操作人")
-    private String name;
-    @Alias("入库时间")
+//    @Alias("操作人")
+    private String userName;
+//    @Alias("入库时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
     private LocalDateTime inTime;
     private Integer smeId;

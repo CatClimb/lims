@@ -193,7 +193,7 @@ import axios from "axios";
 import {mapMutations} from 'vuex';
 
 export default {
-  name: "PersonInfo",
+  name: "noad-person",
   data() {
     var validateOrigin=(rule, value, callback) => {
         
@@ -327,7 +327,7 @@ export default {
  
   methods: {
     handlerShowInfo() {
-      axios.get("http://localhost:8080/back/ad/personInfo").then(
+      axios.get("http://localhost:8080/back/noad/personInfo").then(
         (response) => {
           if (response.data.code === 2000) {
             this.info = response.data.data;
@@ -351,7 +351,7 @@ export default {
     handlerUpdateInfo(formName){
         this.$refs[formName].validate((valid) => {
         if (valid) {
-          axios.post("http://localhost:8080/back/ad/updateUser",this.info).then(
+          axios.post("http://localhost:8080/back/noad/updateUser",this.info).then(
         (response) => {
           
           if (response.data.code === 2000) {
@@ -417,7 +417,7 @@ export default {
     
   },
   mounted(){
-    this.SET_CHECK_MENU("/home/person");
+    this.SET_CHECK_MENU("/home/nperson");
     this.handlerShowInfo();
    
   }

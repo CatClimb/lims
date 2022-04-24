@@ -22,8 +22,8 @@ public class TableControlUtil<T> {
             if(annotation!=null){
                 str[0] = declaredFields[i].getName();
                 str[1] = annotation.value();
+                strings.add(str);
             }
-            strings.add(str);
         }
         return strings;
     }

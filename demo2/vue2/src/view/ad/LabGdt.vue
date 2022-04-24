@@ -124,7 +124,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="使用者" >
-          <el-input v-model="dialog.data.name"></el-input>
+          <el-input v-model="dialog.data.userName"></el-input>
         </el-form-item>
         <el-form-item label="使用类别">
           <el-input v-model="dialog.data.lgType"></el-input>
@@ -149,7 +149,7 @@ import axios from 'axios'
 import {mapMutations} from 'vuex';
 
 export default {
-  name: "ad-labgdt",
+  name: "ad-labGdt",
   components:{
     
   },
@@ -174,7 +174,7 @@ export default {
             lgTiming:"",
             lgDate:"",
             lgStatus:"",
-            name:"",
+            userName:"",
             
             lgType:"",
            
@@ -226,7 +226,7 @@ export default {
         lgTiming:this.queryContent,
         lgDate:this.queryDate,
         lgStatus:this.queryContent,
-        name:this.queryContent,
+        userName:this.queryContent,
         lgType:this.queryContent,
         
       };

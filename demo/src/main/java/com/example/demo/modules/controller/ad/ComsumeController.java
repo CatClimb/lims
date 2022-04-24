@@ -2,6 +2,7 @@ package com.example.demo.modules.controller.ad;
 
 import com.example.demo.common.result.Result;
 import com.example.demo.dto.sme_inc.QueryConditionalForSI;
+import com.example.demo.dto.sme_outc.QueryConditionalSO;
 import com.example.demo.modules.entity.ComsumeEntity;
 import com.example.demo.modules.service.ComsumeService;
 import lombok.extern.slf4j.Slf4j;
@@ -58,9 +59,14 @@ public class ComsumeController {
         }
     }
     @PostMapping("/mtqueryi")
-    private Result mulTablequeryInRecord(@RequestBody QueryConditionalForSI queryConditionalForSI){
-
-        return Result.success("",comsumeEntity);
+    private Result<QueryConditionalForSI> mulTablequeryInRecord(@RequestBody QueryConditionalForSI queryConditionalForSI){
+        comsumeService.mulTablequeryInRecord(queryConditionalForSI);
+        return Result.success("查询成功",queryConditionalForSI);
+    }
+    @PostMapping("/mtqueryo")
+    private Result<QueryConditionalSO> mulTablequeryOutRecord(@RequestBody QueryConditionalSO queryConditionalSO){
+        comsumeService.mulTablequeryOutRecord(queryConditionalSO);
+        return Result.success("查询成功",queryConditionalSO);
     }
 }
 

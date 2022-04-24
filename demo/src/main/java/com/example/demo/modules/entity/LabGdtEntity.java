@@ -29,7 +29,7 @@ public class LabGdtEntity extends TableVO {
 //    @DateTimeFormat(pattern = "yyyy-MM-dd" )
     private LocalDate lgDate;
     @Alias("使用者")
-    private String name;
+    private String userName;
     @Alias("使用类别")
     private String lgType;
 

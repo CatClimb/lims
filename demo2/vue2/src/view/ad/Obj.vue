@@ -96,8 +96,8 @@
             <el-option label="已审批" value="已审批"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="负责人" prop="name">
-          <el-input v-model.number="dialog.data.name"></el-input>
+        <el-form-item label="负责人" prop="userName">
+          <el-input v-model.number="dialog.data.userName"></el-input>
         </el-form-item>
         
         <el-form-item label="项目始" prop="objSTime">
@@ -164,7 +164,7 @@ export default {
               objName:"",
               objDescription:"",
               objStatus:"",
-              name:"",
+              userName:"",
               objSTime:"",
               objETime:"",
               objReason:"",
@@ -183,7 +183,7 @@ export default {
           objStatus:[{
             required:true, message:"请选择项目状态"
           }],
-          name:[{
+          userName:[{
                         required:true, message:"请输入负责人"
 
           }],
@@ -227,7 +227,7 @@ export default {
         objName:this.queryContent,
         objDescription:this.queryContent,
         objStatus:this.queryContent,
-        name:this.queryContent,
+        userName:this.queryContent,
         objReason:this.queryContent,
        
         

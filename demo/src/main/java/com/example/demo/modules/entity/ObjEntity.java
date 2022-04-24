@@ -24,7 +24,7 @@ public class ObjEntity extends TableVO {
     @Alias("项目状态")
     private String objStatus;
     @Alias("负责人")
-    private String name;
+    private String userName;
     @Alias("开始时间")
     @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
     private LocalDate objSTime;

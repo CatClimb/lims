@@ -5,12 +5,13 @@ import com.example.demo.dto.sme_inc.QueryConditionalForSI;
 import com.example.demo.modules.dao.ComsumeDao;
 import com.example.demo.modules.entity.ComsumeEntity;
 import com.example.demo.vo.TableVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class ComsumeServiceImpl implements ComsumeService{
     private final ComsumeDao comsumeDao;
@@ -52,29 +53,76 @@ public class ComsumeServiceImpl implements ComsumeService{
     }
 
     @Override
-    public void mulTablequeryInRecord(QueryConditionalForSI queryConditionalForSI) {
-        if(queryConditionalForSI.getPage()<=0){
-            queryConditionalForSI.setPage(1);
+    public void mulTablequeryInRecord(TableVO tableVO) {
+        if(tableVO.getPage()<=0){
+            tableVO.setPage(1);
         }
-        if (queryConditionalForSI.getPageSize()<=0){
-            queryConditionalForSI.setPage(10);
+        if (tableVO.getPageSize()<=0){
+            tableVO.setPage(10);
         }
-        int start=(queryConditionalForSI.getPage()-1)* queryConditionalForSI.getPageSize();
-        int count=comsumeDao.mulTablequeryInRecordCount(queryConditionalForSI);
-        if(start>=count){
-            queryConditionalForSI.setPage(1);
-            start=(queryConditionalForSI.getPage()-1)* queryConditionalForSI.getPageSize();
-        }
-        queryConditionalForSI.setStart(start);
-        queryConditionalForSI.setCount(count);
-        queryConditionalForSI.setTableData(comsumeDao.mulTablequeryInRecord(queryConditionalForSI));
+        int start=(tableVO.getPage()-1)* tableVO.getPageSize();
 
+        int count=comsumeDao.mulTablequeryInRecordCount(tableVO);
+        if(start>count){
+            tableVO.setPage(1);
+            start=(tableVO.getPage()-1)* tableVO.getPageSize();
+        }
+        tableVO.setStart(start);
+        tableVO.setCount(count);
+
+        tableVO.setTableData(comsumeDao.mulTablequeryInRecord(tableVO));
+
+
+//        log.info("xxxxxxxxxx"+comsumeDao.mulTablequeryInRecord(tableVO).toString());
 
         //设置表头
         List<String[]> strings = new ArrayList<>( );
-        String[] str=new String[2];
+        strings.add(new String[]{"inCount","入库数量"});
+        strings.add(new String[]{"name","操作人"});
+        strings.add(new String[]{"inTime","入库时间"});
+        strings.add(new String[]{"smeName","易耗品名字"});
+        strings.add(new String[]{"smeCount","库存数量"});
+        strings.add(new String[]{"smeId","易耗品id"});
+        tableVO.setTableHead(strings);
+
         
 
 
+    }
+
+    @Override
+    public void mulTablequeryOutRecord(TableVO tableVO) {
+        if(tableVO.getPage()<=0){
+            tableVO.setPage(1);
+        }
+        if (tableVO.getPageSize()<=0){
+            tableVO.setPage(10);
+        }
+        int start=(tableVO.getPage()-1)* tableVO.getPageSize();
+
+        int count=comsumeDao.mulTablequeryOutRecordCount(tableVO);
+        if(start>count){
+            tableVO.setPage(1);
+            start=(tableVO.getPage()-1)* tableVO.getPageSize();
+        }
+        tableVO.setStart(start);
+        tableVO.setCount(count);
+
+        tableVO.setTableData(comsumeDao.mulTablequeryOutRecord(tableVO));
+
+
+//        log.info("xxxxxxxxxx"+comsumeDao.mulTablequeryInRecord(tableVO).toString());
+
+        //设置表头
+        List<String[]> strings = new ArrayList<>( );
+        strings.add(new String[]{"outCount","出库数量"});
+        strings.add(new String[]{"name","操作人"});
+        strings.add(new String[]{"outStatus","出库状态"});
+        strings.add(new String[]{"outReason","出库原因"});
+        strings.add(new String[]{"outTime","出库时间"});
+        strings.add(new String[]{"smeName","易耗品名"});
+        strings.add(new String[]{"smeCount","库存"});
+        strings.add(new String[]{"smeId","易耗品id"});
+        tableVO.setTableHead(strings);
     }
 }

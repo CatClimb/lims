@@ -20,7 +20,18 @@
       class="container"
       height="750"
     >
-    
+      <!-- <el-table-column
+      label="日期"
+      width="180">
+      <template slot-scope="scope">
+      
+        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+      </template>
+    </el-table-column> -->
+      <!-- <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column> -->
       <el-table-column label="序号" min-width=30>
         <template slot-scope="scope">
           {{ scope.$index }}
@@ -31,6 +42,7 @@
         :key="index"
         :label="item[1]"
         :prop="item[0]"
+        :
       >
       </el-table-column>
 
@@ -72,26 +84,13 @@
         class="demo-formData"
       >
         
-
-        <el-form-item label="出库数量" prop="outCount">
-          <el-input v-model.number="dialog.data.outCount"></el-input>
+        <el-form-item label="入库数量" prop="inCount">
+          <el-input v-model.number="dialog.data.inCount"></el-input>
         </el-form-item>
-        <el-form-item label="操作人" prop="userName">
-          <el-input v-model="dialog.data.userName"></el-input>
-        </el-form-item>
-       <el-form-item label="出库状态" prop="outStatus">
-          <el-select v-model.number="dialog.data.outStatus" placeholder="请选择">
-            <el-option label="未出库" value="未出库"></el-option>
-            <el-option label="出库中" value="出库中"></el-option>
-            <el-option label="已出库" value="已出库"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="出库原因" prop="outReason">
-          <el-input v-model.number="dialog.data.outReason" type="textarea" maxlength="100" show-word-limit></el-input>
-        </el-form-item>
-        <el-form-item label="出库时间" prop="outTime">
+       
+        <el-form-item label="入库时间" prop="inTime">
           <el-col :span="11">
-            <el-date-picker type="datetime" placeholder="选择时间" v-model="dialog.data.outTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择时间" v-model="dialog.data.inTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item label="易耗品id" prop="smeId">
@@ -116,17 +115,12 @@ import axios from 'axios'
 import {mapMutations} from 'vuex';
 
 export default {
-  name: "ad-outRecord",
+  name: "ad-inRecord",
   components:{
     
   },
   data() {
-    var validateOutRecord=(rule, value, callback) => {    
-    if (value<=0) {
-    
-      callback(new Error("请输入合法数值"));
-    }
-  };
+      
     return {
       info: {
         tableHead: [],
@@ -135,9 +129,8 @@ export default {
         count: 0,
         tableData: [],
         tmpObj:{
-          id:"",inCount:"",userName:"",inTime:"",smeName:"",smeCount:"",smeId:"",
+          id:"",inCount:"",name:"",inTime:"",smeId:"",smeName:"",smeCount:""
         }
-       
       },
       
       formLabelWidth: "120px",
@@ -145,34 +138,33 @@ export default {
       dialog:{
         data:{
           id:0,
-          outCount:"",
-          userName:"",
-          outStatus:"",
-          outReason:"",
-          outTime:"",
-          smeId: "",
+          inCount:0,
+          inTime:"",
+          smeId:"",  
         },
         rules: {
           
-          outCount:[
+          inCount:[
             {required:true, message:"请输入内容"},
             { type: 'number', message: '请输入数字',  },
-            { validator: validateOutRecord, trigger: "blur" }
             ],
-          userName:[
-            {required:true, message:"请输入内容"},
+          inTime:[
+            {required:true, message:"请输入时间"},
           ],
-          outStatus:[
-            {required:true, message:"请选择"},
-          ],
-          outReason:[
-            {required:true, message:"请输入内容"},
-          ],
-          
           smeId:[
             {required:true,message:"请输入内容"},
             { type: 'number', message: '请输入数字',  }
           ]
+         
+            // name
+            //   {required:true,message:"请输入使用者姓名"}
+            // ],
+            // lgType:[
+            //   {required:true,message:"请输入使用类别"}
+            // ],
+            // objName:[
+              
+            // ],
         },
         visible:false,
         dialogTitle:"",
@@ -188,11 +180,10 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        userName:this.queryContent,
-        inCount:this.queryContent,
-        smeId:this.queryContent,
         smeName:this.queryContent,
-        smeCount:this.queryContent,
+        name:this.queryContent,
+        
+       
         
       };
     },
@@ -215,31 +206,33 @@ export default {
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/mtqueryo", this.selectform)
+      .post("http://localhost:8080/back/ad/mtqueryi", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
-            this.info.tableData=[];
             this.info.tableHead=response.data.data.tableHead;
             this.info.page=response.data.data.page;
             this.info.count=response.data.data.count;
-            response.data.data.tableData.forEach(e => {
+            response.data.data.tableData.array.forEach(e => {
               console.log(e);
-              console.log("this",this)
-              e.outRecordEntities.forEach(el=>{
-                console.log("el.id",el.id)
-              this.info.tmpObj.id=el.id;
-              this.info.tmpObj.outCount=el.outCount;
-              this.info.tmpObj.userName=el.userName;
-              this.info.tmpObj.outTime=el.outTime;
-              this.info.tmpObj.smeId=el.smeId;
-              this.info.tmpObj.smeName=e.smeName;
-              this.info.tmpObj.smeCount=e.smeCount;
-              
-              this.info.tableData.push(this.info.tmpObj);
-              this.info.tmpObj={}
+              e.inRecordEntities.array.forEach(el=>{
+              this.tmpObj.id=el.id;
+              this.tmpObj.inCount=el.inCount;
+              this.tmpObj.name=el.name;
+              this.tmpObj.inTime=el.inTime;
+              this.tmpObj.smeId=el.smeId;
+              this.tmpObj.smeName=e.smeName;
+              this.tmpObj.smeCount=e.smeCount;
+              this.tableData.push(this.tmpObj);
+               
               });
             });
+            this.info.tableData=response.data.data.tableData;
+            // this.$message({
+            //   message: response.data.msg,
+            //   type: "success",
+            //   center: true,
+            // });
             console.log(response.data.data)
           } else {
             this.$message({
@@ -267,24 +260,24 @@ export default {
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
-      this.dialog.data.outCount=Number(this.dialog.data.outCount);
+      this.dialog.data.smeCount=Number(this.dialog.data.smeCount);
       this.dialog.visible=true;
-      this.dialog.dialogTitle="修改易耗品信息";
+      this.dialog.dialogTitle="修改入库信息";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateOutRecord"
+      this.dialog.url="http://localhost:8080/back/ad/updateinRecord"
 
     },
     handleAdd(){
       this.dialog.visible=true;
-      this.dialog.dialogTitle="添加易耗品信息";
+      this.dialog.dialogTitle="添加入库信息";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertOutRecord"
+      this.dialog.url="http://localhost:8080/back/ad/insertinRecord"
     },
     handleDelete(index,row){
       console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteOutRecord/${row.id}`,).then(
+            axios.post(`http://localhost:8080/back/ad/deleteinRecord/${row.id}`,).then(
         (response)=>{
           if (response.data.code === 2000) {
             this.$message({

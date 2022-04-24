@@ -8,6 +8,20 @@
         <div @click="SET_COLLAPSE" style="font-size: 26px; cursor: pointer">
           <i :class="isCollapse ? 'el-icon-s-fold' : 'el-icon-s-unfold'"></i>
         </div>
+        <div  style="font-size: 26px; position: fixed; right: 80px; top: 10px">
+          <span>
+            欢迎
+            <router-link :to="`${personInfoPath}`">{{userName}}    
+            
+        </router-link>
+        登录，&nbsp;
+             &nbsp;
+          </span>
+          <span @click.capture="deleteToken">
+          <router-link :to="`/login`" >退出   
+        </router-link>
+        </span>
+        </div>
       </el-header>
       <el-main>
         <router-view />
@@ -25,8 +39,9 @@ export default {
   name: "home-view",
   data() {
     return {
-      menuData:[]
-      
+      menuData:[],
+      userName:"",
+      personInfoPath:""
     };
   },
 
@@ -34,22 +49,60 @@ export default {
     Menu,
   },
   computed: {
-    ...mapState(["isCollapse"]),
+    ...mapState(["isCollapse","checkMenu"]),
+    
   },
   methods: {
     ...mapMutations(["SET_COLLAPSE"]),
+    deleteToken(){
+      localStorage.removeItem("token");
+    }
   },
   mounted() {
+    console.log('home')
     let str = localStorage.getItem("token");
     if (str) {
       let token = jwtDecode(str);
       let menuData=[];
-      console.log(token.Auth);
+      
       if (token.loginName && token.Auth) {
+      this.$store.commit('SET_USER_NAME',token.loginName);
+      this.userName=token.loginName;
         if (token.Auth === "普通用户") {
           menuData = [
-           
-            ]
+           {
+              path: "/home/nperson",
+              icon: "el-icon-menu",
+              title: "个人信息",
+              index: 1,
+            },
+            {
+              path:"/home/labOrder",
+              title:"实验室预约",
+              index:2,
+            },
+            {
+              path:"/home/labOrderRes",
+              title:"预约情况",
+              index:3,
+            },
+            {
+              path:"",
+              title:"项目申请",
+              index:4,
+            },
+            {
+              path:"",
+              title:"设备仪器借用",
+              index:5,
+            },
+            {
+              path:"",
+              title:"易耗品使用",
+              index:2,
+            },
+            ];
+this.personInfoPath=menuData[0].path
          
         } else if (token.Auth === "管理员") {
          menuData = [
@@ -146,14 +199,19 @@ export default {
                   index:5 - 1,
                 },
                 {
-                  path:"/home/device1",
-                  title:"入库记录",
-                  index:5 - 2,
+                  path:"",
+                  title:"出库处理",
+                  index:5 - 1,
                 },
                 {
-                  path:"/home/device1",
-                  title:"出库记录",
+                  path:"/home/inRecord",
+                  title:"入库记录",
                   index:5 - 3,
+                },
+                {
+                  path:"/home/outRecord",
+                  title:"出库记录",
+                  index:5 - 4,
                 }
               ],
               
@@ -165,11 +223,14 @@ export default {
             //   index:6,
             // }
              
+
           ];
+             this.personInfoPath=menuData[0].children[0].path
+
         } 
         this.menuData=menuData
-        
-        // this.firstMenu=menuData[0].children[0].path
+
+      
         console.log(this)
       }
     }

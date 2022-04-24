@@ -6,7 +6,7 @@
     <result property="objName" column="obj_name"/>
     <result property="objDescription" column="obj_description"/>
     <result property="objStatus" column="obj_status"/>
-    <result property="name" column="name"/>
+    <result property="userName" column="user_name"/>
     <result property="objSTime" column="obj_s_time"/>
     <result property="objETime" column="obj_e_time"/>
     <result property="recordTime" column="record_time"/>
@@ -15,13 +15,13 @@
 </resultMap>
 
     <insert id="insert">
-        INSERT INTO obj( obj_name,obj_description,obj_status,name,obj_s_time,obj_e_time,record_time,obj_reason)
-        VALUES(#{objName},#{objDescription},#{objStatus},#{name},#{objSTime},#{objETime},#{recordTime},#{objReason})
+        INSERT INTO obj( obj_name,obj_description,obj_status,user_name,obj_s_time,obj_e_time,record_time,obj_reason)
+        VALUES(#{objName},#{objDescription},#{objStatus},#{userName},#{objSTime},#{objETime},#{recordTime},#{objReason})
 
     </insert>
     <update id="update">
         UPDATE obj SET
-                       obj_name=#{objName},obj_description=#{objDescription},obj_status=#{objStatus},name=#{name},obj_s_time=#{objSTime},obj_e_time=#{objETime},record_time=#{recordTime},obj_reason=#{objReason}
+                       obj_name=#{objName},obj_description=#{objDescription},obj_status=#{objStatus},user_name=#{userName},obj_s_time=#{objSTime},obj_e_time=#{objETime},record_time=#{recordTime},obj_reason=#{objReason}
 
         WHERE id=#{id}
     </update>
@@ -31,7 +31,7 @@
             obj_name LIKE CONCAT('%',#{objName},'%')
            OR obj_description LIKE CONCAT('%',#{objDescription},'%')
            OR obj_status LIKE CONCAT('%',#{objStatus},'%')
-           OR name LIKE CONCAT('%',#{name},'%')
+           OR user_name LIKE CONCAT('%',#{userName},'%')
            OR obj_reason LIKE CONCAT('%',#{objReason},'%')
         ORDER BY id ASC
             LIMIT #{start},#{pageSize}
@@ -49,7 +49,7 @@
                                     obj_name LIKE CONCAT('%',#{objName},'%')
                                    OR obj_description LIKE CONCAT('%',#{objDescription},'%')
                                    OR obj_status LIKE CONCAT('%',#{objStatus},'%')
-                                   OR name LIKE CONCAT('%',#{name},'%')
+                                   OR user_name LIKE CONCAT('%',#{userName},'%')
                                    OR obj_reason LIKE CONCAT('%',#{objReason},'%')
                                 ORDER BY id ASC
 

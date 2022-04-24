@@ -4,26 +4,20 @@
     <resultMap id="InRecordResultMap" type="inRecordEntity">
         <id property="id" column="id"></id>
         <result property="inCount" column="in_count"></result>
-        <result property="name" column="name"></result>
+        <result property="userName" column="user_name"></result>
         <result property="inTime" column="in_time"></result>
         <result property="smeId" column="sme_id"></result>
     </resultMap>
     <insert id="insert">
-        <choose>
-            <when test="inTime!=null">
-                INSERT in_record(in_count,name,in_time,sme_id) VALUES(#{inCount},#{name},#{inTime},#{smeId})
-            </when>
-            <otherwise >
-                INSERT in_record(in_count,name,sme_id) VALUES(#{inCount},#{name},#{smeId})
-            </otherwise>
-        </choose>
 
+
+                INSERT in_record(in_count,user_name,in_time,sme_id) VALUES(#{inCount},#{userName},#{inTime},#{smeId})
 
     </insert>
 
     <update id="update">
         UPDATE in_record
-        SET sme_id=#{smeId},in_count=#{inCount},name=#{name},in_time=#{inTime}
+        SET sme_id=#{smeId},in_count=#{inCount},user_name=#{userName},in_time=#{inTime}
         WHERE id=#{id}
     </update>
 
@@ -33,7 +27,7 @@
         WHERE
             sme_id =#{smeId}
            OR in_count LIKE CONCAT('%',#{inCount})
-           OR name LIKE CONCAT('%',#{name},'%')
+           OR user_name LIKE CONCAT('%',#{userName},'%')
 
         ORDER BY id ASC
             LIMIT #{start},#{pageSize}
@@ -50,7 +44,7 @@
               FROM in_record
               WHERE sme_id =#{smeId}
                  OR in_count LIKE CONCAT('%', #{inCount})
-                 OR name LIKE CONCAT('%', #{name}, '%')
+                 OR user_name LIKE CONCAT('%', #{userName}, '%')
 
               ORDER BY id ASC
              ) tmp

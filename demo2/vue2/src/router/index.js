@@ -14,6 +14,10 @@ import Com from '../view/ad/Com.vue'
 import InRecord from '../view/ad/InRecord.vue'
 import OutRecord from '../view/ad/OutRecord.vue'
 
+import Nperson from '../view/noad/Nperson.vue'
+import LabOrder from '../view/noad/LabOrder.vue'
+import LabOrderRes from '../view/noad/LabOrderRes.vue'
+
 
 const routes = [
       // {
@@ -38,7 +42,7 @@ const routes = [
         children:[
           {
             path:'person',
-            name:'ad-person',
+            name:'ad-person', 
             component:Person
           },
           {
@@ -78,19 +82,39 @@ const routes = [
           },
           {
             path:'com',
-            name:'com',
+            name:'ad-com',
             component:Com
           },
           {
             path:'inRecord',
-            name:'inRecord',
+            name:'ad-inRecord',
             component:InRecord
           },
           {
             path:'outRecord',
-            name:'outRecord',
+            name:'ad-outRecord',
             component:OutRecord
           },
+
+
+
+
+          {
+            path:'nperson',
+            name:'noad-person',
+            component:Nperson
+          },
+          {
+            path:'labOrder',
+            name:'noad-labOder',
+            component:LabOrder
+          },
+          {
+            path:'labOrderRes',
+            name:'noad-labOderRes',
+            component:LabOrderRes
+          },
+
         ]
       }
     
