@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -56,4 +57,42 @@ public class LabServiceImpl implements LabService {
     }
 
 
+    @Override
+    public void mulTableQueryLabGdt(TableVO tableVO) {
+        if(tableVO.getPage()<=0){
+            tableVO.setPage(1);
+        }
+        if (tableVO.getPageSize()<=0){
+            tableVO.setPage(10);
+        }
+        int start=(tableVO.getPage()-1)* tableVO.getPageSize();
+
+        int count=labDao.mulTableQueryLabGdtCount(tableVO);
+        if(start>count){
+            tableVO.setPage(1);
+            start=(tableVO.getPage()-1)* tableVO.getPageSize();
+        }
+        tableVO.setStart(start);
+        tableVO.setCount(count);
+
+        tableVO.setTableData(labDao.mulTableQueryLabGdt(tableVO));
+
+
+//        log.info("xxxxxxxxxx"+comsumeDao.mulTablequeryInRecord(tableVO).toString());
+
+        //设置表头
+        List<String[]> strings = new ArrayList<>( );
+        strings.add(new String[]{"labId","实验室编号"});
+        strings.add(new String[]{"labType","实验室类别"});
+        strings.add(new String[]{"lgTiming","预约时段"});
+        strings.add(new String[]{"lgStatus","预约状态"});
+        strings.add(new String[]{"lgDate","日期"});
+        strings.add(new String[]{"userName","使用者"});
+        tableVO.setTableHead(strings);
+    }
+
+    @Override
+    public int mulTableQueryLabGdtCount(TableVO tableVO) {
+        return labDao.mulTableQueryLabGdtCount(tableVO);
+    }
 }

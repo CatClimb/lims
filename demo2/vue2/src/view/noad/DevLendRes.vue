@@ -1,6 +1,6 @@
 <template>
   <div>
-
+   
     <el-input style="visibility:hidden"
     placeholder="请输入搜索内容"
     prefix-icon="el-icon-search"
@@ -24,11 +24,11 @@
         type="selection"
         width="55">
       </el-table-column> -->
-      <el-table-column label="序号" min-width=30>
+      <!-- <el-table-column label="序号" min-width=30>
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column min-width=100 show-overflow-tooltip
         v-for="(item, index) of info.tableHead"
         :key="index"
@@ -39,10 +39,13 @@
 
       <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">
-          <el-button size="mini" v-show="scope.row.lgDate!=new Date().toLocaleDateString('fr-CA')" type="danger" @click="handleCannel(scope.$index, scope.row)"
-            >取消</el-button
+         
+          <el-button
+            size="mini"
+            type="danger"
+            @click="cancelDevLend(scope.$index, scope.row)"
+            >删除</el-button
           >
-          
         </template>
       </el-table-column>
     </el-table>
@@ -61,16 +64,15 @@
       >
       </el-pagination>
   </div>
-
   </div>
 </template>
 <script>
 import axios from 'axios'
-import {mapMutations} from 'vuex';
+import { mapMutations } from 'vuex';
 import jwtDecode from 'jwt-decode';
 
 export default {
-  name: "noad-labOrderRes",
+  name: "noad-devLendRes",
   components:{
     
   },
@@ -83,27 +85,33 @@ export default {
         pageSize: 10,
         count: 0,
         tableData: [],
-       tmpObj:{
-          id:"",labId:"",lgTiming:"",lgDate:"",lgStatus:"",userName:"",labType:""
-        },
+        tmpObj:{
+id:"",
+devUStatus:"",
+userName:"",
+deviceSTime:"",
+deviceETime:"",
+devReason:"",
+devName:"",
+devPrice:"",
+devStatus:"",
+        }
       },
+     
       formLabelWidth: "120px",
-      queryContent:'',
-      queryDate:"",
-
+      queryContent: "",
       cannel:{
         data:{
-            id:6,
-            labId:"",
-            lgTiming:"",
-            lgDate:"",
-            lgStatus:"",
-            userName:"",
-            
-            lgType:"",
-           
+              id:"",
+              devUStatus:"",
+              userName:"",
+              deviceSTime:"",
+              deviceETime:"",
+              devReason  :"",
+              devName:'',
         },
        
+
       },
       
       
@@ -114,17 +122,19 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        labId:this.queryContent,
-        lgTiming:this.queryContent,
-        
-        lgStatus:this.queryContent,
+        devUStatus:this.queryContent,
         userName:this.queryContent,
-        lgType:this.queryContent,
+        devReason:this.queryContent,
+        devName:this.queryContent,
+        devPrice:this.queryContent,
+        devStatus:this.queryContent,
+
         
       };
     },
   },
   methods: {
+    ...mapMutations(['SET_CHECK_MENU']),
     handleSizeChange(val) {
       this.info.pageSize = val;
       this.handlerQuery();
@@ -136,33 +146,29 @@ export default {
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/noad/mulquerylg", this.selectform)
+      .post("http://localhost:8080/back/noad/mulquerydl", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
             this.info.tableHead=response.data.data.tableHead;
             this.info.page=response.data.data.page;
             this.info.count=response.data.data.count;
-            console.log(response.data.data.tableData);
-             this.info.tableData=[];
+            this.info.tableData=[];
             response.data.data.tableData.forEach(e => {
-              console.log(e);
-              console.log("this",this)
-              e.labGdtEntities.forEach(el=>{
-                console.log("el.id",el.id)
-              this.info.tmpObj.id=el.id;
-              this.info.tmpObj.labId=el.labId;
-              this.info.tmpObj.lgTiming=el.lgTiming;
-              this.info.tmpObj.lgDate=el.lgDate;
-              this.info.tmpObj.lgStatus=el.lgStatus;
-              this.info.tmpObj.userName=el.userName;
-              this.info.tmpObj.labType=e.labType;
+              this.info.tmpObj.id=e.devLendEntity.id;
+              this.info.tmpObj.devUStatus=e.devLendEntity.devUStatus;
+              this.info.tmpObj.userName=e.devLendEntity.userName;
+              this.info.tmpObj.deviceSTime=e.devLendEntity.deviceSTime;
+              this.info.tmpObj.deviceETime=e.devLendEntity.deviceETime;
+              this.info.tmpObj.devReason=e.devLendEntity.devReason;
+              this.info.tmpObj.devName=e.devName;
+              this.info.tmpObj.devPrice=e.devPrice;
+              this.info.tmpObj.devStatus=e.devStatus;
               
               this.info.tableData.push(this.info.tmpObj);
               this.info.tmpObj={}
-              });
+
             });
-            console.log(response.data.data)
           } else {
             this.$message({
               message: response.data.msg,
@@ -184,66 +190,61 @@ export default {
     });
   });
     },
-    handleCannel(index,row){
+    // handleEdit(index,row){
+    //   console.log(index,row);
+    //   for(var i in this.dialog.data){
+    //       this.dialog.data[i]=row[i];
+    //   }
+    //    this.dialog.data.dateSD=["",""]
+    //   this.dialog.data.id=Number(this.dialog.data.id);
+    //   this.dialog.data.dateSD[0]=this.dialog.data.deviceSTime;
+    //   this.dialog.data.dateSD[1]=this.dialog.data.deviceETime;
+    //   // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
+    //   this.dialog.visible=true;
+      
+    //   this.dialog.dialogTitle="借用信息";
+    //   this.dialog.submitTitle="确定";
+    //   this.dialog.repealSubmitTitle="取消";
+    //   this.dialog.url="http://localhost:8080/back/noad/handleDevLend"
+    //   this.dialog.readonly=true;
+    // },
+  
+    cancelDevLend(index,row){
       console.log(index,row);
-      for(var i in this.cannel.data){
+       for(var i in this.cannel.data){
           this.cannel.data[i]=row[i];
       }
-      this.cannel.data.labId=Number(this.cannel.data.labId);
-      // this.cannel.data.lgStatus='';
-      // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
-      axios.post("http://localhost:8080/back/noad/nOrderLab",this.cannel.data).then(
- (response) => {
+      this.cannel.data.id=Number(this.cannel.data.id);
+            axios.post("http://localhost:8080/back/noad/cancelDevLend",this.cannel.data).then(
+        (response)=>{
           if (response.data.code === 2000) {
             this.$message({
-              message: response.data.msg,
-              type: "success",
-              center: true,
-            });
-            this.handlerQuery();
-          } else {
+                  message: response.data.msg,
+                  type: "success",
+                  center: true,
+                });
+            this.handlerQuery();    
+          }else{
             this.$message({
-              message: response.data.msg,
-              type: "error",
-              center: true,
-            });
-            this.handlerQuery();
+              message:response.data.msg,
+              type:"error",
+              center:true
+            })
           }
         },
-        (error) => {
+        (error)=>{
           this.$message({
             message: error.response.data.msg,
             type: "error",
             center: true,
-            
           });
-          this.handlerQuery();
         }
-      );
-      this.handlerQuery();
-     
 
+      )
     },
-    
-    
+
     
 
-        ...mapMutations(['SET_CHECK_MENU'])
-  },
-  // watch:{
-  //   queryContent(){
-  //     this.handlerQuery();
-  //   },
-  //   queryDate(){
-  //     this.handlerQuery();
-  //   }
-
-  // },
-  mounted() {
-
-    this.SET_CHECK_MENU("/home/labOrderRes");
-    this.handlerQuery();
-    console.log("xxxxxxxxxxxx",this.$store.state.userName)
 
   },
   created(){
@@ -251,6 +252,10 @@ export default {
     if(token.loginName){
       this.queryContent=token.loginName;
     }
+  },
+  mounted() {
+    this.SET_CHECK_MENU("/home/devLendRes");
+    this.handlerQuery();
   },
 
 };

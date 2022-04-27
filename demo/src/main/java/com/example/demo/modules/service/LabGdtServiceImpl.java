@@ -1,6 +1,8 @@
 package com.example.demo.modules.service;
 
 import com.example.demo.common.util.TableControlUtil;
+import com.example.demo.common.util.ThreadTmp;
+import com.example.demo.common.util.TokenUtil;
 import com.example.demo.modules.dao.LabGdtDao;
 import com.example.demo.modules.entity.LabEntity;
 import com.example.demo.modules.entity.LabGdtEntity;
@@ -55,6 +57,21 @@ public class LabGdtServiceImpl implements LabGdtService {
         tableVO.setTableHead(tableControlUtil.getTableHead(LabGdtEntity.class,1));
 
 
+    }
+
+    @Override
+    public boolean nOrderLab(LabGdtEntity labGdtEntity) {
+        labGdtEntity.setUserName(null);
+        labGdtEntity.setLgStatus("可预约");
+        return labGdtDao.update(labGdtEntity);
+    }
+
+    @Override
+    public boolean orderLab(LabGdtEntity labGdtEntity) {
+        String userNameByToken = TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken( ));
+        labGdtEntity.setUserName(userNameByToken);
+        labGdtEntity.setLgStatus("被预约");
+        return labGdtDao.update(labGdtEntity);
     }
 }
 

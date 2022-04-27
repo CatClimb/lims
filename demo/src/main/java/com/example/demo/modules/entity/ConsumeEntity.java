@@ -6,12 +6,13 @@ import lombok.*;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 //@EqualsAndHashCode(callSuper = false)
-public class ComsumeEntity extends TableVO {
+public class ConsumeEntity extends TableVO {
 
     @Alias("id")
     private Integer id;
@@ -21,4 +22,6 @@ public class ComsumeEntity extends TableVO {
     private String smeCount;
     private List<InRecordEntity> inRecordEntities;
     private List<OutRecordEntity> outRecordEntities;
+
+
 }

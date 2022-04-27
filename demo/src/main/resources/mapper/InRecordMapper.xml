@@ -11,7 +11,7 @@
     <insert id="insert">
 
 
-                INSERT in_record(in_count,user_name,in_time,sme_id) VALUES(#{inCount},#{userName},#{inTime},#{smeId})
+    INSERT in_record(in_count,user_name,in_time,sme_id) VALUES(#{inCount},#{userName},#{inTime},#{smeId})
 
     </insert>
 
@@ -26,7 +26,7 @@
         FROM in_record
         WHERE
             sme_id =#{smeId}
-           OR in_count LIKE CONCAT('%',#{inCount})
+           OR in_count LIKE CONCAT('%',#{inCount},'%')
            OR user_name LIKE CONCAT('%',#{userName},'%')
 
         ORDER BY id ASC
@@ -43,8 +43,8 @@
         FROM (SELECT *
               FROM in_record
               WHERE sme_id =#{smeId}
-                 OR in_count LIKE CONCAT('%', #{inCount})
-                 OR user_name LIKE CONCAT('%', #{userName}, '%')
+                 OR in_count LIKE CONCAT('%',#{inCount},'%')
+                 OR user_name LIKE CONCAT('%',#{userName}, '%')
 
               ORDER BY id ASC
              ) tmp

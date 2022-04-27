@@ -30,7 +30,6 @@ public class LabGdtEntity extends TableVO {
     private LocalDate lgDate;
     @Alias("使用者")
     private String userName;
-    @Alias("使用类别")
-    private String lgType;
+
 
 }

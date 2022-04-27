@@ -6,7 +6,64 @@
         <result property="labId" column="lab_id"/>
         <result property="labType" column="lab_type"/>
     </resultMap>
+    <resultMap id="LabAndLabGdtMap" type="labEntity">
+        <id property="id" column="id"/>
+        <result property="labId" column="lab_id"/>
+        <result property="labType" column="lab_type"/>
+        <collection property="labGdtEntities" ofType="labGdtEntity">
+            <id property="labId" column="lab_id"></id>
+            <id property="lgTiming" column="lg_timing"></id>
+            <id property="lgDate" column="lg_date"></id>
+            <result property="lgStatus" column="lg_status"></result>
+            <result property="userName" column="user_name"></result>
+            <result property="id" column="labgdt_id"></result>
+        </collection>
+    </resultMap>
+    <select id="mulTableQueryLabGdt" resultMap="LabAndLabGdtMap">
+        SELECT l.id,l.lab_id,l.lab_type,
+               lg.lg_timing,lg.lg_date,lg.lg_status,lg.user_name,lg.id labgdt_id
+        FROM lab l LEFT JOIN lab_gdt lg ON l.lab_id=lg.lab_id
+        WHERE
+              <choose>
+                  <when test="lgDate!=null">
+                      lg.lg_date=#{lgDate}
 
+                  </when>
+                    <otherwise>
+                        l.lab_id LIKE CONCAT('%',#{labId},'%')
+                        OR l.lab_type LIKE CONCAT('%',#{labType},'%')
+                        OR lg.lg_timing LIKE CONCAT('%',#{lgTiming},'%')
+                        OR lg.lg_status LIKE CONCAT('%',#{lgStatus},'%')
+                        OR lg.user_name LIKE CONCAT('%',#{userName},'%')
+                    </otherwise>
+              </choose>
+            ORDER BY labgdt_id ASC
+                LIMIT #{start},#{pageSize}
+
+
+    </select>
+
+    <select id="mulTableQueryLabGdtCount" resultType="int">
+        SELECT COUNT(*)
+        FROM lab l LEFT JOIN lab_gdt lg ON l.lab_id=lg.lab_id
+            WHERE
+        <choose>
+            <when test="lgDate!=null">
+                lg.lg_date=#{lgDate}
+            </when>
+            <otherwise>
+
+                l.lab_id LIKE CONCAT('%',#{labId},'%')
+                OR l.lab_type LIKE CONCAT('%',  #{labType},'%')
+                OR lg.lg_timing LIKE CONCAT('%',  #{lgTiming},'%')
+                OR lg.lg_status LIKE CONCAT('%', #{lgStatus},'%')
+                OR lg.user_name LIKE CONCAT('%',#{userName},'%')
+            </otherwise>
+        </choose>
+
+
+
+    </select>
     <insert id="insert">
         INSERT lab(lab_id,lab_type) VALUES(#{labId},#{labType})
     </insert>
@@ -37,7 +94,6 @@
                                      lab_id LIKE CONCAT('%',#{labId},'%')
                                      OR lab_type LIKE CONCAT('%',#{labType},'%')
                                  ORDER BY id ASC
-
                                 ) temp
     </select>
 </mapper>

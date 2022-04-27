@@ -86,7 +86,7 @@
         
         
         <el-form-item label="设备名" prop="devName">
-          <el-input v-model.number="dialog.data.devName"></el-input>
+          <el-input v-model="dialog.data.devName"></el-input>
         </el-form-item>
         <el-form-item label="设备价格" prop="devPrice">
           <el-input v-model.number="dialog.data.devPrice"></el-input>
@@ -185,7 +185,7 @@ export default {
         page: this.info.page,
         pageSize: this.info.pageSize,
         devName:this.queryContent,
-        
+        devPrice:this.queryContent,
         devStatus:this.queryContent,
    
         

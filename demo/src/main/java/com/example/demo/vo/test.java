@@ -1,13 +1,11 @@
 package com.example.demo.vo;
 
-import com.example.demo.modules.entity.ComsumeEntity;
-import com.example.demo.modules.entity.LabEntity;
+import com.example.demo.modules.entity.ConsumeEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 public class test {
@@ -19,7 +17,7 @@ public class test {
 //        System.out.println(tableVO.getTableData().toString() );
 //        TableVO tableVO=labEntity;aaP[[;
 //        System.out.println(tableVO.toString() );
-        Field[] declaredFields = ComsumeEntity.class.getDeclaredFields();
+        Field[] declaredFields = ConsumeEntity.class.getDeclaredFields();
         for (Field field:declaredFields
         ) {
                 log.info("xxxxxx"+field);

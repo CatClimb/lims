@@ -193,7 +193,7 @@ import axios from "axios";
 import {mapMutations} from 'vuex';
 
 export default {
-  name: "noad-person",
+  name: "noad-nPerson",
   data() {
     var validateOrigin=(rule, value, callback) => {
         
@@ -417,7 +417,7 @@ export default {
     
   },
   mounted(){
-    this.SET_CHECK_MENU("/home/nperson");
+    this.SET_CHECK_MENU("/home/nPerson");
     this.handlerShowInfo();
    
   }

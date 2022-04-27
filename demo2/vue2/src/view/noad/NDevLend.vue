@@ -6,35 +6,13 @@
     v-model="queryContent">
     
   </el-input>
-  <el-button
-            size="medium  "
-            type="primary"
-            @click="handleAdd()"
-            >添加</el-button
-          >
     <el-table
       :data="info.tableData"
       ref="multipleTable"
       class="container"
       height="750"
     >
-      <!-- <el-table-column
-      label="日期"
-      width="180">
-      <template slot-scope="scope">
-      
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column> -->
-      <!-- <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column> -->
-      <!-- <el-table-column label="序号" min-width=30>
-        <template slot-scope="scope">
-          {{ scope.$index }}
-        </template>
-      </el-table-column> -->
+     
       <el-table-column min-width=100 show-overflow-tooltip
         v-for="(item, index) of info.tableHead"
         :key="index"
@@ -45,15 +23,10 @@
 
       <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
+          <el-button size="mini" type="success" v-show="scope.row.devUStatus=='可借用'&&scope.row.devStatus=='良好'" @click="handleEdit(scope.$index, scope.row)"
+            >借用</el-button
           >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button
-          >
+     
         </template>
       </el-table-column>
     </el-table>
@@ -81,23 +54,14 @@
         class="demo-formData"
       >
         
-        <el-form-item label="设备id" prop="id">
-          <el-input v-model.number="dialog.data.id" :readonly="dialog.readonly"></el-input> 
+        <el-form-item label="设备名" prop="devName">
+          <el-input v-model="dialog.data.devName" :readonly="true"></el-input> 
         </el-form-item>
-        <el-form-item label="借用状态" prop="devUStatus">
-          <el-select v-model="dialog.data.devUStatus" placeholder="请选择">
-            <el-option label="不可用" value="不可用"></el-option>
-            <el-option label="可借用" value="可借用"></el-option>
-            <el-option label="申请中" value="申请中"></el-option>
-            <el-option label="被借用" value="被借用"></el-option>
-          </el-select>
-        </el-form-item>
+        
       
-        </el-form-item>
-        <el-form-item label="借用人" prop="userName">
-          <el-input v-model.number="dialog.data.userName"></el-input> 
-        </el-form-item>
-      <el-form-item label="开始时间" prop="deviceSTime">
+       
+       
+      <!-- <el-form-item label="开始时间" prop="deviceSTime">
           <el-col :span="11">
             <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.deviceSTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
           </el-col>
@@ -108,8 +72,20 @@
             <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.deviceETime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
           </el-col>
         
+        </el-form-item> -->
+<el-form-item label="借用日期" prop="dateSD">
+            
+         <el-date-picker
+          v-model="dialog.data.dateSD"
+          type="datetimerange"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="项目开始日期"
+          end-placeholder="项目结束日期"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          >
+        </el-date-picker>
         </el-form-item>
-
         <el-form-item label="借用原因" prop="devReason">
           <el-input v-model="dialog.data.devReason" type="textarea" maxlength="8000" show-word-limit></el-input>
         </el-form-item>
@@ -133,7 +109,7 @@ import axios from 'axios'
 import { mapMutations } from 'vuex';
 
 export default {
-  name: "ad-DevLend",
+  name: "noad-nDevLend",
   components:{
     
   },
@@ -146,7 +122,17 @@ export default {
         pageSize: 10,
         count: 0,
         tableData: [],
-       
+        tmpObj:{
+id:"",
+devUStatus:"",
+userName:"",
+deviceSTime:"",
+deviceETime:"",
+devReason:"",
+devName:"",
+devPrice:"",
+devStatus:"",
+        }
       },
      
       formLabelWidth: "120px",
@@ -159,40 +145,33 @@ export default {
               deviceSTime:"",
               deviceETime:"",
               devReason  :"",
-           
+              devName:'',
+              dateSD:["",""],
         },
         rules: {
-          id:[
-            { type: 'number', message: '请输入数字',  },
-
-            {required:true,message:"请输入设备id"}
+          devReason:[
+            {required:true,message:"请输入内容"}
           ],
-          devPrice:[
-            {required:true,message:"请输入设备价格"}
-          ],
-          devUStatus:[
-            {required:true,message:"请选择内容"}
+           dateSD: [
+          {
+            type: 'array',
+            required: true,
+            trigger: "请选择日期区间",
+            
+            fields: {
+              //tpye类型试情况而定,所以如果返回的是date就改成date
+              0: { type: 'string', required: true, message: '请选择开始日期' },
+              1: { type: 'string', required: true, message: '请选择结束日期' }
+            }
+          }
         ],
-          devStatus:[
-            {required:true,message:"请选择内容"}
-          ],
           
-         
-            // name
-            //   {required:true,message:"请输入使用者姓名"}
-            // ],
-            // lgType:[
-            //   {required:true,message:"请输入使用类别"}
-            // ],
-            // objName:[
-              
-            // ],
         },
         visible:false,
         dialogTitle:"",
         submitTitle:"",
         repealSubmitTitle:"",
-         readonly:true,
+     
       },
       
       
@@ -206,6 +185,10 @@ export default {
         devUStatus:this.queryContent,
         userName:this.queryContent,
         devReason:this.queryContent,
+        devName:this.queryContent,
+        devPrice:this.queryContent,
+        devStatus:this.queryContent,
+
         
       };
     },
@@ -223,20 +206,29 @@ export default {
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/queryDevLendTable", this.selectform)
+      .post("http://localhost:8080/back/noad/mulquerydl", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
             this.info.tableHead=response.data.data.tableHead;
             this.info.page=response.data.data.page;
             this.info.count=response.data.data.count;
-            this.info.tableData=response.data.data.tableData;
-            // this.$message({
-            //   message: response.data.msg,
-            //   type: "success",
-            //   center: true,
-            // });
-            console.log(response.data.data)
+            this.info.tableData=[];
+            response.data.data.tableData.forEach(e => {
+              this.info.tmpObj.id=e.devLendEntity.id;
+              this.info.tmpObj.devUStatus=e.devLendEntity.devUStatus;
+              this.info.tmpObj.userName=e.devLendEntity.userName;
+              this.info.tmpObj.deviceSTime=e.devLendEntity.deviceSTime;
+              this.info.tmpObj.deviceETime=e.devLendEntity.deviceETime;
+              this.info.tmpObj.devReason=e.devLendEntity.devReason;
+              this.info.tmpObj.devName=e.devName;
+              this.info.tmpObj.devPrice=e.devPrice;
+              this.info.tmpObj.devStatus=e.devStatus;
+              
+              this.info.tableData.push(this.info.tmpObj);
+              this.info.tmpObj={}
+
+            });
           } else {
             this.$message({
               message: response.data.msg,
@@ -263,57 +255,32 @@ export default {
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
+       this.dialog.data.dateSD=["",""]
       this.dialog.data.id=Number(this.dialog.data.id);
+      if(this.dialog.data.deviceSTime&&this.dialog.data.deviceETime){
+              this.dialog.data.dateSD[0]=this.dialog.data.deviceSTime;
+      this.dialog.data.dateSD[1]=this.dialog.data.deviceETime;
+      }
+
       // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
       this.dialog.visible=true;
       
-      this.dialog.dialogTitle="修改设备仪器信息";
-      this.dialog.submitTitle="修改";
+      this.dialog.dialogTitle="借用信息";
+      this.dialog.submitTitle="确定";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateDevLend"
-      this.dialog.readonly=true;
+      this.dialog.url="http://localhost:8080/back/noad/handleDevLend"
     },
-    handleAdd(){
-      this.dialog.visible=true;
-      this.dialog.dialogTitle="添加设备仪器信息";
-      this.dialog.submitTitle="添加";
-      this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertDevLend"
-      this.dialog.readonly=false;
-    },
-    handleDelete(index,row){
-      console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteDevLend/${row.id}`,).then(
-        (response)=>{
-          if (response.data.code === 2000) {
-            this.$message({
-                  message: response.data.msg,
-                  type: "success",
-                  center: true,
-                });
-            this.handlerQuery();    
-          }else{
-            this.$message({
-              message:response.data.msg,
-              type:"error",
-              center:true
-            })
-          }
-        },
-        (error)=>{
-          this.$message({
-            message: error.response.data.msg,
-            type: "error",
-            center: true,
-          });
-        }
 
-      )
-    },
+   
 
     submitForm(formName){
+      
     this.$refs[formName].validate((valid) => {
       if (valid) {
+  
+        this.dialog.data.deviceSTime=this.dialog.data.dateSD[0];
+        this.dialog.data.deviceETime=this.dialog.data.dateSD[1];
+
           axios.post(this.dialog.url, this.dialog.data).then(
         (response) => {
           if (response.data.code === 2000) {
@@ -322,9 +289,7 @@ export default {
               type: "success",
               center: true,
             });
-            // this.$router.push({
-            //   name: 'ad-lab',
-            // })
+         
             this.dialog.visible=false;
             this.handlerQuery();
           } else {
@@ -355,32 +320,11 @@ export default {
     },
     
     resetForm(formName) { 
-        if(this.dialog.repealSubmitTitle=="重置"){
-            for(var i in this.dialog.data){
-              this.dialog.data[i]="";
-            }
-            this.$refs[formName].clearValidate();
-            
-        }else{
-            for(var i in this.dialog.data){
-              this.dialog.data[i]="";
-            }
-            this.$nextTick(() => {
-               this.dialog.visible=false
-              
-            });
-            this.$refs[formName].clearValidate();
-        }
-      
+          this.$refs[formName].resetFields();
+          this.dialog.visible=false;           
     },
     closeDialog(){
-            for(var i in this.dialog.data){
-              this.dialog.data[i]="";
-            }
-            this.$nextTick(() => {
-              this.$refs['form'].clearValidate();
-            });
-            
+              this.$refs['form'].resetFields();    
     }
   },
   watch:{
@@ -393,7 +337,7 @@ export default {
 
   },
   mounted() {
-    this.SET_CHECK_MENU("/home/devLend");
+    this.SET_CHECK_MENU("/home/nDevLend");
     this.handlerQuery();
   },
 

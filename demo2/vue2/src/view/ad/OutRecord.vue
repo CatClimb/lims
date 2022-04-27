@@ -80,14 +80,14 @@
           <el-input v-model="dialog.data.userName"></el-input>
         </el-form-item>
        <el-form-item label="出库状态" prop="outStatus">
-          <el-select v-model.number="dialog.data.outStatus" placeholder="请选择">
+          <el-select v-model="dialog.data.outStatus" placeholder="请选择">
             <el-option label="未出库" value="未出库"></el-option>
             <el-option label="出库中" value="出库中"></el-option>
             <el-option label="已出库" value="已出库"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="出库原因" prop="outReason">
-          <el-input v-model.number="dialog.data.outReason" type="textarea" maxlength="100" show-word-limit></el-input>
+          <el-input v-model="dialog.data.outReason" type="textarea" maxlength="100" show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="出库时间" prop="outTime">
           <el-col :span="11">
@@ -125,6 +125,8 @@ export default {
     if (value<=0) {
     
       callback(new Error("请输入合法数值"));
+    }else{
+      callback();
     }
   };
     return {
@@ -135,7 +137,7 @@ export default {
         count: 0,
         tableData: [],
         tmpObj:{
-          id:"",inCount:"",userName:"",inTime:"",smeName:"",smeCount:"",smeId:"",
+          id:"",outCount:"",userName:"",outTime:"",smeName:"",smeCount:"",smeId:"",
         }
        
       },
@@ -189,10 +191,12 @@ export default {
         page: this.info.page,
         pageSize: this.info.pageSize,
         userName:this.queryContent,
-        inCount:this.queryContent,
+        outCount:this.queryContent,
         smeId:this.queryContent,
         smeName:this.queryContent,
         smeCount:this.queryContent,
+        outReason:this.queryContent,
+        
         
       };
     },
@@ -233,6 +237,8 @@ export default {
               this.info.tmpObj.userName=el.userName;
               this.info.tmpObj.outTime=el.outTime;
               this.info.tmpObj.smeId=el.smeId;
+              this.info.tmpObj.outStatus=el.outStatus;
+              this.info.tmpObj.outReason=el.outReason;
               this.info.tmpObj.smeName=e.smeName;
               this.info.tmpObj.smeCount=e.smeCount;
               
@@ -268,6 +274,7 @@ export default {
           this.dialog.data[i]=row[i];
       }
       this.dialog.data.outCount=Number(this.dialog.data.outCount);
+      this.dialog.data.smeId=Number(this.dialog.data.smeId);
       this.dialog.visible=true;
       this.dialog.dialogTitle="修改易耗品信息";
       this.dialog.submitTitle="修改";

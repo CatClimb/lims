@@ -8,10 +8,10 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class QueryConditionalForSI extends TableVO {
+public class ConditionalForSIDTO extends TableVO {
 
     private String inCount;
-    private String name;
+    private String userName;
     private String smeId;
     private String smeName;
     private String smeCount;

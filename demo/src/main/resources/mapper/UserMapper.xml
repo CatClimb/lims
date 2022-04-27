@@ -72,13 +72,13 @@
 
     <delete id="deleteById" >
         DELETE FROM user
-        where id=#{_parameter}
+        where id=#{id}
     </delete>
 
 
     <select id="findUserByUserName" resultMap="UserResultMap">
         SELECT * FROM user
-        WHERE user_name=#{_parameter}
+        WHERE user_name=#{id}
     </select>
 
     <select id="conditionalQueryCount" resultType="java.lang.Integer">

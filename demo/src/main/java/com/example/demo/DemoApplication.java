@@ -1,21 +1,11 @@
 package com.example.demo;
 
-import com.example.demo.dto.sme_inc.QueryConditionalForSI;
-import com.example.demo.modules.dao.ComsumeDao;
-import com.example.demo.modules.entity.ComsumeEntity;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
-import org.apache.ibatis.type.JdbcType;
+import com.example.demo.modules.service.ConsumeService;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.List;
 
 @SpringBootApplication
 @MapperScan(basePackages={"com.example.demo.modules.dao"})
@@ -23,6 +13,17 @@ import java.util.List;
 public class DemoApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(DemoApplication.class, args);
+//        ConsumeService consumeService = (ConsumeService) run.getBean("consumeService");
+//        if(consumeService!=null){
+//            System.out.println("ddddddddddddddddddddddddddddddddddddddddddddddddddddd" );
+//        }
+        String[] beanDefinitionNames = run.getBeanDefinitionNames( );
+        for (String n :
+                beanDefinitionNames) {
+            System.out.println(n );
+        }
+
+
 //        SqlSessionFactory sqlSessionFactory =(SqlSessionFactory) run.getBean("sqlSessionFactory");
 //        SqlSession sqlSession = sqlSessionFactory.openSession( );
 //        ComsumeDao mapper = sqlSession.getMapper(ComsumeDao.class);

@@ -10,13 +10,19 @@ import Obj from '../view/ad/Obj.vue'
 import Device from '../view/ad/Device.vue'
 import TotalObj from '../view/ad/TotalObj.vue'
 import DevLend from '../view/ad/DevLend.vue'
-import Com from '../view/ad/Com.vue'
+import Consume from '../view/ad/Consume.vue'
 import InRecord from '../view/ad/InRecord.vue'
 import OutRecord from '../view/ad/OutRecord.vue'
 
-import Nperson from '../view/noad/Nperson.vue'
+import NPerson from '../view/noad/NPerson.vue'
 import LabOrder from '../view/noad/LabOrder.vue'
 import LabOrderRes from '../view/noad/LabOrderRes.vue'
+import MyObj from '../view/noad/MyObj.vue'
+import NDevLend from '../view/noad/NDevLend.vue'
+import DevLendRes from '../view/noad/DevLendRes.vue'
+import NConsume from '../view/noad/NConsume.vue'
+import ConsumeRes from '../view/noad/ConsumeRes.vue'
+import OutHandle from '../view/ad/OutHandle.vue'
 
 
 const routes = [
@@ -81,9 +87,9 @@ const routes = [
             component:DevLend
           },
           {
-            path:'com',
-            name:'ad-com',
-            component:Com
+            path:'consume',
+            name:'ad-consume',
+            component:Consume
           },
           {
             path:'inRecord',
@@ -95,14 +101,19 @@ const routes = [
             name:'ad-outRecord',
             component:OutRecord
           },
+          {
+            path:'outHandle',
+            name:'ad-outHandle',
+            component:OutHandle
+          },
 
 
 
 
           {
-            path:'nperson',
+            path:'nPerson',
             name:'noad-person',
-            component:Nperson
+            component:NPerson
           },
           {
             path:'labOrder',
@@ -113,6 +124,31 @@ const routes = [
             path:'labOrderRes',
             name:'noad-labOderRes',
             component:LabOrderRes
+          },
+          {
+            path:'myObj',
+            name:'noad-myObj',
+            component:MyObj
+          },
+          {
+            path:'ndevLend',
+            name:'noad-nDevLend',
+            component:NDevLend
+          },
+          {
+            path:'devLendRes',
+            name:'noad-devLendRes',
+            component:DevLendRes
+          },
+          {
+            path:'nConsume',
+            name:'noad-nConsume',
+            component:NConsume
+          },
+          {
+            path:'consumeRes',
+            name:'noad-consumeRes',
+            component:ConsumeRes
           },
 
         ]

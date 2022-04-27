@@ -9,12 +9,17 @@
         <result property="outReason" column="out_reason"></result>
         <result property="outTime" column="out_time"></result>
         <result property="smeId" column="sme_id"></result>
-
-
     </resultMap>
 
     <insert id="insert">
-        INSERT out_record(out_count,user_name,out_status,out_reason,out_time,sme_id) VALUES(#{outCount},#{userName},#{outStatus},#{outReason},#{outTime},#{smeId})
+        <choose>
+            <when test="outTime!=null">
+                INSERT out_record(out_count,user_name,out_status,out_reason,out_time,sme_id) VALUES(#{outCount},#{userName},#{outStatus},#{outReason},#{outTime},#{smeId})
+            </when>
+            <otherwise>
+                INSERT out_record(out_count,user_name,out_status,out_reason,sme_id) VALUES(#{outCount},#{userName},#{outStatus},#{outReason},#{smeId})
+            </otherwise>
+        </choose>
     </insert>
 
     <update id="update">
@@ -43,7 +48,9 @@
         DELETE FROM out_record
         WHERE id=#{id}
     </delete>
-
+    <select id="selectById" resultMap="OutRecordResultMap">
+        SELECT * FROM out_record WHERE id=#{_parameter}
+    </select>
     <select id="conditionalQueryCount" resultType="int">
         SELECT COUNT(*) FROM
             (SELECT *

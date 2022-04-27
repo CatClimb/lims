@@ -4,6 +4,8 @@ import com.example.demo.common.Alias;
 import com.example.demo.vo.TableVO;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class LabEntity extends TableVO {
     private String labId;
     @Alias("实验室类别")
     private String labType;
+    private List<LabGdtEntity> labGdtEntities;
 }

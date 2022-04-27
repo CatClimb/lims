@@ -2,14 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.modules.dao.DeviceDao">
     <resultMap id="DeviceResultMap" type="deviceEntity">
-<id property="id" column="id"></id>
-<result property="devName" column="dev_name"></result>
-<result property="devPrice" column="dev_price"></result>
+        <id property="id" column="id"></id>
+        <result property="devName" column="dev_name"></result>
+        <result property="devPrice" column="dev_price"></result>
 
-<result property="devStatus" column="dev_status"></result>
-
-
+        <result property="devStatus" column="dev_status"></result>
     </resultMap>
+    <resultMap id="DevAndDevLend" type="deviceEntity">
+        <id property="id" column="id"></id>
+        <result property="devName" column="dev_name"></result>
+        <result property="devPrice" column="dev_price"></result>
+        <result property="devStatus" column="dev_status"></result>
+        <result property="devLendEntity.id" column="dl_id"></result>
+        <result property="devLendEntity.devUStatus" column="dev_u_status"></result>
+        <result property="devLendEntity.userName" column="user_name"></result>
+        <result property="devLendEntity.deviceSTime" column="device_s_time"></result>
+        <result property="devLendEntity.deviceETime" column="device_e_time"></result>
+        <result property="devLendEntity.devReason" column="dev_reason"></result>
+    </resultMap>
+
+    <select id="mulTableQueryDevLend" resultMap="DevAndDevLend">
+        SELECT
+            dl.id dl_id,dl.dev_u_status,dl.user_name,
+            dl.device_s_time,dl.device_e_time,dl.dev_reason,
+            d.dev_name,d.dev_price,d.dev_status
+        FROM dev_lend dl LEFT JOIN device d ON dl.id=d.id
+        WHERE
+         dl.dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
+        OR dl.user_name LIKE CONCAT('%',#{userName},'%')
+        OR dl.dev_reason LIKE CONCAT('%',#{devReason},'%')
+        OR d.dev_name LIKE CONCAT('%',#{devName},'%')
+        OR d.dev_price LIKE CONCAT('%',#{devPrice},'%')
+        OR d.dev_status LIKE CONCAT('%',#{devStatus},'%')
+        ORDER BY dl_id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+    <select id="mulTableQueryDevLendCount" resultType="int">
+        SELECT
+           COUNT(*)
+        FROM dev_lend dl LEFT JOIN device d ON dl.id=d.id
+        WHERE
+         dl.dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
+        OR dl.user_name LIKE CONCAT('%',#{userName},'%')
+        OR dl.dev_reason LIKE CONCAT('%',#{devReason},'%')
+        OR d.dev_name LIKE CONCAT('%',#{devName},'%')
+        OR d.dev_price LIKE CONCAT('%',#{devPrice},'%')
+    </select>
 
     <insert id="insert">
         INSERT device(dev_name,dev_price) VALUES(#{devName},#{devPrice})
@@ -26,6 +64,7 @@
         FROM device
         WHERE
             dev_name LIKE CONCAT('%',#{devName},'%')
+           OR dev_price LIKE CONCAT('%',#{devPrice},'%')
 
            OR dev_status LIKE CONCAT('%',#{devStatus},'%')
 
@@ -44,6 +83,7 @@
         FROM (SELECT *
               FROM device
               WHERE dev_name LIKE CONCAT('%', #{devName}, '%')
+                 OR dev_price LIKE CONCAT('%',#{devPrice},'%')
 
                  OR dev_status LIKE CONCAT('%', #{devStatus}, '%')
 

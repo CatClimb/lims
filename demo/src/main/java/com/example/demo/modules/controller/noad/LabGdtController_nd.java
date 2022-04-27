@@ -23,23 +23,44 @@ public class LabGdtController_nd {
         this.labGdtService=labGdtService;
     }
 
-    @PostMapping("/updateLabGdt")
-    public Result<String> updateLabGdt(@RequestBody LabGdtEntity labGdtEntity){
-        String token = ThreadTmp.getThreadLocalForToken( );
-       labGdtEntity.setUserName(TokenUtil.getUserNameByToken(token));
-        boolean b = labGdtService.update(labGdtEntity);
+    /**
+     * 预约实验室 u
+     * @param labGdtEntity
+     * @return
+     */
+    @PostMapping("/orderLab")
+    public Result<String> orderLab(@RequestBody LabGdtEntity labGdtEntity){
+
+        boolean b = labGdtService.orderLab(labGdtEntity);
         if (b){
-            return Result.success("更新成功");
+            return Result.success("预约成功");
         }else{
-            return Result.fail("更新失败");
+            return Result.fail("预约失败");
         }
     }
-    @PostMapping("/queryLabGdtTable")
-    public Result<LabGdtEntity> queryLabGdtTable(@RequestBody LabGdtEntity labGdtEntity){
-        labGdtService.setTable(labGdtEntity);
-        log.info("labGdtEntity.getLgDate();:"+labGdtEntity.getLgDate());
-        return Result.success("查询成功",labGdtEntity);
+
+    /**
+     * 取消预约 u
+     * @param labGdtEntity
+     * @return
+     */
+    @PostMapping("/nOrderLab")
+    public Result<String> nOrderLab(@RequestBody LabGdtEntity labGdtEntity){
+
+        boolean b = labGdtService.nOrderLab(labGdtEntity);
+        if (b){
+            return Result.success("取消成功");
+        }else{
+            return Result.fail("取消失败");
+        }
     }
+
+//    @PostMapping("/queryLabGdtTable")
+//    public Result<LabGdtEntity> queryLabGdtTable(@RequestBody LabGdtEntity labGdtEntity){
+//        labGdtService.setTable(labGdtEntity);
+//        log.info("labGdtEntity.getLgDate();:"+labGdtEntity.getLgDate());
+//        return Result.success("查询成功",labGdtEntity);
+//    }
 
 
 }

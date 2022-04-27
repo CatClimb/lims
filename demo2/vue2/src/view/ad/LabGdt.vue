@@ -126,9 +126,7 @@
         <el-form-item label="使用者" >
           <el-input v-model="dialog.data.userName"></el-input>
         </el-form-item>
-        <el-form-item label="使用类别">
-          <el-input v-model="dialog.data.lgType"></el-input>
-        </el-form-item>
+
        
         
         
@@ -176,7 +174,7 @@ export default {
             lgStatus:"",
             userName:"",
             
-            lgType:"",
+          
            
         },
         rules: {
@@ -227,7 +225,7 @@ export default {
         lgDate:this.queryDate,
         lgStatus:this.queryContent,
         userName:this.queryContent,
-        lgType:this.queryContent,
+  
         
       };
     },

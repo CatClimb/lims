@@ -15,9 +15,15 @@
 </resultMap>
 
     <insert id="insert">
-        INSERT INTO obj( obj_name,obj_description,obj_status,user_name,obj_s_time,obj_e_time,record_time,obj_reason)
-        VALUES(#{objName},#{objDescription},#{objStatus},#{userName},#{objSTime},#{objETime},#{recordTime},#{objReason})
+        <if test="recordTime!=null ">
+            INSERT INTO obj( obj_name,obj_description,obj_status,user_name,obj_s_time,obj_e_time,record_time,obj_reason)
+            VALUES(#{objName},#{objDescription},#{objStatus},#{userName},#{objSTime},#{objETime},#{recordTime},#{objReason})
+        </if>
+        <if test="recordTime==null ">
+            INSERT INTO obj( obj_name,obj_description,obj_status,user_name,obj_s_time,obj_e_time,obj_reason)
+            VALUES(#{objName},#{objDescription},#{objStatus},#{userName},#{objSTime},#{objETime},#{objReason})
 
+        </if>
     </insert>
     <update id="update">
         UPDATE obj SET

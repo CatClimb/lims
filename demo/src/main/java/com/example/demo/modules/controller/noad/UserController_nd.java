@@ -27,14 +27,14 @@ public class UserController_nd {
      * @param userEntity
      * @return
      */
-    @PostMapping("/updateUser")
-    public Result<String> updateUser(@RequestBody UserEntity userEntity){
-        boolean b = userService.update(userEntity);
-        if(b){
-            return Result.success("更新成功");
-        }
-        return Result.fail("更新失败");
-    }
+//    @PostMapping("/updateUser")
+//    public Result<String> updateUser(@RequestBody UserEntity userEntity){
+//        boolean b = userService.update(userEntity);
+//        if(b){
+//            return Result.success("更新成功");
+//        }
+//        return Result.fail("更新失败");
+//    }
 
     /**
      * 获取自己信息

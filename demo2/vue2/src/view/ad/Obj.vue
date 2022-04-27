@@ -85,10 +85,10 @@
         
         
         <el-form-item label="项目名" prop="objName">
-          <el-input v-model.number="dialog.data.objName"></el-input>
+          <el-input v-model="dialog.data.objName"></el-input>
         </el-form-item>
         <el-form-item label="项目描述" prop="objDescription">
-          <el-input v-model.number="dialog.data.objDescription" type="textarea" maxlength="8000" show-word-limit></el-input>
+          <el-input v-model="dialog.data.objDescription" type="textarea" maxlength="8000" show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="项目状态" prop="objStatus">
           <el-select v-model="dialog.data.objStatus" placeholder="请选择">
@@ -97,7 +97,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="负责人" prop="userName">
-          <el-input v-model.number="dialog.data.userName"></el-input>
+          <el-input v-model="dialog.data.userName"></el-input>
         </el-form-item>
         
         <el-form-item label="项目始" prop="objSTime">
@@ -118,7 +118,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="申请原因" prop="objReason">
-          <el-input v-model.number="dialog.data.objReason" type="textarea" maxlength="8000" show-word-limit></el-input>
+          <el-input v-model="dialog.data.objReason" type="textarea" maxlength="8000" show-word-limit></el-input>
         </el-form-item>
 
         

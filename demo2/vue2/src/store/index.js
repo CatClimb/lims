@@ -9,8 +9,7 @@ export default new Vuex.Store({
     isCollapse: false,
     isLoading:false,
     menuData:[],
-    checkMenu:'',
-    userName:''
+    checkMenu:''
   },
   actions: {
   },

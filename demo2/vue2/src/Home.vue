@@ -64,7 +64,7 @@ export default {
     if (str) {
       let token = jwtDecode(str);
       let menuData=[];
-      
+      console.log("token.loginName",token.loginName)
       if (token.loginName && token.Auth) {
       this.$store.commit('SET_USER_NAME',token.loginName);
       this.userName=token.loginName;
@@ -83,23 +83,33 @@ export default {
             },
             {
               path:"/home/labOrderRes",
-              title:"预约情况",
+              title:"预约结果",
               index:3,
             },
             {
-              path:"",
-              title:"项目申请",
+              path:"/home/myObj",
+              title:"项目登记结果",
               index:4,
             },
             {
-              path:"",
+              path:"/home/nDevLend",
               title:"设备仪器借用",
               index:5,
             },
             {
-              path:"",
+              path:"/home/devLendRes",
+              title:"设备借用结果",
+              index:5,
+            },
+            {
+              path:"/home/nConsume",
               title:"易耗品使用",
-              index:2,
+              index:6,
+            },
+            {
+              path:"/home/consumeRes",
+              title:"易耗品使用结果",
+              index:6,
             },
             ];
 this.personInfoPath=menuData[0].path
@@ -194,12 +204,12 @@ this.personInfoPath=menuData[0].path
               title:"易耗品管理",
               children:[
                 {
-                  path:"/home/com",
+                  path:"/home/consume",
                   title:"库存信息",
                   index:5 - 1,
                 },
                 {
-                  path:"",
+                  path:"/home/outHandle",
                   title:"出库处理",
                   index:5 - 1,
                 },

@@ -20,7 +20,18 @@
       class="container"
       height="750"
     >
-    
+      <!-- <el-table-column
+      label="日期"
+      width="180">
+      <template slot-scope="scope">
+      
+        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+      </template>
+    </el-table-column> -->
+      <!-- <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column> -->
       <el-table-column label="序号" min-width=30>
         <template slot-scope="scope">
           {{ scope.$index }}
@@ -73,19 +84,11 @@
       >
         
 
-        <el-form-item label="入库数量" prop="inCount">
-          <el-input v-model.number="dialog.data.inCount"></el-input>
+        <el-form-item label="易耗品名字" prop="smeName">
+          <el-input v-model="dialog.data.smeName"></el-input>
         </el-form-item>
-        <el-form-item label="操作人" prop="userName">
-          <el-input v-model="dialog.data.userName"></el-input>
-        </el-form-item>
-        <el-form-item label="入库时间" prop="inTime">
-          <el-col :span="11">
-            <el-date-picker type="datetime" placeholder="选择时间" v-model="dialog.data.inTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="易耗品id" prop="smeId">
-          <el-input v-model.number="dialog.data.smeId" ></el-input>
+        <el-form-item label="易耗品数量" prop="smeCount">
+          <el-input v-model.number="dialog.data.smeCount" ></el-input>
         </el-form-item>
       
    
@@ -106,20 +109,19 @@ import axios from 'axios'
 import {mapMutations} from 'vuex';
 
 export default {
-  name: "ad-inRecord",
+  name: "ad-consume",
   components:{
     
   },
   data() {
-    var validateOutRecord=(rule, value, callback) => {    
+          var validateSmeCount=(rule, value, callback) => {    
     if (value<=0) {
     
       callback(new Error("请输入合法数值"));
     }else{
-        callback();
+      callback();
     }
-    
-  };  
+  };
     return {
       info: {
         tableHead: [],
@@ -127,9 +129,6 @@ export default {
         pageSize: 10,
         count: 0,
         tableData: [],
-        tmpObj:{
-          id:"",inCount:"",userName:"",inTime:"",smeName:"",smeCount:"",smeId:"",
-        }
        
       },
       
@@ -137,29 +136,33 @@ export default {
       queryContent:"",
       dialog:{
         data:{
-          id:0,
-          inCount:"",
-          userName:"",
-          inTime:"",
-          smeId:"",  
+              id:0,
+              smeName:"",
+              smeCount:"",
+              
+           
         },
         rules: {
           
-          inCount:[
-            {required:true, message:"请输入内容"},
-            { type: 'number', message: '请输入数字',  },
-            { validator: validateOutRecord, trigger: "blur" }
-            ],
-          userName:[
-            {required:true, message:"请输入内容"},
+          smeName:[{
+            required:true, message:"请输入易耗品名"
+          }],
+          smeCount:[{
+                        required:true, message:"请输入内容"
+
+          },{ type: 'number', message: '请输入数字',  },
+          {validator:validateSmeCount,}
           ],
-          inTime:[
-            {required:true, message:"请输入时间"},
-          ],
-          smeId:[
-            {required:true,message:"请输入内容"},
-            { type: 'number', message: '请输入数字',  }
-          ]
+         
+            // name
+            //   {required:true,message:"请输入使用者姓名"}
+            // ],
+            // lgType:[
+            //   {required:true,message:"请输入使用类别"}
+            // ],
+            // objName:[
+              
+            // ],
         },
         visible:false,
         dialogTitle:"",
@@ -175,11 +178,9 @@ export default {
       return {
         page: this.info.page,
         pageSize: this.info.pageSize,
-        userName:this.queryContent,
-        inCount:this.queryContent,
-        smeId:this.queryContent,
         smeName:this.queryContent,
         smeCount:this.queryContent,
+       
         
       };
     },
@@ -202,31 +203,19 @@ export default {
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/ad/mtqueryi", this.selectform)
+      .post("http://localhost:8080/back/ad/queryConsumeTable", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
-            this.info.tableData=[];
             this.info.tableHead=response.data.data.tableHead;
             this.info.page=response.data.data.page;
             this.info.count=response.data.data.count;
-            response.data.data.tableData.forEach(e => {
-              console.log(e);
-              console.log("this",this)
-              e.inRecordEntities.forEach(el=>{
-                console.log("el.id",el.id)
-              this.info.tmpObj.id=el.id;
-              this.info.tmpObj.inCount=el.inCount;
-              this.info.tmpObj.userName=el.userName;
-              this.info.tmpObj.inTime=el.inTime;
-              this.info.tmpObj.smeId=el.smeId;
-              this.info.tmpObj.smeName=e.smeName;
-              this.info.tmpObj.smeCount=e.smeCount;
-              
-              this.info.tableData.push(this.info.tmpObj);
-              this.info.tmpObj={}
-              });
-            });
+            this.info.tableData=response.data.data.tableData;
+            // this.$message({
+            //   message: response.data.msg,
+            //   type: "success",
+            //   center: true,
+            // });
             console.log(response.data.data)
           } else {
             this.$message({
@@ -254,12 +243,12 @@ export default {
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
       }
-      this.dialog.data.inCount=Number(this.dialog.data.inCount);
+      this.dialog.data.smeCount=Number(this.dialog.data.smeCount);
       this.dialog.visible=true;
       this.dialog.dialogTitle="修改易耗品信息";
       this.dialog.submitTitle="修改";
       this.dialog.repealSubmitTitle="取消";
-      this.dialog.url="http://localhost:8080/back/ad/updateInRecord"
+      this.dialog.url="http://localhost:8080/back/ad/updateConsume"
 
     },
     handleAdd(){
@@ -267,11 +256,11 @@ export default {
       this.dialog.dialogTitle="添加易耗品信息";
       this.dialog.submitTitle="添加";
       this.dialog.repealSubmitTitle="重置";
-      this.dialog.url="http://localhost:8080/back/ad/insertInRecord"
+      this.dialog.url="http://localhost:8080/back/ad/insertConsume"
     },
     handleDelete(index,row){
       console.log(index,row);
-            axios.post(`http://localhost:8080/back/ad/deleteInRecord/${row.id}`,).then(
+            axios.post(`http://localhost:8080/back/ad/deleteConsume/${row.id}`,).then(
         (response)=>{
           if (response.data.code === 2000) {
             this.$message({
@@ -300,9 +289,7 @@ export default {
     },
 
     submitForm(formName){
-      console.log("submitForm1");
     this.$refs[formName].validate((valid) => {
-      console.log("submitForm");
       if (valid) {
           axios.post(this.dialog.url, this.dialog.data).then(
         (response) => {
@@ -382,7 +369,7 @@ export default {
   
   },
   mounted() {
-    this.SET_CHECK_MENU("/home/com");
+    this.SET_CHECK_MENU("/home/consume");
     this.handlerQuery();
   },
 

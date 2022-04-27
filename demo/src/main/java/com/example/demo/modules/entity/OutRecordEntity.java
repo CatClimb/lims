@@ -28,7 +28,7 @@ public class OutRecordEntity extends TableVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
     private LocalDateTime outTime;
 //    @Alias("易耗品id")
-    private Integer smeId;
+    private String smeId;
 
 
 }

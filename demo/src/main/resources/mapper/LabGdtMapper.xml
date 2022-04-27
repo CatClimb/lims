@@ -7,17 +7,23 @@
         <id property="lgDate" column="lg_date"></id>
         <result property="lgStatus" column="lg_status"></result>
         <result property="userName" column="user_name"></result>
-        <result property="lgType" column="lg_type"></result>
-        <result property="objName" column="obj_name"></result>
+        <result property="id" column="id"></result>
+
+    </resultMap>
+    <resultMap id="labAndLabGdtMap" type="labGdtEntity">
+        <id property="labId" column="lab_id"></id>
+        <id property="lgTiming" column="lg_timing"></id>
+        <id property="lgDate" column="lg_date"></id>
+        <result property="lgStatus" column="lg_status"></result>
+        <result property="userName" column="user_name"></result>
         <result property="id" column="id"></result>
     </resultMap>
-
     <insert id="insert">
-        INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status,user_name,lg_type) VALUES(#{labId},#{lgTiming},#{lgDate},#{lgStatus},#{userName},#{lgType})
+        INSERT lab_gdt(lab_id,lg_timing,lg_date,lg_status,user_name) VALUES(#{labId},#{lgTiming},#{lgDate},#{lgStatus},#{userName})
     </insert>
     <update id="update">
         UPDATE lab_gdt SET
-       lab_id=#{labId},lg_timing=#{lgTiming},lg_date=#{lgDate},lg_status=#{lgStatus},user_name=#{userName},lg_type=#{lgType}
+       lab_id=#{labId},lg_timing=#{lgTiming},lg_date=#{lgDate},lg_status=#{lgStatus},user_name=#{userName}
         WHERE id=#{id}
     </update>
     <select id="conditionalQuery" resultMap="labGdtResultMap">
@@ -33,7 +39,7 @@
                       OR lg_timing LIKE CONCAT('%',#{lgTiming},'%')
                       OR lg_status LIKE CONCAT('%',#{lgStatus},'%')
                       OR user_name LIKE CONCAT('%',#{userName},'%')
-                      OR lg_type LIKE CONCAT('%',#{lgType},'%')
+
                   </otherwise>
               </choose>
         ORDER BY lab_id ASC
@@ -57,8 +63,6 @@
                 OR lg_timing LIKE CONCAT('%',#{lgTiming},'%')
                 OR lg_status LIKE CONCAT('%',#{lgStatus},'%')
                 OR user_name LIKE CONCAT('%',#{userName},'%')
-                OR lg_type LIKE CONCAT('%',#{lgType},'%')
-
             </otherwise>
         </choose>
          ORDER BY lab_id ASC

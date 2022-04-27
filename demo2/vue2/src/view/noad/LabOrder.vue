@@ -66,6 +66,7 @@
         :total="info.count"
       >
       </el-pagination>
+
   </div>
 
   </div>
@@ -88,23 +89,26 @@ export default {
         pageSize: 10,
         count: 0,
         tableData: [],
-       
+         tmpObj:{
+          id:"",labId:"",lgTiming:"",lgDate:"",lgStatus:"",userName:"",labType:""
+        },
       },
       formLabelWidth: "120px",
       queryContent: "",
       queryDate:"",
+     
       order:{
         data:{
-            id:6,
+            id:0,
             labId:"",
             lgTiming:"",
             lgDate:"",
             lgStatus:"",
             userName:"",
-            
-            lgType:"",
+          
            
         },
+    
        
       },
       
@@ -117,11 +121,13 @@ export default {
         page: this.info.page,
         pageSize: this.info.pageSize,
         labId:this.queryContent,
+        labType:this.queryContent,
         lgTiming:this.queryContent,
-        lgDate:this.queryDate,
         lgStatus:this.queryContent,
         userName:this.queryContent,
-        lgType:this.queryContent,
+        lgDate:this.queryDate,
+        
+
         
       };
     },
@@ -138,14 +144,33 @@ export default {
     handlerQuery(){
     console.log(this.selectform)
     axios
-      .post("http://localhost:8080/back/noad/queryLabGdtTable", this.selectform)
+      .post("http://localhost:8080/back/noad/mulquerylg", this.selectform)
       .then(
         (response) => {
           if (response.data.code === 2000) {
             this.info.tableHead=response.data.data.tableHead;
             this.info.page=response.data.data.page;
             this.info.count=response.data.data.count;
-            this.info.tableData=response.data.data.tableData;
+            console.log("tableData")
+            this.info.tableData=[];
+            response.data.data.tableData.forEach(e => {
+              console.log(e);
+              console.log("this",this)
+              e.labGdtEntities.forEach(el=>{
+                console.log("el.id",el.id)
+              this.info.tmpObj.id=el.id;
+              this.info.tmpObj.labId=el.labId;
+              this.info.tmpObj.lgTiming=el.lgTiming;
+              this.info.tmpObj.lgDate=el.lgDate;
+              this.info.tmpObj.lgStatus=el.lgStatus;
+              this.info.tmpObj.userName=el.userName;
+              this.info.tmpObj.labType=e.labType;
+              
+              this.info.tableData.push(this.info.tmpObj);
+              this.info.tmpObj={}
+              });
+            });
+            console.log(response.data.data)
             // this.$message({
             //   message: response.data.msg,
             //   type: "success",
@@ -173,15 +198,31 @@ export default {
     });
   });
     },
+    // handleEdit(index,row){
+    //   console.log(index,row);
+    //   for(var i in this.order.data){
+    //       this.order.data[i]=row[i];
+    //   }
+    //   this.order.data.labId=Number(this.order.data.labId);
+      
+    //   // this.order.data.lgDate=new Date(this.order.data.lgDate).
+    //   // this.order.visible=true;
+    //   // this.order.dialogTitle="预约信息";
+    //   // this.dialog.submitTitle="确定";
+    //   // this.dialog.repealSubmitTitle="取消";
+    //   this.order.data.lgStatus='被预约';
+    //   this.order.url="http://localhost:8080/back/noad/orderLab"
+
+    // },
     handleOrder(index,row){
       console.log(index,row);
       for(var i in this.order.data){
           this.order.data[i]=row[i];
       }
       this.order.data.labId=Number(this.order.data.labId);
-      this.order.data.lgStatus='被预约';
-      // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
-      axios.post("http://localhost:8080/back/noad/updateLabGdt",this.order.data).then(
+      // this.order.data.lgStatus='被预约';
+      // this.order.data.lgDate=new Date(this.order.data.lgDate).
+      axios.post("http://localhost:8080/back/noad/orderLab",this.order.data).then(
  (response) => {
           if (response.data.code === 2000) {
             this.$message({
@@ -212,7 +253,50 @@ export default {
      
 
     },
+        submitForm(formName){
+    this.$refs[formName].validate((valid) => {
+      if (valid) {
+          axios.post(this.order.url, this.order.data).then(
+        (response) => {
+          if (response.data.code === 2000) {
+            this.$message({
+              message: response.data.msg,
+              type: "success",
+              center: true,
+            });
+            // this.$router.push({
+            //   name: 'ad-lab',
+            // })
+            this.order.visible=false;
+            this.handlerQuery();
+          } else {
+            this.$message({
+              message: response.data.msg,
+              type: "error",
+              center: true,
+            });
+            this.handlerQuery();
+          }
+        },
+        (error) => {
+          this.$message({
+            message: error.response.data.msg,
+            type: "error",
+            center: true,
+            
+          });
+          this.handlerQuery();
+        }
+      );
+          
+      } else {
+        return false;
+      }
+    });
     
+    },
+    
+   
     
     
 

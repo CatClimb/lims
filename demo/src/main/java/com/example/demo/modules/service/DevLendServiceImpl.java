@@ -1,6 +1,8 @@
 package com.example.demo.modules.service;
 
 import com.example.demo.common.util.TableControlUtil;
+import com.example.demo.common.util.ThreadTmp;
+import com.example.demo.common.util.TokenUtil;
 import com.example.demo.modules.dao.DevLendDao;
 import com.example.demo.modules.entity.DevLendEntity;
 import com.example.demo.vo.TableVO;
@@ -46,5 +48,22 @@ public class DevLendServiceImpl implements DevLendService{
     public void setTable(TableVO tableVO) {
         tableControlUtil.setTable(tableVO,devLendDao);
         tableVO.setTableHead(tableControlUtil.getTableHead(DevLendEntity.class,0));
+    }
+
+    @Override
+    public boolean handleDevLend(DevLendEntity devLendEntity) {
+        devLendEntity.setUserName(TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken()));
+        devLendEntity.setDevUStatus("被借用");
+        return devLendDao.update(devLendEntity);
+    }
+
+    @Override
+    public boolean cancelDevLend(DevLendEntity devLendEntity) {
+        devLendEntity.setUserName(null);
+        devLendEntity.setDeviceSTime(null);
+        devLendEntity.setDeviceETime(null);
+        devLendEntity.setDevReason(null);
+        devLendEntity.setDevUStatus("可借用");
+        return devLendDao.update(devLendEntity);
     }
 }

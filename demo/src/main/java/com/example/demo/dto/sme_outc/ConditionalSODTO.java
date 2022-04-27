@@ -8,12 +8,12 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class QueryConditionalSO extends TableVO {
-private int outCount;
-private String name;
+public class ConditionalSODTO extends TableVO {
+private String outCount;
+private String userName;
 private String outStatus;
 private String outReason;
-private int smeId;
+private String smeId;
 private String smeName;
-private int smeCount;
+private String smeCount;
 }

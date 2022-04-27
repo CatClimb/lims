@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.modules.dao.ComsumeDao">
-    <resultMap id="ComsumeResultMap" type="comsumeEntity">
+<mapper namespace="com.example.demo.modules.dao.ConsumeDao">
+    <resultMap id="ConsumeResultMap" type="consumeEntity">
         <id property="id" column="id"></id>
         <result property="smeName" column="sme_name"></result>
         <result property="smeCount" column="sme_count"></result>
 
     </resultMap>
-    <resultMap id="SmeAndInRecord" type="comsumeEntity">
+    <resultMap id="SmeAndInRecord" type="consumeEntity">
         <id property="id" column="id"></id>
         <result property="smeName" column="sme_name"></result>
         <result property="smeCount" column="sme_count"></result>
@@ -20,7 +20,7 @@
         </collection>
     </resultMap>
 
-    <resultMap id="SMeAndOutRecord" type="comsumeEntity">
+    <resultMap id="SmeAndOutRecord" type="consumeEntity">
         <id property="id" column="id"></id>
         <result property="smeName" column="sme_name"></result>
         <result property="smeCount" column="sme_count"></result>
@@ -34,10 +34,10 @@
             <result property="smeId" column="sme_id"  ></result>
         </collection>
     </resultMap>
-    <select id="mulTablequeryInRecord" resultMap="SmeAndInRecord">
+    <select id="mulTableQueryInRecord" resultMap="SmeAndInRecord">
         SELECT  i.id in_id,i.in_count,i.user_name,i.in_time, i.sme_id ,
                c.id, c.sme_name,c.sme_count
-        FROM in_record i inner join comsume c on i.sme_id=c.id
+        FROM in_record i inner join consume c on i.sme_id=c.id
             WHERE
             i.user_name like concat('%',#{userName},'%')
             OR i.in_count like concat('%',#{inCount},'%')
@@ -47,8 +47,8 @@
             ORDER BY in_id ASC
             LIMIT #{start},#{pageSize}
     </select>
-    <select id="mulTablequeryInRecordCount"  resultType="int">
-        SELECT COUNT(*) FROM in_record i inner join comsume c on i.sme_id=c.id
+    <select id="mulTableQueryInRecordCount"  resultType="int">
+        SELECT COUNT(*) FROM in_record i inner join consume c on i.sme_id=c.id
         WHERE
             i.user_name like concat('%',#{userName},'%')
            OR i.in_count like concat('%',#{inCount},'%')
@@ -57,10 +57,10 @@
            OR c.sme_count like concat('%',#{smeCount},'%')
 
     </select>
-    <select id="mulTablequeryOutRecord" resultMap="SMeAndOutRecord">
+    <select id="mulTableQueryOutRecord" resultMap="SmeAndOutRecord">
         SELECT o.id out_id,o.out_count,o.user_name,o.out_status,o.out_reason,o.out_time,o.sme_id,
                c.sme_name,c.sme_count
-               FROM out_record  o LEFT JOIN comsume c ON o.sme_id=c.id
+               FROM out_record  o LEFT JOIN consume c ON o.sme_id=c.id
         WHERE
             o.out_count LIKE CONCAT('%',#{outCount},'%')
             OR o.user_name LIKE CONCAT('%',#{userName},'%')
@@ -73,9 +73,9 @@
             LIMIT #{start},#{pageSize}
 
     </select>
-    <select id="mulTablequeryOutRecordCount" resultType="int">
+    <select id="mulTableQueryOutRecordCount" resultType="int">
         SELECT  COUNT(*)
-        FROM out_record  o LEFT JOIN comsume c ON o.sme_id=c.id
+        FROM out_record  o LEFT JOIN consume c ON o.sme_id=c.id
         WHERE
             o.out_count LIKE CONCAT('%',#{outCount},'%')
            OR o.user_name LIKE CONCAT('%',#{userName},'%')
@@ -87,18 +87,18 @@
 
     </select>
     <insert id="insert">
-        INSERT comsume(sme_name,sme_count) VALUES(#{smeName},#{smeCount})
+        INSERT consume(sme_name,sme_count) VALUES(#{smeName},#{smeCount})
     </insert>
 
     <update id="update">
-        UPDATE comsume
+        UPDATE consume
         SET sme_name=#{smeName},sme_count=#{smeCount}
         WHERE id=#{id}
     </update>
 
-    <select id="conditionalQuery" resultMap="ComsumeResultMap">
+    <select id="conditionalQuery" resultMap="ConsumeResultMap">
         SELECT *
-        FROM comsume
+        FROM consume
         WHERE
             sme_name LIKE CONCAT('%',#{smeName},'%')
            OR sme_count LIKE CONCAT('%',#{smeCount},'%')
@@ -108,14 +108,17 @@
     </select>
 
     <delete id="deleteById">
-        DELETE FROM comsume
+        DELETE FROM consume
         WHERE id=#{id}
     </delete>
-
+    <select id="selectById" resultMap="ConsumeResultMap">
+        SELECT * FROM consume
+        WHERE id=#{_parameter}
+    </select>
     <select id="conditionalQueryCount" resultType="int">
         SELECT COUNT(*) FROM
             (SELECT *
-             FROM comsume
+             FROM consume
              WHERE
                  sme_name LIKE CONCAT('%',#{smeName},'%')
                 OR sme_count LIKE CONCAT('%',#{smeCount},'%')
