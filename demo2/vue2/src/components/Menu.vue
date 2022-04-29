@@ -25,8 +25,8 @@
                 </template>
               </el-menu-item>
           </el-menu-item-group>
-              <el-badge :value="12" class="item" v-show="item.title=='项目管理'">
-                  </el-badge>
+              <!-- <el-badge :value="12" class="item" v-show="item.title=='项目管理'"> -->
+                  <!-- </el-badge> -->
               <el-submenu :index="item.path" v-if="item.children != undefined" >
                 
                 <template slot="title">
@@ -35,8 +35,8 @@
                 </template>
                 <template v-for="childItem in item.children">
                 <el-menu-item-group>
-                  <el-badge :value="12" class="item" v-show="childItem.title=='登记处理'">
-                    </el-badge>
+                  <!-- <el-badge :value="12" class="item" v-show="childItem.title=='登记处理'">
+                    </el-badge> -->
                   <el-menu-item :index="childItem.path" v-if="childItem.children == undefined">{{childItem.title}}</el-menu-item>
                   
                 </el-menu-item-group>

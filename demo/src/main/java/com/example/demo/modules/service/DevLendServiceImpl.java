@@ -6,10 +6,12 @@ import com.example.demo.common.util.TokenUtil;
 import com.example.demo.modules.dao.DevLendDao;
 import com.example.demo.modules.entity.DevLendEntity;
 import com.example.demo.vo.TableVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Slf4j
 @Service
 public class DevLendServiceImpl implements DevLendService{
     private final DevLendDao devLendDao;
@@ -53,17 +55,43 @@ public class DevLendServiceImpl implements DevLendService{
     @Override
     public boolean handleDevLend(DevLendEntity devLendEntity) {
         devLendEntity.setUserName(TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken()));
-        devLendEntity.setDevUStatus("被借用");
-        return devLendDao.update(devLendEntity);
+        devLendEntity.setDevUStatus("申请中");
+        return devLendDao.updateFixationDevUStatus2(devLendEntity);
     }
 
     @Override
+    //取消 也是提前归还 和逾期归还
     public boolean cancelDevLend(DevLendEntity devLendEntity) {
         devLendEntity.setUserName(null);
-        devLendEntity.setDeviceSTime(null);
-        devLendEntity.setDeviceETime(null);
+        devLendEntity.setBorrowTime(null);
+        devLendEntity.setReturnTime(null);
+        devLendEntity.setUserName(null);
         devLendEntity.setDevReason(null);
         devLendEntity.setDevUStatus("可借用");
-        return devLendDao.update(devLendEntity);
+        return devLendDao.updateFixationDevUStatus(devLendEntity);
+    }
+
+    @Override
+    public boolean lendPass(DevLendEntity devLendEntity) {
+        //检测设备状态吗
+        devLendEntity.setDevUStatus("被借用");
+        devLendEntity.setReturnStatus(false);
+        log.info("xxxxxxxxxxxxxxxxxxxxxx"+devLendEntity.toString());
+
+        return devLendDao.updateFixationDevUStatus(devLendEntity);
+    }
+
+    @Override
+    public boolean lendNoPass(DevLendEntity devLendEntity) {
+        //检测设备状态吗
+        devLendEntity.setDevUStatus("可借用");
+        devLendEntity.setUserName(null);
+        devLendEntity.setBorrowTime(null);
+        devLendEntity.setReturnTime(null);
+        devLendEntity.setDevReason(null);//加通知吗
+
+        log.info("xxxxxxxxxxxxxxxxxxxxxx"+devLendEntity.toString());
+        return devLendDao.updateFixationDevUStatus(devLendEntity);
+
     }
 }

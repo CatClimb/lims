@@ -45,8 +45,11 @@
       >
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="150">
+      <el-table-column label="操作" fixed="right" width="250">
         <template slot-scope="scope">
+          <el-button size="mini" type="success" @click="handleAddCount(scope.$index, scope.row)"
+            >入库操作</el-button
+          >
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -74,7 +77,7 @@
       >
       </el-pagination>
   </div>
-    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog()">
+    <el-dialog :title="dialog.dialogTitle" :visible.sync="dialog.visible" @close="closeDialog('form')">
       <el-form
         :model="dialog.data"
         :rules="dialog.rules"
@@ -84,7 +87,7 @@
       >
         
 
-        <el-form-item label="易耗品名字" prop="smeName">
+        <el-form-item label="易耗品名字" prop="smeName" >
           <el-input v-model="dialog.data.smeName"></el-input>
         </el-form-item>
         <el-form-item label="易耗品数量" prop="smeCount">
@@ -99,6 +102,35 @@
 
         <el-button type="primary" @click="resetForm('form')"
           >{{dialog.repealSubmitTitle}}</el-button
+        >
+      </div>
+    </el-dialog>
+
+    <el-dialog :title="inForm.dialogTitle" :visible.sync="inForm.visible" @close="closeDialog('form2')">
+      <el-form
+        :model="inForm.data"
+        :rules="inForm.rules"
+        ref="form2"
+        label-width="100px"
+        class="demo-formData"
+      >
+        
+
+        <el-form-item label="易耗品名字" prop="smeName" >
+          <el-input v-model="inForm.data.smeName" :readonly="true"></el-input>
+        </el-form-item>
+        <el-form-item label="入库数量" prop="addCount">
+          <el-input v-model.number="inForm.data.addCount" ></el-input>
+        </el-form-item>
+      
+   
+       
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addCountSubmit('form2')">{{inForm.submitTitle}}</el-button>
+
+        <el-button type="primary" @click="resetForm('form2')"
+          >{{inForm.repealSubmitTitle}}</el-button
         >
       </div>
     </el-dialog>
@@ -131,7 +163,26 @@ export default {
         tableData: [],
        
       },
-      
+      inForm:{
+        data:{
+          id:0,
+          smeName:"",
+          addCount:0,
+        },
+        dialogTitle:"",
+        submitTitle:"",
+        repealSubmitTitle:"",
+        visible:false,
+        rules:{
+          addCount:[{
+              required:true, message:"请输入内容"
+
+          },{ type: 'number', message: '请输入数字',  },
+          {validator:validateSmeCount,}
+          ],
+        }
+        
+      },
       formLabelWidth: "120px",
       queryContent:"",
       dialog:{
@@ -242,7 +293,9 @@ export default {
       console.log(index,row);
       for(var i in this.dialog.data){
           this.dialog.data[i]=row[i];
+          console.log("row[0]",this.dialog.data[i])
       }
+      
       this.dialog.data.smeCount=Number(this.dialog.data.smeCount);
       this.dialog.visible=true;
       this.dialog.dialogTitle="修改易耗品信息";
@@ -251,6 +304,56 @@ export default {
       this.dialog.url="http://localhost:8080/back/ad/updateConsume"
 
     },
+    handleAddCount(index,row){
+      
+      this.inForm.data.id=row['id'];
+    
+      this.inForm.data.smeName=row['smeName'];
+      this.inForm.data.addCount=0;
+      this.inForm.visible=true;
+      this.inForm.dialogTitle="入库信息";
+      this.inForm.submitTitle="确定";
+      this.inForm.repealSubmitTitle="取消";
+      
+    // axios.get()
+  },
+  addCountSubmit(formName){
+    this.$refs[formName].validate((valid) => {
+    if (valid) {
+    axios.get(`http://localhost:8080/back/ad/addCount?id=${this.inForm.data.id}&addCount=${new Number(this.inForm.data.addCount)}`).then(
+      (response)=>{
+        if (response.data.code === 2000) {
+            this.$message({
+                  message: response.data.msg,
+                  type: "success",
+                  center: true,
+                });
+            this.handlerQuery();
+            this.inForm.visible=false;    
+          }else{
+            this.$message({
+              message:response.data.msg,
+              type:"error",
+              center:true
+            })
+          }
+      },
+
+      (error)=>{
+          this.$message({
+            message: error.response.data.msg,
+            type: "error",
+            center: true,
+          });
+        }
+    );
+  
+    }else{
+  return false;
+    }
+    });
+
+  },
     handleAdd(){
       this.dialog.visible=true;
       this.dialog.dialogTitle="添加易耗品信息";
@@ -336,32 +439,44 @@ export default {
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
+            for(var i in this.inForm.data){
+              this.inForm.data[i]="";
+            }
             this.$refs[formName].clearValidate();
             
         }else{
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
+            for(var i in this.inForm.data){
+              this.inForm.data[i]="";
+            }
             this.$nextTick(() => {
                this.dialog.visible=false
+               this.inForm.visible=false
+               
               
             });
             this.$refs[formName].clearValidate();
         }
       
     },
-    closeDialog(){
+    closeDialog(formName){
             for(var i in this.dialog.data){
               this.dialog.data[i]="";
             }
+            for(var i in this.inForm.data){
+              this.inForm.data[i]="";
+            }
             this.$nextTick(() => {
-              this.$refs['form'].clearValidate();
+              this.$refs[formName].clearValidate();
             });
             
     },
     ...mapMutations(["SET_CHECK_MENU"])
 
   },
+
   watch:{
     queryContent(){
       this.handlerQuery();

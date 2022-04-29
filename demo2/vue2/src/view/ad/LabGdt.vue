@@ -350,8 +350,9 @@ export default {
               type: "error",
               center: true,
             });
-            this.handlerQuery();
+            
           }
+          this.handlerQuery();
         },
         (error) => {
           this.$message({
@@ -388,7 +389,7 @@ export default {
             });
             this.$refs[formName].clearValidate();
         }
-      
+      this.handlerQuery();
     },
     closeDialog(){
             for(var i in this.dialog.data){

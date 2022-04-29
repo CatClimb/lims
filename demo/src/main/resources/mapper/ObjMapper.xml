@@ -31,6 +31,11 @@
 
         WHERE id=#{id}
     </update>
+    <update id="updateByIdFixationObjStatus">
+        UPDATE obj SET
+                       obj_name=#{objName},obj_description=#{objDescription},obj_status=#{objStatus},user_name=#{userName},obj_s_time=#{objSTime},obj_e_time=#{objETime},record_time=#{recordTime},obj_reason=#{objReason}
+        WHERE id=#{id} and obj_status='审批中'
+    </update>
     <select id="conditionalQuery" resultMap="ObjResultMap">
         SELECT * FROM obj
         WHERE

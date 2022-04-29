@@ -8,3 +8,4 @@ public interface LabService extends Service{
     public void mulTableQueryLabGdt(TableVO tableVO);
     public int mulTableQueryLabGdtCount(TableVO tableVO);
 }
+

@@ -10,6 +10,7 @@ import com.example.demo.vo.TableVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -94,5 +95,21 @@ public class ObjServiceImpl implements ObjService {
     @Override
     public boolean nRegisterObj(Integer id) {
         return objDao.deleteById(id);
+    }
+
+    @Override
+    public boolean objPass(ObjEntity objEntity) {
+        objEntity.setRecordTime(LocalDateTime.now());
+        objEntity.setObjStatus("已审批");
+        return objDao.updateByIdFixationObjStatus(objEntity);
+
+    }
+
+    @Override
+    public boolean objNoPass(ObjEntity objEntity) {
+        objEntity.setRecordTime(LocalDateTime.now());
+        objEntity.setObjStatus("不予通过");
+        return objDao.updateByIdFixationObjStatus(objEntity);
+
     }
 }

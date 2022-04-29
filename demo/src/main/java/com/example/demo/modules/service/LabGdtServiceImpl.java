@@ -71,7 +71,7 @@ public class LabGdtServiceImpl implements LabGdtService {
         String userNameByToken = TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken( ));
         labGdtEntity.setUserName(userNameByToken);
         labGdtEntity.setLgStatus("被预约");
-        return labGdtDao.update(labGdtEntity);
+        return labGdtDao.updateByIdFixationLgStatus(labGdtEntity);
     }
 }
 

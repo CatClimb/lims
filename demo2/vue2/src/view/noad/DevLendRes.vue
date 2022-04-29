@@ -31,12 +31,17 @@
       </el-table-column> -->
       <el-table-column min-width=100 show-overflow-tooltip
         v-for="(item, index) of info.tableHead"
+        v-if="index!=8"
         :key="index"
         :label="item[1]"
         :prop="item[0]"
       >
       </el-table-column>
-
+<el-table-column min-width=100 show-overflow-tooltip
+      :formatter="formatBoolean"
+        :label="info.tableHead[8] ? info.tableHead[8][1] : ''"
+        :prop="info.tableHead[8] ? info.tableHead[8][0] : ''"  
+      ></el-table-column>
       <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">
          
@@ -44,8 +49,21 @@
             size="mini"
             type="danger"
             @click="cancelDevLend(scope.$index, scope.row)"
-            >删除</el-button
-          >
+            v-show="scope.row.devStatus=='良好'&&scope.row.devUStatus=='申请中'"
+            >取消</el-button>
+
+            <el-button
+            size="mini"
+            style="background-color:LightGreen"
+            @click="cancelDevLend(scope.$index, scope.row)"
+            v-show="scope.row.devStatus=='良好'&&scope.row.devUStatus=='被借用'&&new Date(scope.row.returnTime).getTime()>new Date().getTime()"
+            >提前归还</el-button>
+            <el-button
+            size="mini"
+            style="background-color:orange"
+            @click="cancelDevLend(scope.$index, scope.row)"
+            v-show="scope.row.devStatus=='良好'&&scope.row.devUStatus=='被借用'&&new Date(scope.row.returnTime).getTime()<new Date().getTime()"
+            >逾期归还</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -89,12 +107,13 @@ export default {
 id:"",
 devUStatus:"",
 userName:"",
-deviceSTime:"",
-deviceETime:"",
+borrowTime:"",
+returnTime:"",
 devReason:"",
 devName:"",
 devPrice:"",
 devStatus:"",
+returnStatus:"",
         }
       },
      
@@ -105,10 +124,11 @@ devStatus:"",
               id:"",
               devUStatus:"",
               userName:"",
-              deviceSTime:"",
-              deviceETime:"",
+              borrowTime:"",
+              returnTime:"",
               devReason  :"",
               devName:'',
+              returnStatus:"",
         },
        
 
@@ -135,6 +155,16 @@ devStatus:"",
   },
   methods: {
     ...mapMutations(['SET_CHECK_MENU']),
+    formatBoolean: function (row, column, cellValue) {
+              // console.log("cellvalue",cellValue)
+                var ret = ''  //你想在页面展示的值
+                if (cellValue) {
+                    ret = "是"  //根据自己的需求设定
+                } else {
+                    ret = "否"
+                }
+                return ret;
+            },
     handleSizeChange(val) {
       this.info.pageSize = val;
       this.handlerQuery();
@@ -153,14 +183,15 @@ devStatus:"",
             this.info.tableHead=response.data.data.tableHead;
             this.info.page=response.data.data.page;
             this.info.count=response.data.data.count;
-            this.info.tableData=[];
+             this.info.tableData=[];
             response.data.data.tableData.forEach(e => {
               this.info.tmpObj.id=e.devLendEntity.id;
               this.info.tmpObj.devUStatus=e.devLendEntity.devUStatus;
               this.info.tmpObj.userName=e.devLendEntity.userName;
-              this.info.tmpObj.deviceSTime=e.devLendEntity.deviceSTime;
-              this.info.tmpObj.deviceETime=e.devLendEntity.deviceETime;
+              this.info.tmpObj.borrowTime=e.devLendEntity.borrowTime;
+              this.info.tmpObj.returnTime=e.devLendEntity.returnTime;
               this.info.tmpObj.devReason=e.devLendEntity.devReason;
+              this.info.tmpObj.returnStatus=e.devLendEntity.returnStatus;
               this.info.tmpObj.devName=e.devName;
               this.info.tmpObj.devPrice=e.devPrice;
               this.info.tmpObj.devStatus=e.devStatus;
@@ -197,8 +228,8 @@ devStatus:"",
     //   }
     //    this.dialog.data.dateSD=["",""]
     //   this.dialog.data.id=Number(this.dialog.data.id);
-    //   this.dialog.data.dateSD[0]=this.dialog.data.deviceSTime;
-    //   this.dialog.data.dateSD[1]=this.dialog.data.deviceETime;
+    //   this.dialog.data.dateSD[0]=this.dialog.data.borrowTime;
+    //   this.dialog.data.dateSD[1]=this.dialog.data.returnTime;
     //   // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
     //   this.dialog.visible=true;
       
@@ -215,6 +246,7 @@ devStatus:"",
           this.cannel.data[i]=row[i];
       }
       this.cannel.data.id=Number(this.cannel.data.id);
+      // 
             axios.post("http://localhost:8080/back/noad/cancelDevLend",this.cannel.data).then(
         (response)=>{
           if (response.data.code === 2000) {

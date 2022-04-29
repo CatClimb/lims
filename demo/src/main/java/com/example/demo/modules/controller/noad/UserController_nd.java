@@ -3,6 +3,7 @@ package com.example.demo.modules.controller.noad;
 import com.example.demo.common.result.Result;
 import com.example.demo.common.util.ThreadTmp;
 import com.example.demo.common.util.TokenUtil;
+import com.example.demo.dto.user.UpPwdDTO;
 import com.example.demo.modules.entity.UserEntity;
 import com.example.demo.modules.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,14 +28,14 @@ public class UserController_nd {
      * @param userEntity
      * @return
      */
-//    @PostMapping("/updateUser")
-//    public Result<String> updateUser(@RequestBody UserEntity userEntity){
-//        boolean b = userService.update(userEntity);
-//        if(b){
-//            return Result.success("更新成功");
-//        }
-//        return Result.fail("更新失败");
-//    }
+    @PostMapping("/updateUser")
+    public Result<String> updateUser(@RequestBody UserEntity userEntity){
+        boolean b = userService.update(userEntity);
+        if(b){
+            return Result.success("更新成功");
+        }
+        return Result.fail("更新失败");
+    }
 
     /**
      * 获取自己信息
@@ -46,5 +47,14 @@ public class UserController_nd {
         log.info("userName:"+userName);
         log.info("userService.findUserByUserName(userName):"+userService.findUserByUserName(userName));
         return Result.success("获取个人信息成功",userService.findUserByUserName(userName));
+    }
+
+    @PostMapping("/updatePwd")
+    public Result<String> updatePwd(@RequestBody UpPwdDTO upPwdDTO){
+        boolean b = userService.updatePwd(upPwdDTO);
+        if(b){
+            return Result.success("更新成功");
+        }
+        return Result.fail("密码错误，请重新输入");
     }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao extends Dao {
     public UserEntity findUserByUserName(String userName);
+
 }

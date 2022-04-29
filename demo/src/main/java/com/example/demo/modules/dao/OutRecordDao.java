@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OutRecordDao extends Dao {
     public OutRecordEntity selectById(Integer id);
+    public boolean updateByIdFixationOutStatus(OutRecordEntity outRecordEntity);
+    public boolean deleteByIdFixationOutStatus(Integer id);
 }

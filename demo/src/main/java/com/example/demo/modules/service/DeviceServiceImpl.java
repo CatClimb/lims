@@ -83,9 +83,10 @@ public class DeviceServiceImpl implements DeviceService{
         strings.add(new String[]{"devStatus","设备状态"});
         strings.add(new String[]{"devUStatus","借用状态"});
         strings.add(new String[]{"userName","借用人"});
-        strings.add(new String[]{"deviceSTime","开始时间"});
-        strings.add(new String[]{"deviceETime","结束时间"});
+        strings.add(new String[]{"borrowTime","借用时间"});
+        strings.add(new String[]{"returnTime","归还时间"});
         strings.add(new String[]{"devReason","借用原因"});
+        strings.add(new String[]{"returnStatus","是否归还"});
 
         tableVO.setTableHead(strings);
     }

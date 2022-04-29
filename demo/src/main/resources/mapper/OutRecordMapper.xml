@@ -22,12 +22,18 @@
         </choose>
     </insert>
 
+
     <update id="update">
         UPDATE out_record
         SET out_count=#{outCount},user_name=#{userName},out_status=#{outStatus},out_reason=#{outReason},out_time=#{outTime},sme_id=#{smeId}
         WHERE id=#{id}
     </update>
 
+    <update id="updateByIdFixationOutStatus">
+        UPDATE out_record
+        SET out_count=#{outCount},user_name=#{userName},out_reason=#{outReason},out_time=#{outTime},sme_id=#{smeId}
+        WHERE id=#{id} and out_status='出库中',
+    </update>
     <select id="conditionalQuery" resultMap="OutRecordResultMap">
         SELECT *
         FROM out_record
@@ -48,9 +54,14 @@
         DELETE FROM out_record
         WHERE id=#{id}
     </delete>
+    <delete id="deleteByIdFixationOutStatus">
+        DELETE FROM out_record
+        WHERE id=#{id} and out_status='出库中'
+    </delete>
     <select id="selectById" resultMap="OutRecordResultMap">
         SELECT * FROM out_record WHERE id=#{_parameter}
     </select>
+
     <select id="conditionalQueryCount" resultType="int">
         SELECT COUNT(*) FROM
             (SELECT *

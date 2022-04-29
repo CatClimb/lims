@@ -16,15 +16,16 @@
         <result property="devLendEntity.id" column="dl_id"></result>
         <result property="devLendEntity.devUStatus" column="dev_u_status"></result>
         <result property="devLendEntity.userName" column="user_name"></result>
-        <result property="devLendEntity.deviceSTime" column="device_s_time"></result>
-        <result property="devLendEntity.deviceETime" column="device_e_time"></result>
+        <result property="devLendEntity.borrowTime" column="borrow_time"></result>
+        <result property="devLendEntity.returnTime" column="return_time"></result>
         <result property="devLendEntity.devReason" column="dev_reason"></result>
+        <result property="devLendEntity.returnStatus" column="is_return"></result>
     </resultMap>
 
     <select id="mulTableQueryDevLend" resultMap="DevAndDevLend">
         SELECT
             dl.id dl_id,dl.dev_u_status,dl.user_name,
-            dl.device_s_time,dl.device_e_time,dl.dev_reason,
+            dl.borrow_time,dl.return_time,dl.dev_reason,dl.is_return,
             d.dev_name,d.dev_price,d.dev_status
         FROM dev_lend dl LEFT JOIN device d ON dl.id=d.id
         WHERE

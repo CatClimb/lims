@@ -36,7 +36,7 @@ public class DevLendController_nd {
             return Result.success("申请中");
         }
         else{
-            return Result.fail("借用失败");
+            return Result.fail("操作失败");
         }
     }
 
@@ -54,8 +54,9 @@ public class DevLendController_nd {
             return Result.success("取消成功");
         }
         else{
-            return Result.fail("取消失败");
+            return Result.fail("操作失败");
         }
     }
+
 
 }

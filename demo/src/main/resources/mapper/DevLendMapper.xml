@@ -5,21 +5,31 @@
 <id property="id" column="id"></id>
 <result property="devUStatus" column="dev_u_status"></result>
 <result property="userName" column="user_name"></result>
-<result property="deviceSTime" column="device_s_time"></result>
-<result property="deviceETime" column="device_e_time"></result>
+<result property="borrowTime" column="borrow_time"></result>
+<result property="returnTime" column="return_time"></result>
 <result property="devReason" column="dev_reason"></result>
+<result property="returnStatus" column="is_return"></result>
     </resultMap>
 
     <insert id="insert">
-        INSERT dev_lend(id,dev_u_status,user_name, device_s_time,device_e_time,dev_reason) VALUES(#{id},#{devUStatus},#{userName},#{deviceSTime},#{deviceETime},#{devReason})
+        INSERT dev_lend VALUES(#{id},#{devUStatus},#{userName},#{borrowTime},#{returnTime},#{devReason},#{returnStatus})
     </insert>
 
     <update id="update">
         UPDATE dev_lend
-    SET dev_u_status=#{devUStatus},user_name=#{userName},device_s_time=#{deviceSTime},device_e_time=#{deviceETime},dev_reason=#{devReason}
+    SET dev_u_status=#{devUStatus},user_name=#{userName},borrow_time=#{borrowTime},return_time=#{returnTime},dev_reason=#{devReason},is_return=#{returnStatus}
     WHERE id=#{id}
     </update>
-
+    <update id="updateFixationDevUStatus">
+        UPDATE dev_lend dl LEFT JOIN device d ON dl.id=d.id
+    SET dl.dev_u_status=#{devUStatus},dl.user_name=#{userName},dl.borrow_time=#{borrowTime},dl.return_time=#{returnTime},dl.dev_reason=#{devReason},dl.is_return=#{returnStatus}
+    WHERE dl.id=#{id} and dl.dev_u_status='申请中' and d.dev_status='良好'
+    </update>
+    <update id="updateFixationDevUStatus2">
+        UPDATE dev_lend dl LEFT JOIN device d ON dl.id=d.id
+    SET dl.dev_u_status=#{devUStatus},dl.user_name=#{userName},dl.borrow_time=#{borrowTime},dl.return_time=#{returnTime},dl.dev_reason=#{devReason},dl.is_return=#{returnStatus}
+    WHERE dl.id=#{id} and dl.dev_u_status='可借用' and d.dev_status='良好'
+    </update>
     <select id="conditionalQuery" resultMap="DevLendResultMap">
         SELECT *
         FROM dev_lend
@@ -43,7 +53,7 @@
         FROM (SELECT *
               FROM dev_lend
               WHERE
-                 
+
                   dev_u_status LIKE CONCAT('%',#{devUStatus},'%')
                  OR user_name LIKE CONCAT('%',#{userName},'%')
                  OR dev_reason LIKE CONCAT('%',#{devReason},'%')

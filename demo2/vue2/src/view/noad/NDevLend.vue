@@ -61,15 +61,15 @@
       
        
        
-      <!-- <el-form-item label="开始时间" prop="deviceSTime">
+      <!-- <el-form-item label="开始时间" prop="borrowTime">
           <el-col :span="11">
-            <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.deviceSTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.borrowTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
           </el-col>
         
         </el-form-item>
-      <el-form-item label="结束时间" prop="deviceETime">
+      <el-form-item label="结束时间" prop="returnTime">
           <el-col :span="11">
-            <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.deviceETime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="dialog.data.returnTime" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
           </el-col>
         
         </el-form-item> -->
@@ -126,8 +126,8 @@ export default {
 id:"",
 devUStatus:"",
 userName:"",
-deviceSTime:"",
-deviceETime:"",
+borrowTime:"",
+returnTime:"",
 devReason:"",
 devName:"",
 devPrice:"",
@@ -142,11 +142,12 @@ devStatus:"",
               id:"",
               devUStatus:"",
               userName:"",
-              deviceSTime:"",
-              deviceETime:"",
+              borrowTime:"",
+              returnTime:"",
               devReason  :"",
               devName:'',
               dateSD:["",""],
+              returnStatus:"",
         },
         rules: {
           devReason:[
@@ -218,9 +219,10 @@ devStatus:"",
               this.info.tmpObj.id=e.devLendEntity.id;
               this.info.tmpObj.devUStatus=e.devLendEntity.devUStatus;
               this.info.tmpObj.userName=e.devLendEntity.userName;
-              this.info.tmpObj.deviceSTime=e.devLendEntity.deviceSTime;
-              this.info.tmpObj.deviceETime=e.devLendEntity.deviceETime;
+              this.info.tmpObj.borrowTime=e.devLendEntity.borrowTime;
+              this.info.tmpObj.returnTime=e.devLendEntity.returnTime;
               this.info.tmpObj.devReason=e.devLendEntity.devReason;
+              this.info.tmpObj.returnStatus=e.devLendEntity.returnStatus;
               this.info.tmpObj.devName=e.devName;
               this.info.tmpObj.devPrice=e.devPrice;
               this.info.tmpObj.devStatus=e.devStatus;
@@ -257,9 +259,10 @@ devStatus:"",
       }
        this.dialog.data.dateSD=["",""]
       this.dialog.data.id=Number(this.dialog.data.id);
-      if(this.dialog.data.deviceSTime&&this.dialog.data.deviceETime){
-              this.dialog.data.dateSD[0]=this.dialog.data.deviceSTime;
-      this.dialog.data.dateSD[1]=this.dialog.data.deviceETime;
+      if(this.dialog.data.borrowTime&&this.dialog.data.returnTime){
+              this.dialog.data.dateSD[0]=this.dialog.data.borrowTime;
+      this.dialog.data.dateSD[1]=this.dialog.data.returnTime;
+      this.dialog.data.returnStatus=this.dialog.data.returnStatus ? true:false;
       }
 
       // this.dialog.data.lgDate=new Date(this.dialog.data.lgDate).
@@ -278,8 +281,8 @@ devStatus:"",
     this.$refs[formName].validate((valid) => {
       if (valid) {
   
-        this.dialog.data.deviceSTime=this.dialog.data.dateSD[0];
-        this.dialog.data.deviceETime=this.dialog.data.dateSD[1];
+        this.dialog.data.borrowTime=this.dialog.data.dateSD[0];
+        this.dialog.data.returnTime=this.dialog.data.dateSD[1];
 
           axios.post(this.dialog.url, this.dialog.data).then(
         (response) => {

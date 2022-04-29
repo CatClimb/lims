@@ -102,7 +102,7 @@
     </ul>
 
     <!-- 更新个人资料 -->
-    <el-dialog :title="dialogtitleUpdateInfo" :visible.sync="dialogVisibleUpdateInfo">
+    <el-dialog :title="dialogtitleUpdateInfo" :visible.sync="dialogVisibleUpdateInfo" @close="closeDialog('infoNode')">
         <el-form
           :model="info"
           ref="infoNode"
@@ -152,15 +152,16 @@
           
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisibleUpdateInfo = false">取 消</el-button>
-
           <el-button type="primary" @click="handlerUpdateInfo('infoNode')"
-            >添 加</el-button
+            >确定</el-button
           >
+          <el-button @click="resetForm('infoNode')">取 消</el-button>
+
+          
         </div>
       </el-dialog>
     <!-- 更新密码 -->
-      <el-dialog :title="dialogtitleUpdatePwd" :visible.sync="dialogVisibleUpdatePwd">
+      <el-dialog :title="dialogtitleUpdatePwd" :visible.sync="dialogVisibleUpdatePwd" @close="closeDialog('pwdNode')">
         <el-form
           :model="pwdForm"
           ref="pwdNode"
@@ -178,11 +179,12 @@
         </el-form-item>
         </el-form>
          <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisibleUpdatePwd = false">取 消</el-button>
-
-          <el-button type="primary" @click="handlerUpdateInfo('pwdNode')"
-            >添 加</el-button
+           <el-button type="primary" @click="handlerUpdatePwd('pwdNode')"
+            >确定</el-button
           >
+          <el-button @click="resetForm('pwdNode')">取消</el-button>
+
+          
         </div>
       </el-dialog>
     
@@ -200,9 +202,7 @@ export default {
       if (value === "") {
           
         callback(new Error("请输入密码"));
-      } else if (value !== this.info.password) {
-        callback(new Error("密码错误"));
-      }else{
+      } else{
           callback();
       }
     };
@@ -219,9 +219,10 @@ export default {
     };
     return {
       pwdForm:{
-        id:'',
+        
         passwordO:'',
         passwordN:'',
+        againPassword:"",
         
       },
       info: {
@@ -338,6 +339,8 @@ export default {
               center: true,
             });
           }
+         
+
         },
         (error) => {
           this.$message({
@@ -349,6 +352,7 @@ export default {
       );
     },
     handlerUpdateInfo(formName){
+        this.handlerShowInfo();
         this.$refs[formName].validate((valid) => {
         if (valid) {
           axios.post("http://localhost:8080/back/ad/updateUser",this.info).then(
@@ -360,6 +364,47 @@ export default {
               type: "success",
               center: true,
             });
+          this.dialogVisibleUpdateInfo=false;    
+           this.handlerShowInfo();
+          } else {
+            this.$message({
+              message: response.data.msg,
+              type: "error",
+              center: true,
+            });
+          }
+           
+        },
+        (error) => {
+          this.$message({
+            message: error.response.data.msg,
+            type: "error",
+            center: true,
+          });
+        }
+      );
+        } else {
+          
+          return false;
+        }
+      });
+    },
+    ...mapMutations(['SET_CHECK_MENU']),
+    handlerUpdatePwd(formName){
+       this.$refs[formName].validate((valid) => {
+        if (valid) {
+          axios.post("http://localhost:8080/back/ad/updatePwd",this.pwdForm).then(
+        (response) => {
+          if (response.data.code === 2000) {
+            this.info = response.data.data;
+            this.handlerShowInfo();
+            this.$message({
+              message: response.data.msg,
+              type: "success",
+              center: true,
+            });
+            this.dialogVisibleUpdatePwd=false;           
+          
           } else {
             this.$message({
               message: response.data.msg,
@@ -382,39 +427,35 @@ export default {
         }
       });
     },
-    ...mapMutations(['SET_CHECK_MENU'])
-    // handlerUpdatePwd(formName){
-    //    this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //        this.info.password=this.pwdForm.passwordN;
-    //       axios.get("http://localhost:8080/back/user/byUserName",this.info).then(
-    //     (response) => {
-    //       if (response.data.code === 2000) {
-    //         this.info = response.data.data;
-    //       } else {
-    //         this.$message({
-    //           message: response.data.msg,
-    //           type: "error",
-    //           center: true,
-    //         });
-    //       }
-    //     },
-    //     (error) => {
-    //       this.$message({
-    //         message: error.response.data.msg,
-    //         type: "error",
-    //         center: true,
-    //       });
-    //     }
-    //   );
-    //     } else {
-          
-    //       return false;
-    //     }
-    //   });
-    // },
     
+    resetForm(formName) { 
+        
+        
+            for(var i in this.info){
+              this.info[i]="";
+            }
+            this.$nextTick(() => {
+               this.dialogVisibleUpdateInfo=false
+               this.dialogVisibleUpdatePwd=false
+              
+            });
+            this.$refs[formName].clearValidate();
+                    this.handlerShowInfo();
+
+      
+    },
+    closeDialog(formName){
+            for(var i in this.info){
+              this.info[i]="";
+            }
+            this.$nextTick(() => {
+              this.$refs[formName].clearValidate();
+            });
+            this.handlerShowInfo();
+    },
     
+    ...mapMutations(["SET_CHECK_MENU"])
+
   },
   mounted(){
     this.SET_CHECK_MENU("/home/person");

@@ -64,4 +64,28 @@ public class ObjController {
         objService.RecordObjByRecordTimeBetween(objSDVO);
         return Result.success("期间登记项目数量为"+objSDVO.getCount(),objSDVO);
     }
+
+    @PostMapping("/objPass")
+    private Result<ObjSEVO> objPass(@RequestBody ObjEntity objEntity){
+        log.info("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        boolean b = objService.objPass(objEntity);
+        if (b){
+            return Result.success("操作成功");
+        }else{
+            return Result.fail("操作失败");
+        }
+
+
+    }
+    @PostMapping("/objNoPass")
+    private Result<ObjSEVO> objNoPass(@RequestBody ObjEntity objEntity){
+        log.info("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        boolean b = objService.objNoPass(objEntity);
+        if (b){
+            return Result.success("操作成功");
+        }else{
+            return Result.fail("操作失败");
+        }
+
+    }
 }

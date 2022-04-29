@@ -13,6 +13,8 @@ import DevLend from '../view/ad/DevLend.vue'
 import Consume from '../view/ad/Consume.vue'
 import InRecord from '../view/ad/InRecord.vue'
 import OutRecord from '../view/ad/OutRecord.vue'
+import LendHandle from '../view/ad/LendHandle.vue'
+import ObjHandle from '../view/ad/ObjHandle.vue'
 
 import NPerson from '../view/noad/NPerson.vue'
 import LabOrder from '../view/noad/LabOrder.vue'
@@ -105,6 +107,16 @@ const routes = [
             path:'outHandle',
             name:'ad-outHandle',
             component:OutHandle
+          },
+          {
+            path:'lendHandle',
+            name:'ad-lendHandle',
+            component:LendHandle
+          },
+          {
+            path:'objHandle',
+            name:'ad-objHandle',
+            component:ObjHandle
           },
 
 

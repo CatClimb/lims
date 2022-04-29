@@ -6,8 +6,10 @@ import com.example.demo.common.util.ThreadTmp;
 import com.example.demo.common.util.TokenUtil;
 import com.example.demo.dto.sme_outc.ApplyForOutStoreDTO;
 import com.example.demo.modules.dao.ConsumeDao;
+import com.example.demo.modules.dao.InRecordDao;
 import com.example.demo.modules.dao.OutRecordDao;
 import com.example.demo.modules.entity.ConsumeEntity;
+import com.example.demo.modules.entity.InRecordEntity;
 import com.example.demo.modules.entity.OutRecordEntity;
 import com.example.demo.vo.TableVO;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,16 +29,40 @@ import java.util.List;
 public class ConsumeServiceImpl implements ConsumeService {
     private final ConsumeDao consumeDao;
     private final OutRecordDao outRecordDao;
+    private final InRecordDao inRecordDao;
     private final TableControlUtil<ConsumeEntity> tableControlUtil;
     @Autowired
-    public ConsumeServiceImpl(TableControlUtil<ConsumeEntity> tableControlUtil, ConsumeDao consumeDao, OutRecordDao outRecordDao){
+    public ConsumeServiceImpl(TableControlUtil<ConsumeEntity> tableControlUtil, ConsumeDao consumeDao, OutRecordDao outRecordDao, InRecordDao inRecordDao){
         this.tableControlUtil=tableControlUtil;
         this.consumeDao=consumeDao;
         this.outRecordDao = outRecordDao;
+        this.inRecordDao = inRecordDao;
     }
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     public boolean insert(TableVO tableVO) {
-        return consumeDao.insert(tableVO);
+        ConsumeEntity consumeEntity=(ConsumeEntity) tableVO;
+        boolean b =consumeDao.insert(tableVO);
+        if (!b){
+            return false;
+        }
+        InRecordEntity inRecordEntity = new InRecordEntity( );
+
+        inRecordEntity.setInCount(consumeEntity.getSmeCount());
+        inRecordEntity.setInTime(LocalDateTime.now());
+        inRecordEntity.setUserName(TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken()));
+        ConsumeEntity consumeEntity1 = consumeDao.selectByConsumeName(consumeEntity.getSmeName( ));
+        inRecordEntity.setSmeId(String.valueOf(consumeEntity1.getId()));
+        log.info("xxxxxxxxxxxxxxxxxxxx"+inRecordEntity.toString());
+        boolean insert = inRecordDao.insert(inRecordEntity);
+        if (!insert){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
+        }
+        return true;
+
+
+
     }
 
     @Override
@@ -142,32 +169,30 @@ public class ConsumeServiceImpl implements ConsumeService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     public boolean applyForOutStore(ApplyForOutStoreDTO applyForOutStoreDTO) {
-        int calculateResult=applyForOutStoreDTO.getSmeCount()-applyForOutStoreDTO.getOutCount();
-        ConsumeEntity consumeEntity = new ConsumeEntity(applyForOutStoreDTO.getId(),applyForOutStoreDTO.getSmeName(),String.valueOf(calculateResult),null,null);
+
+        ConsumeEntity consumeEntity = new ConsumeEntity(applyForOutStoreDTO.getId(),applyForOutStoreDTO.getSmeName(),String.valueOf(applyForOutStoreDTO.getOutCount()),null,null);
         log.info("xxxxxxxxxxxxxxxx"+consumeDao);
-        if(consumeDao.selectById(applyForOutStoreDTO.getId()).getSmeCount().equals(String.valueOf(applyForOutStoreDTO.getSmeCount()))){
-            boolean update = consumeDao.update(consumeEntity);
-            if(!update){
-                return false;
-            }
-            OutRecordEntity outRecordEntity=new OutRecordEntity();
-            outRecordEntity.setUserName(TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken()));
-            outRecordEntity.setOutCount(String.valueOf(applyForOutStoreDTO.getOutCount()));
-            outRecordEntity.setOutReason(applyForOutStoreDTO.getOutReason());
-            outRecordEntity.setOutStatus("出库中");
-            outRecordEntity.setSmeId(String.valueOf(applyForOutStoreDTO.getId()));
-//        outRecordEntity.setOutTime( LocalDateTime.now());
-            boolean insert = outRecordDao.insert(outRecordEntity);
-            if (!insert){
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                log.info("yyyyyyyyyyyyyyyyyyy");
-                return false;
-            }else {
-                return true;
-            }
-        }else{
+
+        boolean update = consumeDao.updateByIdSub(consumeEntity);
+        if(!update){
             return false;
         }
+        OutRecordEntity outRecordEntity=new OutRecordEntity();
+        outRecordEntity.setUserName(TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken()));
+        outRecordEntity.setOutCount(String.valueOf(applyForOutStoreDTO.getOutCount()));
+        outRecordEntity.setOutReason(applyForOutStoreDTO.getOutReason());
+        outRecordEntity.setOutStatus("出库中");
+        outRecordEntity.setSmeId(String.valueOf(applyForOutStoreDTO.getId()));
+//        outRecordEntity.setOutTime( LocalDateTime.now());
+        boolean insert = outRecordDao.insert(outRecordEntity);
+        if (!insert){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.info("yyyyyyyyyyyyyyyyyyy");
+            return false;
+        }else {
+            return true;
+        }
+
 
 
 
@@ -176,25 +201,46 @@ public class ConsumeServiceImpl implements ConsumeService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     public boolean cancelOutStore(OutRecordEntity outRecordEntity) {
-        if(outRecordDao.selectById(outRecordEntity.getId()).getOutStatus().equals("出库中")){
-            ConsumeEntity consumeEntity = consumeDao.selectById(Integer.valueOf(outRecordEntity.getSmeId( )));
-            int calculateResult=Integer.parseInt(consumeEntity.getSmeCount())+Integer.parseInt(outRecordEntity.getOutCount());
-            consumeEntity.setSmeCount(String.valueOf(calculateResult));
-            boolean update = consumeDao.update(consumeEntity);
-            if(!update){
-                return false;
-            }
-            boolean update1 = outRecordDao.deleteById(outRecordEntity.getId());
-            if(!update1){
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return false;
-            }else {
-                return true;
-            }
-
-        }else {
-            TransactionAspectSupport.currentTransactionStatus( ).setRollbackOnly( );
+        ConsumeEntity consumeEntity = consumeDao.selectById(Integer.valueOf(outRecordEntity.getSmeId( )));
+        consumeEntity.setSmeCount(outRecordEntity.getOutCount());
+        boolean update = consumeDao.updateByIdAdd(consumeEntity);
+        if(!update){
             return false;
         }
+        boolean update1 = outRecordDao.deleteByIdFixationOutStatus(outRecordEntity.getId());
+        if(!update1){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
+        }else {
+            return true;
+        }
+
+
+    }
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Override
+    public boolean addCount(Integer id,Integer addCount) {
+        ConsumeEntity consumeEntity = consumeDao.selectById(id);
+        if(consumeEntity==null){
+            return false;
+        }
+        consumeEntity.setSmeCount(String.valueOf(addCount));
+        boolean b = consumeDao.updateByIdAdd(consumeEntity);
+        if(!b){
+            return false;
+        }
+        InRecordEntity inRecordEntity = new InRecordEntity( );
+        inRecordEntity.setInCount(consumeEntity.getSmeCount());
+        inRecordEntity.setInTime(LocalDateTime.now());
+        inRecordEntity.setUserName(TokenUtil.getUserNameByToken(ThreadTmp.getThreadLocalForToken()));
+        inRecordEntity.setSmeId(String.valueOf(id));
+        boolean insert = inRecordDao.insert(inRecordEntity);
+        if(!insert){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
+        }else{
+            return true;
+        }
+
     }
 }

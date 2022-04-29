@@ -95,7 +95,16 @@
         SET sme_name=#{smeName},sme_count=#{smeCount}
         WHERE id=#{id}
     </update>
-
+    <update id="updateByIdAdd">
+        UPDATE consume
+        SET sme_name=#{smeName},sme_count=sme_count+#{smeCount}
+        WHERE id=#{id}
+    </update>
+    <update id="updateByIdSub">
+        UPDATE consume
+        SET sme_name=#{smeName},sme_count=sme_count-#{smeCount}
+        WHERE id=#{id}
+    </update>
     <select id="conditionalQuery" resultMap="ConsumeResultMap">
         SELECT *
         FROM consume
@@ -115,6 +124,12 @@
         SELECT * FROM consume
         WHERE id=#{_parameter}
     </select>
+
+    <select id="selectByConsumeName" resultMap="ConsumeResultMap">
+        SELECT * FROM consume
+        WHERE sme_name=#{smeName}
+    </select>
+
     <select id="conditionalQueryCount" resultType="int">
         SELECT COUNT(*) FROM
             (SELECT *

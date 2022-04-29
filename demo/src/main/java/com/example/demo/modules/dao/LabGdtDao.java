@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface LabGdtDao extends Dao {
 
     public boolean deleteLabGdt(LabGdtEntity labGdtEntity);
+    public boolean updateByIdFixationLgStatus(LabGdtEntity labGdtEntity);
 }

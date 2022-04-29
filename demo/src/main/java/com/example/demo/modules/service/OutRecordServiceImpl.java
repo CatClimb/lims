@@ -60,19 +60,10 @@ public class OutRecordServiceImpl implements  OutRecordService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     public boolean outPass(OutRecordEntity outRecordEntity) {
         outRecordEntity.setOutStatus("已出库");
         outRecordEntity.setOutTime(LocalDateTime.now());
-        if(outRecordDao.selectById(outRecordEntity.getId()).getOutStatus().equals("出库中")){
-
-            return outRecordDao.update(outRecordEntity);
-        }else {
-            return false;
-        }
-
-
-
+        return outRecordDao.updateByIdFixationOutStatus(outRecordEntity);
     }
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     @Override
@@ -87,20 +78,16 @@ public class OutRecordServiceImpl implements  OutRecordService {
         }
         outRecordEntity.setOutStatus("未出库");
         outRecordEntity.setOutTime(LocalDateTime.now());
-        if(outRecordDao.selectById(outRecordEntity.getId()).getOutStatus().equals("出库中")) {
-            boolean update1 = outRecordDao.update(outRecordEntity);
-            if (!update1) {
-                log.info("outRecordEntity update出问题");
-                TransactionAspectSupport.currentTransactionStatus( ).setRollbackOnly( );
-                return false;
-            }else {
-                return true;
-            }
-
-        }else {
+        boolean update1 = outRecordDao.updateByIdFixationOutStatus(outRecordEntity);
+        if (!update1) {
+            log.info("outRecordEntity update出问题");
             TransactionAspectSupport.currentTransactionStatus( ).setRollbackOnly( );
             return false;
+        }else {
+            return true;
         }
+
+
 
 
     }

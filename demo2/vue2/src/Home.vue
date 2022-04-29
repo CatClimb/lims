@@ -169,7 +169,7 @@ this.personInfoPath=menuData[0].path
                   index: 3 - 2,
                 },
                 {
-                  path: "",
+                  path: "/home/objHandle",
                   title: "登记处理",
                   index: 3 - 3,
                 },
@@ -192,7 +192,7 @@ this.personInfoPath=menuData[0].path
                   index:4 - 2,
                 },
                 {
-                  path:"",
+                  path:"/home/lendHandle",
                   title:"借用处理",
                   index:4 - 3,
                 }

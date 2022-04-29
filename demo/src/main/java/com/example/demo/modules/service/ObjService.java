@@ -8,4 +8,7 @@ public interface ObjService extends Service {
     public Integer RecordObjByRecordTimeBetweenCount(ObjSEVO objSDVO);
     public boolean registerObj(ObjEntity objEntity);
     public boolean nRegisterObj(Integer id);
+    public boolean objPass(ObjEntity objEntity);
+    public boolean objNoPass(ObjEntity objEntity);
+
 }

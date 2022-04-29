@@ -1,8 +1,10 @@
 package com.example.demo.modules.controller.ad;
 
 import com.example.demo.common.result.Result;
+import com.example.demo.dto.dev_devl.ConditionalForDDLDTO;
 import com.example.demo.modules.entity.DevLendEntity;
 import com.example.demo.modules.service.DevLendService;
+import com.example.demo.modules.service.DeviceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class DevLendController {
 
     public final DevLendService devLendService;
+    public final DeviceService deviceService;
     @Autowired
-    public DevLendController(DevLendService devLendService) {
+    public DevLendController(DevLendService devLendService, DeviceService deviceService) {
         this.devLendService = devLendService;
+        this.deviceService = deviceService;
     }
     @PostMapping("/insertDevLend")
     private Result<String> insertDevLend(@RequestBody DevLendEntity deviceEntity){
@@ -47,6 +51,13 @@ public class DevLendController {
         return Result.success("查询成功",deviceEntity);
     }
 
+    @PostMapping("/mulquerydl")
+    public Result<ConditionalForDDLDTO> mulTableQueryDevLend(@RequestBody ConditionalForDDLDTO conditionalForDDLDTO){
+        log.info("deviceEntity.toString():"+conditionalForDDLDTO.toString());
+        deviceService.mulTableQueryDevLend(conditionalForDDLDTO);
+        return Result.success("查询成功",conditionalForDDLDTO);
+    }
+
     @PostMapping("/deleteDevLend/{id}")
     private Result<DevLendEntity> deleteDevLendById(@PathVariable("id") Integer id){
         boolean b = devLendService.deleteById(id);
@@ -57,5 +68,29 @@ public class DevLendController {
             return Result.fail("删除失败");
         }
     }
+
+    @PostMapping("/lendPass")
+    private Result<DevLendEntity> lendPass(@RequestBody DevLendEntity devLendEntity){
+        boolean b = devLendService.lendPass(devLendEntity);
+        if (b){
+            return Result.success("审批通过");
+        }
+        else{
+            return Result.fail("操作失败");
+        }
+    }
+
+    @PostMapping("/lendNoPass")
+    private Result<DevLendEntity> lendNoPass(@RequestBody DevLendEntity devLendEntity){
+        boolean b = devLendService.lendNoPass(devLendEntity);
+        if (b){
+            return Result.success("不批准");
+        }
+        else{
+            return Result.fail("操作失败");
+        }
+    }
+
+
 
 }

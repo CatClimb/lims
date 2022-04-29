@@ -26,6 +26,12 @@
        lab_id=#{labId},lg_timing=#{lgTiming},lg_date=#{lgDate},lg_status=#{lgStatus},user_name=#{userName}
         WHERE id=#{id}
     </update>
+    <update id="updateByIdFixationLgStatus">
+        UPDATE lab_gdt SET
+       lab_id=#{labId},lg_timing=#{lgTiming},lg_date=#{lgDate},lg_status=#{lgStatus},user_name=#{userName}
+        WHERE id=#{id} and lg_status='可预约'
+    </update>
+
     <select id="conditionalQuery" resultMap="labGdtResultMap">
         SELECT *
         FROM lab_gdt

@@ -6,6 +6,7 @@ import com.example.demo.dto.sme_inc.ConditionalForSIDTO;
 import com.example.demo.dto.sme_outc.ApplyForOutStoreDTO;
 import com.example.demo.dto.sme_outc.ConditionalSODTO;
 import com.example.demo.modules.entity.ConsumeEntity;
+import com.example.demo.modules.entity.InRecordEntity;
 import com.example.demo.modules.service.ConsumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,16 @@ public class ConsumeController {
         consumeService.mulTableQueryOutRecord(conditionalSODTO);
         return Result.success("查询成功",conditionalSODTO);
     }
-
+    @GetMapping("/addCount")
+    private Result<InRecordEntity> addCount( @RequestParam("id") Integer id ,@RequestParam("addCount")  Integer addCount){
+        boolean b = consumeService.addCount(id, addCount);
+        if (b){
+            return Result.success("入库成功");
+        }
+        else{
+            return Result.fail("入库失败");
+        }
+    }
 
 }
 
