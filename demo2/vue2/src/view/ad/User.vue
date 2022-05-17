@@ -107,9 +107,6 @@
         <el-form-item label="微信" prop="weChat">
           <el-input v-model="dialog.data.weChat"></el-input>
         </el-form-item>
-        <el-form-item label="角色" prop="role">
-          <el-input v-model="dialog.data.role"></el-input>
-        </el-form-item>
         <el-form-item label="权限" prop="auth">
           <el-select v-model="dialog.data.auth" placeholder="请选择权限">
             <el-option label="普通用户" value="普通用户"></el-option>
@@ -169,7 +166,7 @@ export default {
             phone:"",
             email:"",
             weChat:"",
-            role:"",
+        
             auth:""
         },
         rules: {
@@ -224,9 +221,7 @@ export default {
             
             },
             ],
-            role:[
-                { required: true, message: "请输入角色"  }
-            ],
+         
             auth:[
               { required: true, message: "请输入权限"  }
             ]
@@ -252,7 +247,7 @@ export default {
         phone:this.queryContent,
         email:this.queryContent,
         weChat:this.queryContent,
-        role:this.queryContent,
+      
         auth:this.queryContent,
         
       };

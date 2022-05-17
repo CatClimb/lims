@@ -3,7 +3,7 @@
 <mapper namespace="com.example.demo.modules.dao.UserDao">
 
     <resultMap id="UserResultMap" type="userEntity" >
-        <result property="id" column="id"/>
+        <id property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="password" column="password"/>
         <result property="name" column="name"/>
@@ -11,21 +11,32 @@
         <result property="phone" column="phone"/>
         <result property="email" column="email"/>
         <result property="weChat" column="we_chat"/>
-        <result property="role" column="role"/>
+
         <result property="auth" column="auth"/>
         <!--<result property="login_time" column="login_time"/>-->
     </resultMap>
 
+    <resultMap id="UserForMulRole" type="userEntity" >
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="weChat" column="we_chat"/>
+        <result property="auth" column="auth"/>
+        <result property="userName" column="user_name"/>
+        <collection property="roleEntities" ofType="roleEntity">
+            <id property="id" column="role_id"></id>
+            <result property="roleName" column="role_name"></result>
+            <result property="roleDescribe" column="role_describe"></result>
+        </collection>
+    </resultMap>
+    
+    
     <insert id="insert">
         <choose>
-            <when test="role!=null and role!='' and auth!=null and auth!=''">
-                INSERT user(user_name,password,name,sex,phone,email,we_chat,role,auth)
-                VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{role},#{auth})
-            </when>
-            <when test="role!=null and role!=''" >
-                INSERT user(user_name,password,name,sex,phone,email,we_chat,role)
-                VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{role})
-            </when>
             <when test="auth!=null and auth!=''">
                 INSERT user(user_name,password,name,sex,phone,email,we_chat,auth)
                 VALUES(#{userName},#{password},#{name},#{sex},#{phone},#{email},#{weChat},#{auth})
@@ -46,7 +57,7 @@
             phone=#{phone},
             email=#{email},
             we_chat=#{weChat},
-            role=#{role},
+
             auth=#{auth}
         WHERE
             id=#{id}
@@ -64,7 +75,6 @@
             OR phone LIKE CONCAT('%',#{phone},'%')
             OR email LIKE CONCAT('%',#{email},'%')
             OR we_chat LIKE CONCAT('%',#{weChat},'%')
-            OR role LIKE CONCAT('%',#{role},'%')
             OR auth LIKE CONCAT('%',#{auth},'%')
         ORDER BY id ASC
         LIMIT #{start},#{pageSize}
@@ -82,24 +92,63 @@
     </select>
 
     <select id="conditionalQueryCount" resultType="java.lang.Integer">
-         SELECT COUNT(*) FROM
-                              (
-                                  SELECT *
-                                  FROM user
-                                  WHERE
 
-                                      user_name LIKE CONCAT('%',#{userName},'%')
-                                     OR password LIKE CONCAT('%',#{password},'%')
-                                     OR name LIKE CONCAT('%',#{name},'%')
-                                     OR sex LIKE CONCAT('%',#{sex},'%')
-                                     OR phone LIKE CONCAT('%',#{phone},'%')
-                                     OR email LIKE CONCAT('%',#{email},'%')
-                                     OR we_chat LIKE CONCAT('%',#{weChat},'%')
-                                     OR role LIKE CONCAT('%',#{role},'%')
-                                     OR auth LIKE CONCAT('%',#{auth},'%')
-                                  ORDER BY id ASC
 
-                                  )
-                                  temp
+              SELECT COUNT(*)
+              FROM user
+              WHERE
+
+                  user_name LIKE CONCAT('%',#{userName},'%')
+                 OR password LIKE CONCAT('%',#{password},'%')
+                 OR name LIKE CONCAT('%',#{name},'%')
+                 OR sex LIKE CONCAT('%',#{sex},'%')
+                 OR phone LIKE CONCAT('%',#{phone},'%')
+                 OR email LIKE CONCAT('%',#{email},'%')
+                 OR we_chat LIKE CONCAT('%',#{weChat},'%')
+                 OR auth LIKE CONCAT('%',#{auth},'%')
+
+
+    </select>
+
+
+    <select id="mulTableQueryRole" resultMap="UserForMulRole">
+        select u.id,u.user_name,r.role_name,r.id role_id from
+               user u ,role r,UR ur
+
+                where
+                      u.id=ur.user_id and r.id=ur.role_id and
+                    user_name LIKE CONCAT('%',#{userName},'%')
+
+        ORDER BY u.id ASC
+            LIMIT #{start},#{pageSize}
+    </select>
+
+    <select id="mulTableQueryRoleCount" resultType="int">
+        select COUNT(*) from
+            (select * from user u left join UR ur on  u.id=ur.user_id) tmp
+                left join role r on tmp.role_id=r.id
+        where
+            user_name LIKE CONCAT('%',#{userName},'%')
+    </select>
+<insert id="mulAddMiddleTableRole" >
+
+    insert UR(user_id,role_id) values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.userId},#{item.roleId})
+    </foreach>
+</insert>
+    <delete id="mulDeleteMiddleTableRole" >
+        <foreach collection="list" item="item" separator=";">
+            delete from UR
+            where user_id=#{item.userId} and role_id=#{item.roleId}
+        </foreach>
+    </delete>
+
+    <select id="getRoleByUserId" resultMap="UserForMulRole">
+    select u.id,u.user_name,r.role_name,r.id role_id from
+        user u ,role r,UR ur
+    where
+        u.id=ur.user_id and r.id=ur.role_id and
+            u.id =#{id}
     </select>
 </mapper>

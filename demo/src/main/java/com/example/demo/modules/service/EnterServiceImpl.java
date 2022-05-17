@@ -42,7 +42,7 @@ public class EnterServiceImpl implements EnterService {
 
         if(b){
 //            2.插入成功返回token
-            String token= TokenUtil.createJWTToken(userEntity.getUserName(),userEntity.getAuth());
+            String token= TokenUtil.createJWTToken(userEntity.getUserName(),"普通用户");
             return new TokenDTO(token);
         }
         //        3.返回空

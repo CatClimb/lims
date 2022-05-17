@@ -1,0 +1,12 @@
+ INFO [restartedMain] 2022-05-06 01:53:39 (StartupInfoLogger.java:55) Starting DemoApplication using Java 1.8.0_251 on DESKTOP-L22BFH4 with PID 3108 (D:\bs\demo\target\classes started by 11044 in D:\bs\demo)
+ INFO [restartedMain] 2022-05-06 01:53:39 (SpringApplication.java:640) No active profile set, falling back to 1 default profile: "default"
+ INFO [restartedMain] 2022-05-06 01:53:39 (DeferredLog.java:255) Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+ INFO [restartedMain] 2022-05-06 01:53:39 (DeferredLog.java:255) For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+ INFO [restartedMain] 2022-05-06 01:53:40 (TomcatWebServer.java:108) Tomcat initialized with port(s): 8888 (http)
+ INFO [restartedMain] 2022-05-06 01:53:40 (ServletWebServerApplicationContext.java:290) Root WebApplicationContext: initialization completed in 908 ms
+ INFO [restartedMain] 2022-05-06 01:53:41 (Log4j2Impl.java:106) {dataSource-1} inited
+ INFO [restartedMain] 2022-05-06 01:53:41 (OptionalLiveReloadServer.java:58) LiveReload server is running on port 35729
+ INFO [restartedMain] 2022-05-06 01:53:41 (TomcatWebServer.java:220) Tomcat started on port(s): 8888 (http) with context path ''
+ INFO [restartedMain] 2022-05-06 01:53:41 (StartupInfoLogger.java:61) Started DemoApplication in 2.097 seconds (JVM running for 2.905)
+ INFO [http-nio-8888-exec-2] 2022-05-06 01:53:48 (FrameworkServlet.java:525) Initializing Servlet 'dispatcherServlet'
+ INFO [http-nio-8888-exec-2] 2022-05-06 01:53:48 (FrameworkServlet.java:547) Completed initialization in 0 ms

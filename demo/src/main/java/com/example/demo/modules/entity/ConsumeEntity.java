@@ -4,6 +4,7 @@ import com.example.demo.common.Alias;
 import com.example.demo.vo.TableVO;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 //@EqualsAndHashCode(callSuper = false)
-public class ConsumeEntity extends TableVO {
+public class ConsumeEntity extends TableVO implements Serializable {
 
     @Alias("id")
     private Integer id;

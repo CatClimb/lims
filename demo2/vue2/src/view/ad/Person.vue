@@ -88,12 +88,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <span> {{info.weChat }}</span>
       </li>
-      <li>
-        <span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span> {{info.role }}</span>
-        
-      </li>
+    
       <li>
         <span>权&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;限</span>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -235,7 +230,7 @@ export default {
         email: "",
         weChat: "",
         auth: "",
-        role: "",
+      
         loginTime: '',
         againPassword:''
       },

@@ -5,6 +5,9 @@ import com.example.demo.modules.dao.LabDao;
 import com.example.demo.modules.entity.LabEntity;
 import com.example.demo.vo.TableVO;
 import lombok.extern.slf4j.Slf4j;
+
+import org.mybatis.logging.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class LabServiceImpl implements LabService {
+    private final Logger LOG = LoggerFactory.getLogger(LabServiceImpl.class);
     private final LabDao labDao;
     private final TableControlUtil<LabEntity> tableControlUtil;
     @Autowired
@@ -55,8 +59,6 @@ public class LabServiceImpl implements LabService {
 
 
     }
-
-
     @Override
     public void mulTableQueryLabGdt(TableVO tableVO) {
         if(tableVO.getPage()<=0){
@@ -95,4 +97,6 @@ public class LabServiceImpl implements LabService {
     public int mulTableQueryLabGdtCount(TableVO tableVO) {
         return labDao.mulTableQueryLabGdtCount(tableVO);
     }
+
+    
 }

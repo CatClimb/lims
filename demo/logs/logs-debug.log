@@ -1,0 +1,50 @@
+2022-05-06 01:39:57, 893 [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 1.8.0_251 on DESKTOP-L22BFH4 with PID 5012 (D:\bs\demo\target\classes started by 11044 in D:\bs\demo)
+2022-05-06 01:39:57, 900 [restartedMain] DEBUG com.example.demo.DemoApplication - Running with Spring Boot v2.6.5, Spring v5.3.17
+2022-05-06 01:39:57, 901 [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2022-05-06 01:39:59, 746 [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 2.276 seconds (JVM running for 3.26)
+2022-05-06 01:42:09, 744 [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 1.8.0_251 on DESKTOP-L22BFH4 with PID 10548 (D:\bs\demo\target\classes started by 11044 in D:\bs\demo)
+2022-05-06 01:42:09, 752 [restartedMain] DEBUG com.example.demo.DemoApplication - Running with Spring Boot v2.6.5, Spring v5.3.17
+2022-05-06 01:42:09, 753 [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2022-05-06 01:42:11, 721 [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 2.409 seconds (JVM running for 3.409)
+2022-05-06 02:03:31, 075 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.mulTableQueryInRecordCount - ==>  Preparing: SELECT COUNT(*) FROM in_record i inner join consume c on i.sme_id=c.id WHERE i.user_name like concat('%',?,'%') OR i.in_count like concat('%',?,'%') OR i.sme_id like concat('%',?,'%') OR c.sme_name like concat('%',?,'%') OR c.sme_count like concat('%',?,'%')
+2022-05-06 02:03:31, 090 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.mulTableQueryInRecordCount - ==> Parameters: null, null, null, null, null
+2022-05-06 02:03:31, 106 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.mulTableQueryInRecordCount - <==      Total: 1
+2022-05-06 14:10:00, 070 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.mulTableQueryInRecordCount - ==>  Preparing: SELECT COUNT(*) FROM in_record i inner join consume c on i.sme_id=c.id WHERE i.user_name like concat('%',?,'%') OR i.in_count like concat('%',?,'%') OR i.sme_id like concat('%',?,'%') OR c.sme_name like concat('%',?,'%') OR c.sme_count like concat('%',?,'%')
+2022-05-06 14:10:00, 090 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.mulTableQueryInRecordCount - ==> Parameters: null, null, null, null, null
+2022-05-06 14:10:00, 164 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.mulTableQueryInRecordCount - <==      Total: 1
+2022-05-06 14:19:17, 228 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.selectById - ==>  Preparing: SELECT * FROM consume WHERE id=?
+2022-05-06 14:19:17, 243 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.selectById - ==> Parameters: 1(Integer)
+2022-05-06 14:19:17, 264 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.selectById - <==      Total: 1
+2022-05-06 14:22:45, 302 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.selectById - ==>  Preparing: SELECT * FROM consume WHERE id=?
+2022-05-06 14:22:45, 318 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.selectById - ==> Parameters: 1(Integer)
+2022-05-06 14:22:45, 332 [restartedMain] DEBUG com.example.demo.modules.dao.ConsumeDao.selectById - <==      Total: 1
+2022-05-06 14:41:18, 560 [http-nio-8888-exec-1] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==>  Preparing: SELECT COUNT(*) FROM( SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC ) temp
+2022-05-06 14:41:18, 561 [http-nio-8888-exec-1] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==> Parameters: (String), (String)
+2022-05-06 14:41:18, 591 [http-nio-8888-exec-1] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - <==      Total: 1
+2022-05-06 14:41:18, 593 [http-nio-8888-exec-1] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==>  Preparing: SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC LIMIT ?,?
+2022-05-06 14:41:18, 594 [http-nio-8888-exec-1] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==> Parameters: (String), (String), 0(Integer), 10(Integer)
+2022-05-06 14:41:18, 599 [http-nio-8888-exec-1] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - <==      Total: 8
+2022-05-06 14:41:25, 865 [http-nio-8888-exec-7] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==>  Preparing: SELECT COUNT(*) FROM( SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC ) temp
+2022-05-06 14:41:25, 865 [http-nio-8888-exec-7] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==> Parameters: (String), (String)
+2022-05-06 14:41:25, 869 [http-nio-8888-exec-7] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - <==      Total: 1
+2022-05-06 14:41:25, 870 [http-nio-8888-exec-7] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==>  Preparing: SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC LIMIT ?,?
+2022-05-06 14:41:25, 870 [http-nio-8888-exec-7] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==> Parameters: (String), (String), 0(Integer), 10(Integer)
+2022-05-06 14:41:25, 873 [http-nio-8888-exec-7] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - <==      Total: 8
+2022-05-06 14:41:59, 158 [http-nio-8888-exec-10] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==>  Preparing: SELECT COUNT(*) FROM( SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC ) temp
+2022-05-06 14:41:59, 159 [http-nio-8888-exec-10] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==> Parameters: (String), (String)
+2022-05-06 14:41:59, 160 [http-nio-8888-exec-10] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - <==      Total: 1
+2022-05-06 14:41:59, 161 [http-nio-8888-exec-10] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==>  Preparing: SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC LIMIT ?,?
+2022-05-06 14:41:59, 162 [http-nio-8888-exec-10] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==> Parameters: (String), (String), 0(Integer), 10(Integer)
+2022-05-06 14:41:59, 164 [http-nio-8888-exec-10] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - <==      Total: 8
+2022-05-06 14:42:00, 204 [http-nio-8888-exec-2] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==>  Preparing: SELECT COUNT(*) FROM( SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC ) temp
+2022-05-06 14:42:00, 205 [http-nio-8888-exec-2] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - ==> Parameters: (String), (String)
+2022-05-06 14:42:00, 206 [http-nio-8888-exec-2] DEBUG com.example.demo.modules.dao.LabDao.conditionalQueryCount - <==      Total: 1
+2022-05-06 14:42:00, 206 [http-nio-8888-exec-2] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==>  Preparing: SELECT * FROM lab WHERE lab_id LIKE CONCAT('%',?,'%') OR lab_type LIKE CONCAT('%',?,'%') ORDER BY id ASC LIMIT ?,?
+2022-05-06 14:42:00, 207 [http-nio-8888-exec-2] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - ==> Parameters: (String), (String), 0(Integer), 10(Integer)
+2022-05-06 14:42:00, 208 [http-nio-8888-exec-2] DEBUG com.example.demo.modules.dao.LabDao.conditionalQuery - <==      Total: 8
+2022-05-06 14:45:07, 272 [http-nio-8888-exec-8] DEBUG com.example.demo.modules.dao.UserDao.findUserByUserName - ==>  Preparing: SELECT * FROM user WHERE user_name=?
+2022-05-06 14:45:07, 273 [http-nio-8888-exec-8] DEBUG com.example.demo.modules.dao.UserDao.findUserByUserName - ==> Parameters: 飞鹿(String)
+2022-05-06 14:45:07, 281 [http-nio-8888-exec-8] DEBUG com.example.demo.modules.dao.UserDao.findUserByUserName - <==      Total: 1
+2022-05-06 14:46:08, 068 [http-nio-8888-exec-4] DEBUG com.example.demo.modules.dao.LabDao.insert - ==>  Preparing: INSERT lab(lab_id,lab_type) VALUES(?,?)
+2022-05-06 14:46:08, 069 [http-nio-8888-exec-4] DEBUG com.example.demo.modules.dao.LabDao.insert - ==> Parameters: 11100(String), 数控(String)
+2022-05-06 14:46:08, 093 [http-nio-8888-exec-4] DEBUG com.example.demo.modules.dao.LabDao.insert - <==    Updates: 1

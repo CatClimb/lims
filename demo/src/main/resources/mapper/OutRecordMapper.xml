@@ -31,8 +31,8 @@
 
     <update id="updateByIdFixationOutStatus">
         UPDATE out_record
-        SET out_count=#{outCount},user_name=#{userName},out_reason=#{outReason},out_time=#{outTime},sme_id=#{smeId}
-        WHERE id=#{id} and out_status='出库中',
+        SET out_count=#{outCount},user_name=#{userName},out_status=#{outStatus},out_reason=#{outReason},out_time=#{outTime},sme_id=#{smeId}
+        WHERE id=#{id} and out_status='出库中'
     </update>
     <select id="conditionalQuery" resultMap="OutRecordResultMap">
         SELECT *

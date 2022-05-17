@@ -15,6 +15,8 @@ import InRecord from '../view/ad/InRecord.vue'
 import OutRecord from '../view/ad/OutRecord.vue'
 import LendHandle from '../view/ad/LendHandle.vue'
 import ObjHandle from '../view/ad/ObjHandle.vue'
+import UR from '../view/ad/UR.vue'
+import Role from '../view/ad/Role.vue'
 
 import NPerson from '../view/noad/NPerson.vue'
 import LabOrder from '../view/noad/LabOrder.vue'
@@ -117,6 +119,16 @@ const routes = [
             path:'objHandle',
             name:'ad-objHandle',
             component:ObjHandle
+          },
+          {
+            path:'ur',
+            name:'ad-ur',
+            component:UR
+          },
+          {
+            path:'role',
+            name:'ad-role',
+            component:Role
           },
 
 

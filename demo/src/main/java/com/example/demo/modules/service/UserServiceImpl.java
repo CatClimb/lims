@@ -4,14 +4,19 @@ import com.example.demo.common.util.TableControlUtil;
 import com.example.demo.common.util.ThreadTmp;
 import com.example.demo.common.util.TokenUtil;
 import com.example.demo.dto.user.UpPwdDTO;
+import com.example.demo.dto.user_role.URDTO;
 import com.example.demo.modules.dao.UserDao;
 import com.example.demo.modules.entity.UserEntity;
 import com.example.demo.vo.TableVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -64,6 +69,57 @@ public class UserServiceImpl implements UserService {
 
 
     }
+
+    @Override
+    public void mulTableQueryRole(TableVO tableVO) {
+        if(tableVO.getPage()<=0){
+            tableVO.setPage(1);
+        }
+        if (tableVO.getPageSize()<=0){
+            tableVO.setPage(10);
+        }
+        int start=(tableVO.getPage()-1)* tableVO.getPageSize();
+
+        int count=userDao.mulTableQueryRoleCount(tableVO);
+        if(start>count){
+            tableVO.setPage(1);
+            start=(tableVO.getPage()-1)* tableVO.getPageSize();
+        }
+        tableVO.setStart(start);
+        tableVO.setCount(count);
+
+        tableVO.setTableData(userDao.mulTableQueryRole(tableVO));
+
+
+//        log.info("xxxxxxxxxx"+consumeDao.mulTableQueryInRecord(tableVO).toString());
+
+        //设置表头
+        List<String[]> strings = new ArrayList<>( );
+
+        strings.add(new String[]{"userName","操作人"});
+        strings.add(new String[]{"roles","角色"});
+        tableVO.setTableHead(strings);
+
+
+
+
+    }
+
+    @Override
+    public Integer mulAddMiddleTableRole(List<URDTO> urdtos) {
+        return userDao.mulAddMiddleTableRole(urdtos );
+    }
+
+    @Override
+    public Integer mulDeleteMiddleTableRole(List<URDTO> urdtos) {
+        return userDao.mulDeleteMiddleTableRole(urdtos );
+    }
+
+    @Override
+    public UserEntity getRoleByUserId(Integer id) {
+        return userDao.getRoleByUserId(id);
+    }
+
 
     @Override
     public boolean insert(TableVO tableVO) {

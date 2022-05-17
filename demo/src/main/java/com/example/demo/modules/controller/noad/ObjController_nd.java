@@ -38,16 +38,7 @@ public class ObjController_nd {
         }
     }
 
-//    @PostMapping("/updateObj")
-//    private Result<String> updateObj(@RequestBody ObjEntity objEntity){
-//        boolean b = objService.update(objEntity);
-//        if (b){
-//            return Result.success("更新成功");
-//        }
-//        else{
-//            return Result.fail("更新失败");
-//        }
-//    }
+
 
     @PostMapping("/queryObjTable")
     private Result<ObjEntity> queryObjTable(@RequestBody ObjEntity objEntity){

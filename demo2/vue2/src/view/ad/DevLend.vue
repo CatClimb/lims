@@ -358,7 +358,7 @@ devStatus:"",
     },
 
     submitForm(formName){
-      alert(this.dialog.data.returnStatus)
+
     this.$refs[formName].validate((valid) => {
       if (valid) {
           axios.post(this.dialog.url, this.dialog.data).then(

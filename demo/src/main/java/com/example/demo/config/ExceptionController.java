@@ -69,6 +69,14 @@ public class ExceptionController {
 
             return Result.fail("关联异常，请删除掉关联实验室的数据");
         }
+        else if(req.getRequestURI().startsWith("/ad/deleteDevice")){
+
+            return Result.fail("关联异常，请删除掉关联设备借用信息的数据");
+        }
+        else if(req.getRequestURI().startsWith("/ad/deleteConsume")){
+
+            return Result.fail("关联异常，请删除掉关联易耗品记录信息的数据");
+        }
 
         //暂时交给前端去解决
         return Result.fail("完整性异常：可能为用户名冲突2"+e.toString());

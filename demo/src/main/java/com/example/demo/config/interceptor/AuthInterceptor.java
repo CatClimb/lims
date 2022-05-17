@@ -30,6 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         log.info("HttpContextUtil.getURI():"+HttpContextUtil.getURI().startsWith("/ad"));
         String Auth = TokenUtil.getAuthByToken(token);
+        log.info("Auth:"+token);
         log.info("Auth:"+Auth);
         if(HttpContextUtil.getURI().startsWith("/ad")&&Auth.equals("管理员")){
             return true;

@@ -31,35 +31,175 @@
             <el-button type="primary" @click="submitForm('login_form_node')"
               >登录</el-button
             >
-            <el-button @click="RegisterIndialogVisible=true">注册</el-button>
+            <el-button @click="visiable2=true">注册</el-button>
           </el-form-item>
         </el-form>
       </div>
       
     </div>
     <div class="pic" id="animation2"></div>
-    <Register v-if="RegisterIndialogVisible"></Register>
+     <div id="register">
+    <el-dialog :title="dialogtitle2" :visible.sync="visiable2">
+      <el-form
+        :model="formData2"
+        :rules="rules2"
+        ref="register_form_node"
+        label-width="100px"
+        class="demo-formData2"
+      >
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="formData2.userName"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="formData2.password"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="againPassword">
+          <el-input type="password" v-model="formData2.againPassword"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="formData2.name"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-select v-model="formData2.sex" placeholder="请选择性别">
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model.number="formData2.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="formData2.email"></el-input>
+        </el-form-item>
+        <el-form-item label="微信" prop="weChat">
+          <el-input v-model="formData2.weChat"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="submitForm2('register_form_node')">注册</el-button>
+
+        <el-button type="primary" @click="resetForm('register_form_node')"
+          >重置</el-button
+        >
+      </div>
+    </el-dialog>
+  </div>
   </div>
 </template>
 <script>
 
-import Register from './Register.vue'
+
 import animationData1 from './anim/bj.json'
 import animationData2 from './anim/person.json'
-
+// import {T} from '../public/js/TCaptcha'
 import axios from 'axios';
 import lottie from 'lottie-web';
 import jwtDecode from 'jwt-Decode';
 export default {
   name: "login-element",
-  components:{
-    Register
-  },
+  
   data() {
+    var validateAgain = (rule, value, callback) => {
+        console.log(value)
+        console.log(this.formData2.password)
+      if (value === "") {
+          
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.formData2.password) {
+        callback(new Error("两次输入密码不一致!"));
+      }else{
+          callback();
+      }
+    };
+    var validatePhoneLength = (rule, value, callback) => {
+        console.log(value)
+        let l=value.toString().length;
+        console.log(l)
+      if (l>=6&&l<=20) {
+          callback();
+      }else{
+          callback(new Error("长度在 6 到 20!"));
+      }
+    };
     return {
       
+          visiable2: false,
+      dialogtitle2: "用户注册",
+      formData2: {
+        userName: "",
+        password: "",
+        againPassword: "",
+        name: "",
+        sex: "",
+        phone: "",
+        email: "",
+        weChat: "",
+      },
+      
+      rules2: {
+        userName: [
+          { required: true, message: "请输入用户名",  },
+          //{ validator: handlerValidate, trigger: 'blur' },
+          {
+            min: 1,
+            max: 20,
+            message: "长度在 1 到 20 个字符",
+            
+          },
+        ],
+        password: [
+          { required: true, message: "请输入密码",  },
+
+          {
+            min:6,
+            max:20,
+            message: "长度在 6 到 20 ",
+            
+          },
+        ],
+
+        againPassword: [{ validator: validateAgain,  }],
+        name: [
+          { required: true, message: "请输入姓名",  },
+          {
+            min: 2,
+            max: 20,
+            message: "长度在 2 到 20 个字符",
+          
+          },
+        ],
+        sex: [{ required: true, message: "请输入性别",  }],
+
+        phone: [
+          { required: true, message: "请输入手机号", },
+ 
+           {validator:validatePhoneLength},
+           
+      
+           
+          
+          { type: 'number', message: '请输入数字' },
+          
+         
+        ],
+        email: [
+          { required: true, message: "请输入邮箱",  },
+
+          { type: "email", message: "请输入正确的邮箱地址",  },
+        ],
+        weChat: [
+          { required: true, message: "请输入微信",  },
+          {
+            min: 6,
+            max: 20,
+            message: "长度在 6 到 20 个字符 ",
+           
+          },
+        ],
+      },
+      url2: "http://localhost:8080/back/enter/register",
+    
         url:'http://localhost:8080/back/enter/login',
-        
         formData: {
           loginName: "",
           password: "",
@@ -85,29 +225,28 @@ export default {
             },
           ],
         },
-        RegisterIndialogVisible:false
+
     }
   },
-  computed:{
-  },
+
   methods:{
     
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.handlerRequest();
-            // let captcha = new TencentCaptcha("123123", (res) => {
-            //   if (res.ret === 0) {
-            //     this.handlerRequest();
-            //   } else {
-            //       this.$message({
-            //     message: "认证失败，请重新认证",
-            //     type: "error",
-            //     center: true,
-            //   });
-            //   }
-            // });
-            // captcha.show();
+            // this.handlerRequest();
+            let captcha = new TencentCaptcha("2092476744", (res) => {
+              if (res.ret === 0) {
+                this.handlerRequest();
+              } else {
+                  this.$message({
+                message: "认证失败，请重新认证",
+                type: "error",
+                center: true,
+              });
+              }
+            });
+            captcha.show();
           } else {
   
             return false;
@@ -165,6 +304,58 @@ export default {
           }
         );
       },
+          handlerRequest2() {
+        axios.post(this.url2, this.formData2).then(
+          (response) => {
+            if (response.data.code === 2000) {
+              this.$message({
+                message: response.data.msg,
+                type: "success",
+                center: true,
+              });
+              localStorage.setItem("token", response.data.data.token);
+              // sessionStorage.setItem("isLogin",true);
+              this.$router.push({
+                name: 'noad-person',
+                
+                
+              })
+              
+            } else {
+              this.$message({
+                message: response.data.msg,
+                type: "error",
+                center: true,
+              });
+            }
+          },
+          (error) => {
+            this.$message({
+              message: error.response.data.msg,
+              type: "error",
+              center: true,
+            });
+            
+          }
+        );
+      },
+    
+    submitForm2(formName){
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+            this.handlerRequest2();
+            
+        } else {
+            
+          return false;
+        }
+      });
+     
+    },
+    
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
 
   },
   
@@ -223,3 +414,4 @@ h3 {
   opacity: 0.9;
 }
 </style>
+

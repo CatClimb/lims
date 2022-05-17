@@ -345,7 +345,7 @@ export default {
                 }
   },
   mounted() {
-    this.SET_CHECK_MENU("/home/lab");
+    this.SET_CHECK_MENU("/home/role");
     this.handlerQuery();
 
 

@@ -40,12 +40,7 @@ public class DevLendController_nd {
         }
     }
 
-//    @PostMapping("/queryDevLendTable")
-//    private Result<DevLendEntity> queryDevLendTable(@RequestBody DevLendEntity deviceEntity){
-//        log.info("deviceEntity.toString():"+deviceEntity.toString());
-//        devLendService.setTable(deviceEntity);
-//        return Result.success("查询成功",deviceEntity);
-//    }
+
 
     @PostMapping("/cancelDevLend")
     private Result<String> cancelDevLend(@RequestBody DevLendEntity devLendEntity){

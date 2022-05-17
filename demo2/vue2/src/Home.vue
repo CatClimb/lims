@@ -135,66 +135,84 @@ this.personInfoPath=menuData[0].path
                 },
               ],
             },
+            // {
+            //   path: "2",
+            //   icon: "el-icon-menu",
+            //   title: "角色管理",
+            //   index: 2,
+            //   children: [
+            //     {
+            //       path: "/home/ur",
+            //       title: "角色分配",
+            //       index: 2 - 1,
+            //     },
+            //     {
+            //       path: "/home/role",
+            //       title: "角色信息",
+            //       index: 2 - 2,
+            //     },
+            //   ],
+            // },
             {
-              path: "2",
+              path: "3",
               icon: "el-icon-menu",
               title: "实验室管理",
-              index: 2,
+              index: 3,
               children:[
                 {
                   path: "/home/lab",
                   title: "实验室信息",
-                  index: 2 - 1,
+                  index: 3 - 1,
                 },
                 {
                   path: "/home/labGdt",
                   title: "预约信息",
-                  index: 2 - 2,
+                  index: 3 - 2,
                 }
               ]
             },
             {
-              path:"3",
+              path:"4",
               icon: "el-icon-menu",
               title:"项目管理",
                children:[
                  {
                   path: "/home/obj",
                   title: "项目信息",
-                  index: 3 - 1,
+                  index: 4 - 1,
                 },
                 {
                   path: "/home/totalObj",
                   title: "项目登记统计",
-                  index: 3 - 2,
+                  index: 4 - 2,
                 },
                 {
                   path: "/home/objHandle",
                   title: "登记处理",
-                  index: 3 - 3,
+                  index: 4 - 3,
                 },
                ],
                
             },
             {
-              path:"4",
+              path:"5",
               icon: "el-icon-menu",
               title:"仪器管理",
               children:[
                 {
                   path:"/home/device",
                   title:"设备仪器信息",
-                  index:4 - 1,
+                  index:5 - 1,
                 },
                 {
                   path:"/home/devLend",
                   title:"借用信息",
-                  index:4 - 2,
+                  index:5 - 2,
                 },
                 {
                   path:"/home/lendHandle",
                   title:"借用处理",
-                  index:4 - 3,
+                  index:5 - 3,
                 }
               ]
             },

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.modules.dao.ConsumeDao">
+
     <resultMap id="ConsumeResultMap" type="consumeEntity">
         <id property="id" column="id"></id>
         <result property="smeName" column="sme_name"></result>
@@ -36,6 +37,7 @@
     </resultMap>
     <select id="mulTableQueryInRecord" resultMap="SmeAndInRecord">
         SELECT  i.id in_id,i.in_count,i.user_name,i.in_time, i.sme_id ,
+
                c.id, c.sme_name,c.sme_count
         FROM in_record i inner join consume c on i.sme_id=c.id
             WHERE

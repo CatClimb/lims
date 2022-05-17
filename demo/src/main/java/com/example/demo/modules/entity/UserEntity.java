@@ -3,7 +3,8 @@ package com.example.demo.modules.entity;
 import com.example.demo.common.Alias;
 import com.example.demo.vo.TableVO;
 import lombok.*;
-
+import java.util.List;
+import java.awt.*;
 import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,9 +28,10 @@ public class UserEntity extends TableVO {
     private String email;
     @Alias("微信")
     private String weChat;
-    @Alias("角色")
-    private String role;
+
     @Alias("权限")
     private String auth;
+
+    private List<RoleEntity> roleEntities;
 //    private LocalDateTime loginTime;
 }

@@ -2,7 +2,6 @@ package com.example.demo.modules.dao;
 
 import com.example.demo.modules.entity.ConsumeEntity;
 import com.example.demo.vo.TableVO;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

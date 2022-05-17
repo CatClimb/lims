@@ -1,6 +1,7 @@
 package com.example.demo.modules.dao;
 
 import com.example.demo.vo.TableVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 /**
