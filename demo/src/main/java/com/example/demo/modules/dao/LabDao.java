@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface LabDao extends Dao {
     public List<LabEntity> mulTableQueryLabGdt(TableVO tableVO);
     public int mulTableQueryLabGdtCount(TableVO tableVO);

@@ -7,12 +7,13 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+
+
 @Data
-@ToString
+
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-//@EqualsAndHashCode(callSuper = false)
 public class ConsumeEntity extends TableVO implements Serializable {
 
     @Alias("id")

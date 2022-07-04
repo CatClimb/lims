@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface DeviceDao extends Dao {
     public float devicePriceSum();
     public List<DevLendEntity> mulTableQueryDevLend(TableVO tableVO);

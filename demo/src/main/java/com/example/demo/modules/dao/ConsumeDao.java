@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface ConsumeDao extends Dao {
     public List<ConsumeEntity> mulTableQueryInRecord(TableVO tableVO);
     public List<ConsumeEntity> mulTableQueryOutRecord(TableVO tableVO);

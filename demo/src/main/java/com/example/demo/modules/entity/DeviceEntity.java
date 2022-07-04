@@ -9,9 +9,11 @@ import org.springframework.format.annotation.NumberFormat;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-@EqualsAndHashCode(callSuper = true)
+
+
 @Data
-@ToString
+
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeviceEntity extends TableVO {

@@ -5,7 +5,7 @@ import com.example.demo.vo.TableVO;
 import lombok.*;
 import org.springframework.stereotype.Repository;
 
-@Repository
+
 public interface InRecordDao extends Dao {
 
 

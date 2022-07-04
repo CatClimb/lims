@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface ObjDao extends Dao {
     public List<TableVO> RecordObjByRecordTimeBetween(ObjSEVO objSDVO);
     public Integer RecordObjByRecordTimeBetweenCount(ObjSEVO objSDVO);

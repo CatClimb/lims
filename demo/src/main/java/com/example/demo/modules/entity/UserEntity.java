@@ -4,13 +4,11 @@ import com.example.demo.common.Alias;
 import com.example.demo.vo.TableVO;
 import lombok.*;
 import java.util.List;
-import java.awt.*;
-import java.time.LocalDateTime;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class UserEntity extends TableVO {
 //    @Alias("用户id")
     private Integer id;

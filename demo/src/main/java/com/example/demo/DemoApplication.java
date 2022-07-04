@@ -26,11 +26,11 @@ public class DemoApplication {
 //        if(consumeService!=null){
 //            System.out.println("ddddddddddddddddddddddddddddddddddddddddddddddddddddd" );
 //        }
-//        String[] beanDefinitionNames = run.getBeanDefinitionNames( );
-//        for (String n :
-//                beanDefinitionNames) {
-//            System.out.println(n);
-//        }
+        String[] beanDefinitionNames = run.getBeanDefinitionNames( );
+        for (String n :
+                beanDefinitionNames) {
+            System.out.println(n);
+        }
 //
 //
 //        SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) run.getBean("sqlSessionFactory");

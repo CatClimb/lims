@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface UserDao extends Dao {
     public UserEntity findUserByUserName(String userName);
     public List<UserEntity> mulTableQueryRole(TableVO tableVO);

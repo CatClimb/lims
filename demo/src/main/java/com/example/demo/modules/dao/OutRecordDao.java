@@ -6,7 +6,7 @@ import com.example.demo.vo.TableVO;
 import lombok.*;
 import org.springframework.stereotype.Repository;
 
-@Repository
+
 public interface OutRecordDao extends Dao {
     public OutRecordEntity selectById(Integer id);
     public boolean updateByIdFixationOutStatus(OutRecordEntity outRecordEntity);

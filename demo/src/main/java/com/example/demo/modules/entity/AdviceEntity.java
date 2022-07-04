@@ -5,7 +5,7 @@ import com.example.demo.vo.TableVO;
 import lombok.*;
 
 @Data
-@ToString
+
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor

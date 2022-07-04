@@ -47,7 +47,7 @@ public class AdviceController {
         return Result.success("查询成功",adviceEntity);
     }
 
-    @PostMapping("/deleteAdvice/{id}")
+    @RequestMapping("/deleteAdvice/{id}")
     private Result<AdviceEntity> deleteAdviceById(@PathVariable("id") Integer id){
         boolean b = adviceService.deleteById(id);
         if (b){

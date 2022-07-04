@@ -5,10 +5,10 @@ import com.example.demo.vo.TableVO;
 import lombok.*;
 
 @Data
-@ToString
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class RoleEntity extends TableVO {
     @Alias("角色id")
     private int id;

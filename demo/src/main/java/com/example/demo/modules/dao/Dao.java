@@ -3,6 +3,7 @@ package com.example.demo.modules.dao;
 import com.example.demo.vo.TableVO;
 import org.springframework.stereotype.Repository;
 
+import java.lang.annotation.Inherited;
 import java.util.List;
 /**
  * 3.查看表

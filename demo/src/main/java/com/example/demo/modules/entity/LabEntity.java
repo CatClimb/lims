@@ -7,10 +7,10 @@ import lombok.*;
 import java.util.List;
 
 @Data
-@ToString
+
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 public class LabEntity extends TableVO {
 //    @Alias("实验室id")
     private Integer id;

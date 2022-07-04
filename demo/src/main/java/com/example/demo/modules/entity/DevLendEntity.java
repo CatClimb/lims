@@ -3,15 +3,14 @@ package com.example.demo.modules.entity;
 import com.example.demo.common.Alias;
 import com.example.demo.vo.TableVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+
 @Data
-@ToString
+
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 public class DevLendEntity extends TableVO {
